@@ -64,7 +64,7 @@ namespace GXPEngine.Core
 			t = ((d[3].x - c[0].x) * dx + (d[3].y - c[0].y) * dy) / lengthSQ;
 			minT = Math.Min(minT,t); maxT = Math.Max(maxT,t);
 			
-			if ((minT > 1) || (maxT < 0)) return false;
+			if ((minT >= 1) || (maxT < 0)) return false;
 			
 			dx = c[3].x - c[0].x;
 			dy = c[3].y - c[0].y;
@@ -84,7 +84,7 @@ namespace GXPEngine.Core
 			t = ((d[3].x - c[0].x) * dx + (d[3].y - c[0].y) * dy) / lengthSQ;
 			minT = Math.Min(minT,t); maxT = Math.Max(maxT,t);
 			
-			if ((minT > 1) || (maxT < 0)) return false;
+			if ((minT >= 1) || (maxT < 0)) return false;
 			
 			return true;			
 		}

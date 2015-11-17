@@ -109,11 +109,10 @@ namespace GXPEngine
 				return 0;
 			}
 			set {
-				if (_texture != null) 
-					if (_texture.width != 0) scaleX = value / (float)_texture.width;
+				if (_texture != null && _texture.width != 0) scaleX = value / ((float)_texture.width);
 			}
 		}
-
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														height
 		//------------------------------------------------------------------------------------------------------------------------
@@ -126,11 +125,10 @@ namespace GXPEngine
 				return 0;
 			}
 			set {
-				if (_texture != null) 
-					if (_texture.height != 0) scaleY = value / (float)_texture.height;
+				if (_texture != null && _texture.height != 0) scaleY = value / ((float)_texture.height);
 			}
 		}
-		
+
 		//------------------------------------------------------------------------------------------------------------------------
 		//														RenderSelf()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -187,9 +185,9 @@ namespace GXPEngine
 		public Vector2[] GetExtents() {
 			Vector2[] ret = new Vector2[4];
 			ret[0] = TransformPoint(_bounds.left, _bounds.top);
-			ret[1] = TransformPoint(_bounds.right-1, _bounds.top);
-			ret[2] = TransformPoint(_bounds.right-1, _bounds.bottom-1);
-			ret[3] = TransformPoint(_bounds.left, _bounds.bottom-1);
+			ret[1] = TransformPoint(_bounds.right, _bounds.top);
+			ret[2] = TransformPoint(_bounds.right, _bounds.bottom);
+			ret[3] = TransformPoint(_bounds.left, _bounds.bottom);
 			return ret;			
 		}
 		

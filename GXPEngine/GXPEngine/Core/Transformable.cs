@@ -55,7 +55,7 @@ namespace GXPEngine
 		/// </value>
 		public float x {
 			get { return _matrix[12]; }
-			set { _matrix[12] = (float)value; }
+			set { _matrix[12] = value; }
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ namespace GXPEngine
 		/// </value>
 		public float y {
 			get { return _matrix[13]; }
-			set { _matrix[13] = (float)value; }
+			set { _matrix[13] = value; }
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
@@ -84,9 +84,9 @@ namespace GXPEngine
 		/// <param name='y'>
 		/// The y coordinate.
 		/// </param>
-		public void SetXY(double x, double y) {
-			_matrix[12] = (float)x;
-			_matrix[13] = (float)y;
+		public void SetXY(float x, float y) {
+			_matrix[12] = x;
+			_matrix[13] = y;
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------
@@ -104,13 +104,13 @@ namespace GXPEngine
 		/// <param name='y'>
 		/// The y coordinate.
 		/// </param>
-		public virtual Vector2 InverseTransformPoint (double x, double y)
+		public virtual Vector2 InverseTransformPoint (float x, float y)
 		{
 			Vector2 ret = new Vector2 ();
 			x -= _matrix [12];
 			y -= _matrix [13];
-			if (_scaleX != 0) ret.x = (float)((x * _matrix[0] + y * _matrix[1]) / _scaleX); else ret.x = 0;
-			if (_scaleY != 0) ret.y = (float)((x * _matrix[4] + y * _matrix[5]) / _scaleY); else ret.y = 0;
+			if (_scaleX != 0) ret.x = ((x * _matrix[0] + y * _matrix[1]) / _scaleX); else ret.x = 0;
+			if (_scaleY != 0) ret.y = ((x * _matrix[4] + y * _matrix[5]) / _scaleY); else ret.y = 0;
 			return ret;
 		}
 
@@ -124,7 +124,7 @@ namespace GXPEngine
 		{
 			float dx = other.x - x;
 			float dy = other.y - y;
-			return (float)Math.Sqrt(dx * dx + dy * dy);
+			return Mathf.Sqrt(dx * dx + dy * dy);
 		}
 
 				
@@ -143,10 +143,10 @@ namespace GXPEngine
 		/// <param name='y'>
 		/// The y coordinate.
 		/// </param>
-		public virtual Vector2 TransformPoint(double x, double y) {
+		public virtual Vector2 TransformPoint(float x, float y) {
 			Vector2 ret = new Vector2();
-			ret.x = (float)(_matrix[0] * x * _scaleX + _matrix[4] * y * _scaleY + _matrix[12]);
-			ret.y = (float)(_matrix[1] * x * _scaleX + _matrix[5] * y * _scaleY + _matrix[13]);
+			ret.x = (_matrix[0] * x * _scaleX + _matrix[4] * y * _scaleY + _matrix[12]);
+			ret.y = (_matrix[1] * x * _scaleX + _matrix[5] * y * _scaleY + _matrix[13]);
 			return ret;
 		}
 
@@ -162,10 +162,10 @@ namespace GXPEngine
 		public float rotation {
 			get { return _rotation; }
 			set {
-				_rotation = (float)value;
-				double r = _rotation * Math.PI / 180.0;
-				float cs = (float)Math.Cos (r);
-				float sn = (float)Math.Sin (r);
+				_rotation = value;
+				float r = _rotation * Mathf.PI / 180.0f;
+				float cs = Mathf.Cos (r);
+				float sn = Mathf.Sin (r);
 				_matrix[0] = cs;
 				_matrix[1] = sn;
 				_matrix[4] = -sn;
@@ -182,8 +182,8 @@ namespace GXPEngine
 		/// <param name='angle'>
 		/// Angle.
 		/// </param>
-		public void Turn (double angle) {
-			rotation = _rotation + (float)angle;
+		public void Turn (float angle) {
+			rotation = _rotation + angle;
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
@@ -198,12 +198,12 @@ namespace GXPEngine
 		/// <param name='stepY'>
 		/// Step y.
 		/// </param>
-		public void Move (double stepX, double stepY) {
-			double r = _rotation * Math.PI / 180.0;
-			float cs = (float)Math.Cos (r);
-			float sn = (float)Math.Sin (r);
-			_matrix[12] = (float)(_matrix[12] + cs * stepX - sn * stepY);
-			_matrix[13] = (float)(_matrix[13] + sn * stepX + cs * stepY);
+		public void Move (float stepX, float stepY) {
+			float r = _rotation * Mathf.PI / 180.0f;
+			float cs = Mathf.Cos (r);
+			float sn = Mathf.Sin (r);
+			_matrix[12] = (_matrix[12] + cs * stepX - sn * stepY);
+			_matrix[13] = (_matrix[13] + sn * stepX + cs * stepY);
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
@@ -218,13 +218,13 @@ namespace GXPEngine
 		/// <param name='stepY'>
 		/// Step y.
 		/// </param>
-		public void Translate (double stepX, double stepY) {
-			_matrix[12] += (float)stepX;
-			_matrix[13] += (float)stepY;
+		public void Translate (float stepX, float stepY) {
+			_matrix[12] += stepX;
+			_matrix[13] += stepY;
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
-		//														SetScale()
+		//														SetScaleXY()
 		//------------------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Sets the object's scaling
@@ -235,11 +235,25 @@ namespace GXPEngine
 		/// <param name='scaleY'>
 		/// Scale y.
 		/// </param>
-		public void SetScaleXY(double scaleX, double scaleY) {
-			_scaleX = (float)scaleX;
-			_scaleY = (float)scaleY;
+		public void SetScaleXY(float scaleX, float scaleY) {
+			_scaleX = scaleX;
+			_scaleY = scaleY;
 		}
-		
+
+		//------------------------------------------------------------------------------------------------------------------------
+		//														SetScale()
+		//------------------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the object's scaling
+		/// </summary>
+		/// <param name='scale'>
+		/// Scale x and y.
+		/// </param>
+		public void SetScaleXY(float scale) {
+			_scaleX = scale;
+			_scaleY = scale;
+		}
+
 		//------------------------------------------------------------------------------------------------------------------------
 		//														scaleX
 		//------------------------------------------------------------------------------------------------------------------------
@@ -249,9 +263,9 @@ namespace GXPEngine
 		/// <value>
 		/// The scale x.
 		/// </value>
-		public double scaleX {
+		public float scaleX {
 			get { return _scaleX; }
-			set { _scaleX = (float)value; }
+			set { _scaleX = value; }
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
@@ -263,11 +277,32 @@ namespace GXPEngine
 		/// <value>
 		/// The scale y.
 		/// </value>
-		public double scaleY {
+		public float scaleY {
 			get { return _scaleY; }
-			set { _scaleY = (float)value; }
+			set { _scaleY = value; }
 		}
-		
+
+		//------------------------------------------------------------------------------------------------------------------------
+		//														scale
+		//------------------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Sets the object's x-axis and y-axis scale
+		/// Note: This getter/setter is included for convenience only
+		/// Reading this value will return scaleX, not scaleY!!
+		/// </summary>
+		/// <value>
+		/// The scale.
+		/// </value>
+		public float scale {
+			get { 
+				return _scaleX; 
+			}
+			set { 
+				_scaleX = value;
+				_scaleY = value; 
+			}
+		}
+
 	}
 }
 

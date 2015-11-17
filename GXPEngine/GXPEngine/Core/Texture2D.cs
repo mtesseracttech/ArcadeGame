@@ -18,7 +18,7 @@ namespace GXPEngine.Core
 		
 		private Bitmap _bitmap;
 		private int[] _glTexture;
-		private string _filename;
+		private string _filename = "";
 		private int count = 0;
 
 		//------------------------------------------------------------------------------------------------------------------------
@@ -157,6 +157,7 @@ namespace GXPEngine.Core
 			
 			UpdateGLTexture();
 			GL.BindTexture (GL.TEXTURE_2D, 0);
+			lastBound = null;
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
@@ -171,6 +172,7 @@ namespace GXPEngine.Core
 			              GL.BGRA, GL.UNSIGNED_BYTE, data.Scan0);
 			              
 			_bitmap.UnlockBits(data);
+			lastBound = null;
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------
@@ -202,6 +204,7 @@ namespace GXPEngine.Core
 				GL.TexParameteri (GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, value?GL.GL_REPEAT:GL.GL_CLAMP_TO_EDGE_EXT);
 				GL.TexParameteri (GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, value?GL.GL_REPEAT:GL.GL_CLAMP_TO_EDGE_EXT);	
 				GL.BindTexture (GL.TEXTURE_2D, 0);
+				lastBound = null;
 			}
 		}
 

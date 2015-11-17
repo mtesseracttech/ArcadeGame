@@ -63,7 +63,5 @@
     <Compile Include="GXPEngine\Utils\Time.cs" />
     <Compile Include="GXPEngine\Utils\Utils.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GXPEngine\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

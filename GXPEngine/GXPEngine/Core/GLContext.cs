@@ -3,30 +3,35 @@ using GXPEngine.OpenGL;
 
 namespace GXPEngine.Core {
 
+	class WindowSize {
+		public static WindowSize instance = new WindowSize();
+		public int width, height;
+	}
+	
 	public class GLContext {
-			
+		
 		const int MAXKEYS = 65535;
 		const int MAXBUTTONS = 255;
 
-		private int _width;
-		private int _height;
-		
 		private static bool[] keys = new bool[MAXKEYS+1];
-		private static bool[] keyhits = new bool[MAXKEYS+1];
+		private static bool[] keydown = new bool[MAXKEYS+1];
+		private static bool[] keyup = new bool[MAXKEYS+1];
 		private static bool[] buttons = new bool[MAXBUTTONS+1];
 		private static bool[] mousehits = new bool[MAXBUTTONS+1];
+		private static bool[] mouseup = new bool[MAXBUTTONS+1]; //mouseup kindly donated by LeonB
+
 		public static int mouseX = 0;
 		public static int mouseY = 0;
-
+		
 		private Game _owner;
-
+		
 		private int _targetFrameRate = 60;
 		private long _lastFrameTime = 0;
 		private long _lastFPSTime = 0;
 		private int _frameCount = 0;
 		private int _lastFPS = 0;
 		private bool _vsyncEnabled = false;
-				
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														RenderWindow()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -39,22 +44,22 @@ namespace GXPEngine.Core {
 		//														Width
 		//------------------------------------------------------------------------------------------------------------------------
 		public int width {
-			get { return _width; }
+			get { return WindowSize.instance.width; }
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														Height
 		//------------------------------------------------------------------------------------------------------------------------
 		public int height {
-			get { return _height; }
+			get { return WindowSize.instance.height; }
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														setupWindow()
 		//------------------------------------------------------------------------------------------------------------------------
 		public void CreateWindow(int width, int height, bool fullScreen, bool vSync) {
-			_width = width;
-			_height = height;
+			WindowSize.instance.width = width;
+			WindowSize.instance.height = height;
 			_vsyncEnabled = vSync;
 			
 			GL.glfwInit();
@@ -63,21 +68,23 @@ namespace GXPEngine.Core {
 			GL.glfwOpenWindow(width, height, 8, 8, 8, 8, 24, 0, (fullScreen?GL.GLFW_FULLSCREEN:GL.GLFW_WINDOWED));
 			GL.glfwSetWindowTitle("Game");
 			GL.glfwSwapInterval(vSync);
-
+			
 			GL.glfwSetKeyCallback(
 				(int _key, int _mode) => {
 				bool press = (_mode == 1);
-				if (press) keyhits[_key] = true;
+				if (press) keydown[_key] = true;
+				else keyup[_key] = true;
 				keys[_key] = press;
 			});
-
+			
 			GL.glfwSetMouseButtonCallback(
 				(int _button, int _mode) => {
 				bool press = (_mode == 1);
 				if (press) mousehits[_button] = true;
+				else mouseup[_button] = true;
 				buttons[_button] = press;
 			});
-			
+
 			GL.glfwSetWindowSizeCallback((int newWidth, int newHeight) => {
 				GL.Viewport(0, 0, newWidth, newHeight);	
 				GL.Enable(GL.MULTISAMPLE);	
@@ -92,11 +99,13 @@ namespace GXPEngine.Core {
 				GL.LoadIdentity();
 				GL.Ortho(0.0f, newWidth, newHeight, 0.0f, 0.0f, 1000.0f);
 
-				_width = newWidth;
-				_height = newHeight;
+				lock (WindowSize.instance) {
+					WindowSize.instance.width = newWidth;
+					WindowSize.instance.height = newHeight;
+				}
 			});
 		}
-
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														ShowCursor()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -113,7 +122,7 @@ namespace GXPEngine.Core {
 		//														SetScissor()
 		//------------------------------------------------------------------------------------------------------------------------
 		public void SetScissor(int x, int y, int width, int height) {
-			if ((width == _width) && (height == _height)) {
+			if ((width == WindowSize.instance.width) && (height == WindowSize.instance.height)) {
 				GL.Disable(GL.SCISSOR_TEST);
 			} else {
 				GL.Enable(GL.SCISSOR_TEST);
@@ -129,7 +138,7 @@ namespace GXPEngine.Core {
 			GL.glfwTerminate();
 			System.Environment.Exit(0);
 		}
-				
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														Run()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -137,10 +146,9 @@ namespace GXPEngine.Core {
 			//Update();
 			GL.glfwSetTime(0.0);
 			do {
-
 				if (_vsyncEnabled || (Time.time - _lastFrameTime > (1000 / _targetFrameRate))) {
 					_lastFrameTime = Time.time;
-
+					
 					//actual fps count tracker
 					_frameCount++;
 					if (Time.time - _lastFPSTime > 1000) {
@@ -148,22 +156,22 @@ namespace GXPEngine.Core {
 						_lastFPSTime = Time.time;
 						_frameCount = 0;
 					}
-
+					
 					UpdateMouseInput();
 					_owner.Step();
-
+					
 					ResetHitCounters();
 					Display();
-
+					
 					Time.newFrame ();
 					GL.glfwPollEvents();
 				}
-
-
+				
+				
 			} while (GL.glfwGetWindowParam(GL.GLFW_ACTIVE) == 1);
 		}
-
-
+		
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														display()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -200,7 +208,7 @@ namespace GXPEngine.Core {
 		public void PopMatrix() {
 			GL.PopMatrix ();
 		}
-				
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														DrawQuad()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -215,39 +223,55 @@ namespace GXPEngine.Core {
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
-		//														keyDown()
+		//														GetKey()
 		//------------------------------------------------------------------------------------------------------------------------
 		public static bool GetKey(int key) {
 			return keys[key];
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
-		//														keyHit()
+		//														GetKeyDown()
 		//------------------------------------------------------------------------------------------------------------------------
 		public static bool GetKeyDown(int key) {
-			return keyhits[key];
+			return keydown[key];
 		}
-
+		
 		//------------------------------------------------------------------------------------------------------------------------
-		//														keyDown()
+		//														GetKeyUp()
+		//------------------------------------------------------------------------------------------------------------------------
+		public static bool GetKeyUp(int key) {
+			return keyup[key];
+		}
+		
+		//------------------------------------------------------------------------------------------------------------------------
+		//														GetMouseButton()
 		//------------------------------------------------------------------------------------------------------------------------
 		public static bool GetMouseButton(int button) {
 			return buttons[button];
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
-		//														keyHit()
+		//														GetMouseButtonDown()
 		//------------------------------------------------------------------------------------------------------------------------
 		public static bool GetMouseButtonDown(int button) {
 			return mousehits[button];
 		}
 
 		//------------------------------------------------------------------------------------------------------------------------
+		//														GetMouseButtonUp()
+		//------------------------------------------------------------------------------------------------------------------------
+		public static bool GetMouseButtonUp(int button) {
+			return mouseup[button];
+		}
+
+		//------------------------------------------------------------------------------------------------------------------------
 		//														ResetHitCounters()
 		//------------------------------------------------------------------------------------------------------------------------
 		public static void ResetHitCounters() {
-			Array.Clear (keyhits, 0, MAXKEYS);
+			Array.Clear (keydown, 0, MAXKEYS);
+			Array.Clear (keyup, 0, MAXKEYS);
 			Array.Clear (mousehits, 0, MAXBUTTONS);
+			Array.Clear (mouseup, 0, MAXBUTTONS);
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
@@ -256,23 +280,22 @@ namespace GXPEngine.Core {
 		public static void UpdateMouseInput() {
 			GL.glfwGetMousePos(out mouseX, out mouseY);
 		}
-
+		
 		public int currentFps {
 			get { return _lastFPS; }
 		}
-
+		
 		public int targetFps {
 			get { return _targetFrameRate; }
 			set {
-				if (value < 0) {
-					_targetFrameRate = 0;
+				if (value < 1) {
+					_targetFrameRate = 1;
 				} else {
 					_targetFrameRate = value;
 				}
 			}
 		}
-
+		
 	}	
 	
 }
-

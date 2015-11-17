@@ -4,7 +4,6 @@ public class MyGame : Game
 {
     private string _state;
 
-
 	public MyGame () : base(800, 600, false)
 	{
 	    SetState("MainMenu");
@@ -18,7 +17,7 @@ public class MyGame : Game
         StartState();
     }
 
-    void StopState()
+    private void StopState()
     {
         switch (_state)
         {
@@ -28,7 +27,7 @@ public class MyGame : Game
         }
     }
 
-    void StartState()
+    private void StartState()
     {
         switch (_state)
         {

@@ -342,7 +342,7 @@ namespace GXPEngine
 		/// <param name='y'>
 		/// The y coordinate to transform.
 		/// </param>
-		public override Vector2 TransformPoint(double x, double y) {
+		public override Vector2 TransformPoint(float x, float y) {
 			Vector2 ret = base.TransformPoint (x, y);
 			if (parent == null) {
 				return ret;
@@ -364,7 +364,7 @@ namespace GXPEngine
 		/// <param name='y'>
 		/// The y coordinate to transform.
 		/// </param>
-		public override Vector2 InverseTransformPoint(double x, double y) {
+		public override Vector2 InverseTransformPoint(float x, float y) {
 			Vector2 ret = base.InverseTransformPoint (x, y);
 			if (parent == null) {
 				return ret;
