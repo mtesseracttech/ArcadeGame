@@ -7,6 +7,7 @@ public class MyGame : Game
 	public MyGame () : base(800, 600, false)
 	{
 	    SetState("MainMenu");
+
 	}
 
     public void SetState(string state)

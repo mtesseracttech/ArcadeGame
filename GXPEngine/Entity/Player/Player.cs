@@ -1,4 +1,6 @@
-﻿namespace GXPEngine.player
+﻿using GXPEngine.Level;
+
+namespace GXPEngine.player
 {
     class Player : AnimationSprite
     {
@@ -6,9 +8,9 @@
         //private short[] _walkingFrames = {5, 6, 7, 8, 9};
         //private short[] _jumpFrames = {10, 11, 12, 13, 14};
 
-        public Player(string filename, int cols, int rows, int frames = -1) : base(filename, cols, rows, frames)
+        public Player(string filename, int cols, int rows, LevelBase level, int frames = -1) : base(filename, cols, rows, frames)
         {
-
+            
         }
 
         void Update()
