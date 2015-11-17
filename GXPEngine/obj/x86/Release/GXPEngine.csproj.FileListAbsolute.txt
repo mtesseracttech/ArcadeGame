@@ -1,2 +1,0 @@
-C:\Users\MTesseracT\Documents\Visual Studio 2015\Projects\Saxion\Game Programming\GameTest\sourcefiles\GXPEngine\bin\Release\GXPEngine.exe
-C:\Users\MTesseracT\Documents\Visual Studio 2015\Projects\Saxion\Game Programming\GameTest\sourcefiles\GXPEngine\obj\x86\Release\GXPEngine.exe

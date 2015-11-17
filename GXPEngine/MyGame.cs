@@ -1,29 +1,28 @@
-using System.Drawing;
+using System;
 using GXPEngine;
+using System.Drawing;
 
 public class MyGame : Game
 {	
 
-	public MyGame () : base(1400, 700, false)
+	public MyGame () : base(800, 600, false)
 	{
-        Canvas background = new Canvas(game.width, game.width);
-	    background.graphics.FillRectangle(new SolidBrush(Color.White), new Rectangle(0,0, 1400, 700));
+		//create a canvas
+		Canvas canvas = new Canvas(800, 600);
 
-        AddChild(background);
-	    Player player1 = new Player();
-        AddChild(player1);
-        
-        Player gun = new Player(); //Need to find a good way to implement multiple guns
-	    AddChild(gun);
+		//add some content
+		canvas.graphics.FillRectangle(new SolidBrush(Color.Red), new Rectangle(0, 0, 400, 300));
+		canvas.graphics.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(400, 0, 400, 300));
+		canvas.graphics.FillRectangle(new SolidBrush(Color.Yellow), new Rectangle(0, 300, 400, 300));
+		canvas.graphics.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(400, 300, 400, 300));
 
-        Player bullet = new Player(); //Need to find way to make different bullets;
-        AddChild(bullet); 
-
+		//add canvas to display list
+		AddChild(canvas);
 	}
 
 	void Update () 
 	{
-
+		//empty
 	}
 
 	static void Main() {
