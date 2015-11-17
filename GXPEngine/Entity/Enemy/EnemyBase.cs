@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GXPEngine.Level;
+﻿using GXPEngine.Level;
 
 namespace GXPEngine.Enemy
 {

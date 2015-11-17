@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-
-namespace GXPEngine.UI.Menu
+﻿namespace GXPEngine.UI.Menu
 {
     class MainMenu : GameObject
     {
@@ -18,7 +12,6 @@ namespace GXPEngine.UI.Menu
             _game = game;
             //_buttonPlay = new Button(100, 100, 100, 100, Color.Blue, "Play", "play");
             //_buttonExit = new Button(100, 100, 100, 200, Color.DarkRed, "Exit the game", "exit");
-            
         }
 
         void Update()
