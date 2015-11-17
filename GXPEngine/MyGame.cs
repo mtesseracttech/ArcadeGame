@@ -1,26 +1,46 @@
-using System;
 using GXPEngine;
-using System.Drawing;
 
 public class MyGame : Game
-{	
+{
+    private string _state;
+
 
 	public MyGame () : base(800, 600, false)
 	{
-		//create a canvas
-		Canvas canvas = new Canvas(800, 600);
-
-		//add some content
-		canvas.graphics.FillRectangle(new SolidBrush(Color.Red), new Rectangle(0, 0, 400, 300));
-		canvas.graphics.FillRectangle(new SolidBrush(Color.Blue), new Rectangle(400, 0, 400, 300));
-		canvas.graphics.FillRectangle(new SolidBrush(Color.Yellow), new Rectangle(0, 300, 400, 300));
-		canvas.graphics.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(400, 300, 400, 300));
-
-		//add canvas to display list
-		AddChild(canvas);
+	    SetState("MainMenu");
 	}
 
-	void Update () 
+    public void SetState(string state)
+    {
+        if (state == _state) return;
+        StopState();
+        _state = state;
+        StartState();
+    }
+
+    void StopState()
+    {
+        switch (_state)
+        {
+            case "MainMenu":
+                //_menu.Destroy();
+                break;
+        }
+    }
+
+    void StartState()
+    {
+        switch (_state)
+        {
+            case "MainMenu":
+                //_menu = new Menu(this);
+                //AddChild(_menu);
+                break;
+        }
+    }
+
+
+    void Update () 
 	{
 		//empty
 	}
