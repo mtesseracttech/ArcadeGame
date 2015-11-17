@@ -2,9 +2,9 @@
 {
     class Level1 : LevelBase
     {
-        public Level1(int[] tiles) : base(tiles)
+        public Level1(Game game, int[] tiles) : base(game, tiles)
         {
-            
+
         }
     }
 }

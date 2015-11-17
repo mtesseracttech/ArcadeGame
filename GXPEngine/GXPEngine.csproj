@@ -69,6 +69,7 @@
     <Compile Include="GXPEngine\Utils\Utils.cs" />
     <Compile Include="UI\Menu\Button.cs" />
     <Compile Include="UI\Menu\MainMenu.cs" />
+    <Compile Include="Utility\FileReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UI\HUD\" />

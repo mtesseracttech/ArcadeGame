@@ -1,13 +1,16 @@
+using System;
+using System.Collections.Generic;
 using GXPEngine;
 
 public class MyGame : Game
 {
     private string _state;
+    private List<int[,]> _levels;
+
 
 	public MyGame () : base(800, 600, false)
 	{
-	    SetState("MainMenu");
-
+	    SetState("Exit");
 	}
 
     public void SetState(string state)
@@ -35,6 +38,9 @@ public class MyGame : Game
             case "MainMenu":
                 //_menu = new Menu(this);
                 //AddChild(_menu);
+                break;
+            case "Exit":
+                Environment.Exit(0);
                 break;
         }
     }
