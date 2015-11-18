@@ -10,8 +10,16 @@ public class MyGame : Game
 
 	public MyGame () : base(800, 600, false)
 	{
-	    SetState("Exit");
+	    SetState("MainMenu");
 	}
+
+    //List of States:
+    //MainMenu: Goes to the main menu
+    //Exit: Instantly Exits the Game
+    //Level1 -3: Loads the respective level
+    //Won: State for when you won the game
+    //Lose: State for when it's Game Over
+    //
 
     public void SetState(string state)
     {
