@@ -30,7 +30,7 @@ namespace TimeGuardian.UI.Menu
 
         void select()
         {
-            _game.SetState(buttons[_selection]); //WHY IS THIS NOT WORKING????
+            //_game.SetState(buttons[_selection]); //WHY IS THIS NOT WORKING????
         }
     }
 }

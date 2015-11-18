@@ -4,7 +4,7 @@ namespace TimeGuardian.Level
 {
     class Level1 : LevelBase
     {
-        public Level1(Game game, int[] tiles, Player player, bool night) : base(game, tiles, player, night)
+        public Level1(Game game, int[] tiles, Player player, bool night, Sprite spritesheet) : base(game, tiles, player, night, spritesheet)
         {
         }
 

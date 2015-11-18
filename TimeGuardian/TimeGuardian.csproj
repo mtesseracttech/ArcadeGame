@@ -42,7 +42,7 @@
     <Compile Include="Level\BossFight.cs" />
     <Compile Include="Level\Level1.cs" />
     <Compile Include="Level\LevelBase.cs" />
-    <Compile Include="MyGame.cs" />
+    <Compile Include="TimeGuardianGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
     <Compile Include="GXPEngine\GameObject.cs" />

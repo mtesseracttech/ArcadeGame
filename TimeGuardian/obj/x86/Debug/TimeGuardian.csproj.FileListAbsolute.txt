@@ -1,0 +1,5 @@
+C:\Users\MTesseracT\Documents\Visual Studio 2015\Projects\Saxion\ArcadeGame\TimeGuardian\bin\Debug\TimeGuardian.exe
+C:\Users\MTesseracT\Documents\Visual Studio 2015\Projects\Saxion\ArcadeGame\TimeGuardian\bin\Debug\TimeGuardian.pdb
+C:\Users\MTesseracT\Documents\Visual Studio 2015\Projects\Saxion\ArcadeGame\TimeGuardian\obj\x86\Debug\TimeGuardian.csprojResolveAssemblyReference.cache
+C:\Users\MTesseracT\Documents\Visual Studio 2015\Projects\Saxion\ArcadeGame\TimeGuardian\obj\x86\Debug\TimeGuardian.exe
+C:\Users\MTesseracT\Documents\Visual Studio 2015\Projects\Saxion\ArcadeGame\TimeGuardian\obj\x86\Debug\TimeGuardian.pdb

@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
+using TimeGuardian;
 
-namespace GXPEngine.UI.Menu
+namespace TimeGuardian.UI.Menu
 {
     class Button : AnimationSprite
     {

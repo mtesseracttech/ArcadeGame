@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace GXPEngine.Utility
+namespace TimeGuardian.Utility
 {
     class FileReader
     {
