@@ -27,12 +27,12 @@ namespace GXPEngine.Level
         {
         }
 
-        protected void SetPause(bool paused)
+        public void SetPause(bool paused)
         {
             Paused = paused;
         }
 
-        protected bool GetPause()
+        public bool GetPause()
         {
             return Paused;
         }

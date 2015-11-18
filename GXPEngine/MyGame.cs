@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GXPEngine;
+using GXPEngine.Level;
 
 public class MyGame : Game
 {
@@ -15,11 +16,11 @@ public class MyGame : Game
 
     //List of States:
     //MainMenu: Goes to the main menu
-    //Exit: Instantly Exits the Game
-    //Level1 -3: Loads the respective level
+    //Exit: Instantly exits the game
+    //Level1 - 3: Loads the respective level
     //Won: State for when you won the game
     //Lose: State for when it's Game Over
-    //
+    //Pause: Makes all the entities pause the things they do in their Update()
 
     public void SetState(string state)
     {
@@ -50,6 +51,9 @@ public class MyGame : Game
             case "Exit":
                 Environment.Exit(0);
                 break;
+            case "BossFight":
+
+
         }
     }
 

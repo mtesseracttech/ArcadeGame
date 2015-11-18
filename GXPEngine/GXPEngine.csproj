@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Entity\Enemy\EnemyBase.cs" />
     <Compile Include="Entity\Player\Player.cs" />
+    <Compile Include="Level\BossFight.cs" />
     <Compile Include="Level\Level1.cs" />
     <Compile Include="Level\LevelBase.cs" />
     <Compile Include="MyGame.cs" />

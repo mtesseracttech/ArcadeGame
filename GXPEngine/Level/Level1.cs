@@ -11,7 +11,7 @@ namespace GXPEngine.Level
 
         protected override void UpdateUnpaused()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }
