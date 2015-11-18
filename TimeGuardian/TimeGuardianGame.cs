@@ -4,14 +4,14 @@ using TimeGuardian;
 using TimeGuardian.UI.Menu;
 using TimeGuardian.Utility;
 
-public class MyGame : Game
+public class TimeGuardianGame : Game
 {
     private string _state;
     private List<int[,]> _levels;
     private MainMenu _menu;
 
 
-	public MyGame () : base(800, 600, false)
+	public TimeGuardianGame () : base(800, 600, false)
 	{
 	    _levels = FileReader.LevelsCompiler(2);
 	    SetState("MainMenu");
@@ -64,7 +64,7 @@ public class MyGame : Game
 	}
 
 	static void Main() {
-		new MyGame().Start();
+		new TimeGuardianGame().Start();
 	}
 }
 
