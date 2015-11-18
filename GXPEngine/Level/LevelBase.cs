@@ -5,15 +5,19 @@ namespace GXPEngine.Level
     abstract class LevelBase : GameObject
     {
         protected int[] Tiles;
-        protected Game Game;
+
         protected bool Paused;
+        protected bool Night;
+
+        protected Game Game;
         protected Player Player;
 
-        public LevelBase(Game game, int[] tiles, Player player)
+        public LevelBase(Game game, int[] tiles, Player player, bool night)
         {
             Game = game;
             Tiles = tiles;
             Player = player;
+            Night = night;
         }
 
         void Update()
@@ -35,6 +39,16 @@ namespace GXPEngine.Level
         public bool GetPause()
         {
             return Paused;
+        }
+
+        public void SetNight(bool night)
+        {
+            Night = night;
+        }
+
+        public bool GetNight()
+        {
+            return Night;
         }
     }
 }
