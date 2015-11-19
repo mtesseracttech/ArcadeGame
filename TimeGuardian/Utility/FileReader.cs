@@ -33,16 +33,12 @@ namespace TimeGuardian.Utility
                 {
                     //Sets the height and width the first time
                     //TODO: Check if lines.Length and cols.Length have to be switched around
-                    if (i == 0 && j == 0) level = new int[lines.Length,cols.Length]; 
+                    if (i == 0 && j == 0) level = new int[lines.Length, cols.Length];
                     level[i, j] = int.Parse(cols[j]);
                 }
             }
 
             return level;
         }
-
-
-
-
     }
 }

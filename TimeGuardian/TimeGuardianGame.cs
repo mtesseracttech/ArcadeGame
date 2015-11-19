@@ -1,19 +1,15 @@
 using System;
-using System.Collections.Generic;
 using TimeGuardian;
 using TimeGuardian.UI.Menu;
-using TimeGuardian.Utility;
 
 public class TimeGuardianGame : Game
 {
     private string _state;
-    private List<int[,]> _levels;
     private MainMenu _menu;
 
 
 	public TimeGuardianGame () : base(800, 600, false)
 	{
-	    _levels = FileReader.LevelsCompiler(2);
 	    SetState("MainMenu");
 	}
 
@@ -39,6 +35,7 @@ public class TimeGuardianGame : Game
         switch (_state)
         {
             case "MainMenu":
+                _menu.Destroy();
                 break;
         }
     }

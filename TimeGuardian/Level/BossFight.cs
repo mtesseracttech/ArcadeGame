@@ -10,11 +10,12 @@ namespace TimeGuardian.Level
         protected bool Talking; //Blocks the update as long as the pre-battle conversation is going on
         protected Player player;
 
-        public BossFight(Game game, int[] tiles, Player player, bool night, Sprite spritesheet) : base(game, tiles, player, night, spritesheet)
+        public BossFight(Game game, int[] tiles, Player player, bool night, int levelNumber, string[] dialog, bool talking) : base(game, tiles, player, night, levelNumber)
         {
             Game = game;
-            Tiles = tiles;
-            Player = player;
+            Dialog = dialog;
+            Talking = talking;
+            this.player = player;
         }
 
         abstract override protected void UpdateUnpaused();

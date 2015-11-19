@@ -9,17 +9,18 @@ namespace TimeGuardian.UI.Menu
 
         public Button(string filename, int cols, int rows, int x, int y, string state, int frames = -1) : base(filename, cols, rows, frames)
         {
+            DeSelect();
             SetOrigin(width / 2, height / 2);
             SetXY(x, y);
             _state = state;
         }
 
-        void Selected()
+        public void Selected()
         {
             SetFrame(0);
         }
 
-        void DeSelect()
+        public void DeSelect()
         {
             SetFrame(1);
         }
