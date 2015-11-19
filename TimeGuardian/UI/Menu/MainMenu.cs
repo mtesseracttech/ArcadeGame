@@ -1,8 +1,4 @@
-﻿using System.Drawing.Imaging;
-using TimeGuardian;
-
-
-namespace TimeGuardian.UI.Menu
+﻿namespace TimeGuardian.UI.Menu
 {
     class MainMenu : GameObject
     {
