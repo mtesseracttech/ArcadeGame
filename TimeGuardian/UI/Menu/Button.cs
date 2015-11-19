@@ -7,7 +7,7 @@ namespace TimeGuardian.UI.Menu
     {
         private string _state;
 
-        public Button(string filename, int cols, int x, int y, string state) : base(filename, cols, 1)
+        public Button(string filename, int rows, int x, int y, string state) : base(filename, 1, rows)
         {
             DeSelect();
             SetOrigin(width / 2, height / 2);

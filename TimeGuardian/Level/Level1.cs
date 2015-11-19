@@ -4,13 +4,12 @@ namespace TimeGuardian.Level
 {
     class Level1 : LevelBase
     {
-        private Player _player;
-        public Level1(TimeGuardianGame game, int[] tiles, Player player, int levelNumber) : base(game, tiles, player, levelNumber)
+        public Level1(TimeGuardianGame game, int[] tiles, int levelNumber) : base(game, tiles, levelNumber)
         {
+            Player = new Player(this);
             Game = game;
             Tiles = tiles;
-            _player = player;
-            AddChild(player);
+            AddChild(Player);
         }
 
 

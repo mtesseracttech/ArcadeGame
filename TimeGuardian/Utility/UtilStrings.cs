@@ -13,6 +13,8 @@ namespace TimeGuardian
         public static readonly string SpritesPlayer = AssetPath + "sprites/player/";
         public static readonly string SpritesEnemy = AssetPath + "sprites/enemy/";
         public static readonly string SpritesUpgrades = AssetPath + "sprites/upgrade/";
+
+        public static readonly string SpritesMenu = AssetPath + "sprites/misc/menu/";
         public static readonly string SpritesOther = AssetPath + "sprites/misc/";
 
         public static readonly string SpritesLevel = AssetPath + "sprites/level/";

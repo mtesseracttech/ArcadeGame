@@ -13,9 +13,8 @@ public class TimeGuardianGame : Game
     private LevelBase _level;
     private Player _player;
 
-	public TimeGuardianGame () : base(800, 600, false)
+	public TimeGuardianGame () : base(1024, 768, false)
 	{
-        _player = new Player();
 	    SetState("MainMenu");
 	}
 
@@ -73,7 +72,8 @@ public class TimeGuardianGame : Game
                 AddChild(_credits);
                 break;
             case "Level1":
-                _level = new Level1(this, new []{2}, _player, 1);
+                _level = new Level1(this, new []{2}, 1);
+                AddChild(_level);
                 break;
             case "Exit":
                 Environment.Exit(0);

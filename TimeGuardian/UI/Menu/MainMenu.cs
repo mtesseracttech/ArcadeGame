@@ -17,10 +17,10 @@ namespace TimeGuardian.UI.Menu
             SetHeader();
             _buttons = new []
             {
-            new Button(UtilStrings.AnimSpriteDebug, 2, game.width/2, 200, "Level1"),
-            new Button(UtilStrings.AnimSpriteDebug, 2, game.width/2, 300, "HighScores"),
-            new Button(UtilStrings.AnimSpriteDebug, 2, game.width/2, 400, "Credits"), 
-            new Button(UtilStrings.AnimSpriteDebug, 2, game.width/2, 500, "Exit")
+            new Button(UtilStrings.SpritesMenu + "button_newgame.png", 2, game.width/2, 300, "Level1"),
+            new Button(UtilStrings.SpritesMenu + "button_highscore.png", 2, game.width/2, 400, "HighScores"),
+            new Button(UtilStrings.SpritesMenu + "button_credits.png", 2, game.width/2, 500, "Credits"), 
+            new Button(UtilStrings.SpritesMenu + "button_exit.png", 2, game.width/2, 600, "Exit")
             };
 
             foreach (Button button in _buttons)
@@ -31,7 +31,7 @@ namespace TimeGuardian.UI.Menu
 
         private void SetBackground()
         {
-            _background = new Sprite(UtilStrings.BackgroundDebug);
+            _background = new Sprite(UtilStrings.SpritesMenu + "background.png");
             AddChild(_background);
         }
 
@@ -39,7 +39,8 @@ namespace TimeGuardian.UI.Menu
         {
             _header = new Sprite(UtilStrings.SpriteDebug);
             _header.SetOrigin(_header.width/2, _header.height/2);
-            _header.SetXY(game.width / 2, 80);
+            _header.SetXY(game.width / 2, 120);
+            _header.SetScaleXY(6f,2f);
             AddChild(_header);
         }
 

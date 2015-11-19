@@ -10,7 +10,7 @@ namespace TimeGuardian.Level
         protected bool Talking; //Blocks the update as long as the pre-battle conversation is going on
         protected Player player;
 
-        public BossFight(TimeGuardianGame game, int[] tiles, Player player, bool night, int levelNumber, string[] dialog, bool talking) : base(game, tiles, player, levelNumber)
+        public BossFight(TimeGuardianGame game, int[] tiles, Player player, int levelNumber, string[] dialog, bool talking) : base(game, tiles, levelNumber)
         {
             Game = game;
             Dialog = dialog;

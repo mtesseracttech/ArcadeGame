@@ -15,11 +15,10 @@ namespace TimeGuardian.Level
         protected Player Player;
         protected Sprite[] Spritesheet;
 
-        public LevelBase(TimeGuardianGame game, int[] tiles, Player player, int levelNumber)
+        public LevelBase(TimeGuardianGame game, int[] tiles, int levelNumber)
         {
             Game = game;
             Tiles = tiles;
-            Player = player;
             /*Spritesheet = CreateSpriteSheet(tiles, levelNumber);*/
         }
 
@@ -38,6 +37,11 @@ namespace TimeGuardian.Level
         public Player GetPlayer()
         {
             return Player;
+        }
+
+        public bool IsOnGround(GameObject gameObject)
+        {
+            if()
         }
 
 
