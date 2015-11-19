@@ -11,27 +11,33 @@ namespace TimeGuardian.Level
         protected bool Paused;
         protected bool Night;
 
-        protected Game Game;
+        protected TimeGuardianGame Game;
         protected Player Player;
         protected Sprite[] Spritesheet;
 
-        public LevelBase(Game game, int[] tiles, Player player, bool night, int levelNumber)
+        public LevelBase(TimeGuardianGame game, int[] tiles, Player player, int levelNumber)
         {
             Game = game;
             Tiles = tiles;
             Player = player;
-            Night = night;
-            Spritesheet = CreateSpriteSheet(tiles, levelNumber);
+            /*Spritesheet = CreateSpriteSheet(tiles, levelNumber);*/
         }
 
+        
         protected virtual Sprite[] CreateSpriteSheet(int[] tiles, int levelNumber)
         {
             List<Sprite> spriteList = new List<Sprite>();
             for (int i = 0; i < tiles.Length; i++)
             {
-                spriteList.Add(new Sprite(UtilStrings.levelSprite(levelNumber, i)));
+                spriteList.Add(new Sprite(UtilStrings.levelSprite(levelNumber, tiles[i])));
             }
             return spriteList.ToArray();
+        }
+        
+
+        public Player GetPlayer()
+        {
+            return Player;
         }
 
 

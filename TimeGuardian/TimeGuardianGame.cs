@@ -1,15 +1,21 @@
 using System;
 using TimeGuardian;
+using TimeGuardian.Level;
+using TimeGuardian.player;
 using TimeGuardian.UI.Menu;
 
 public class TimeGuardianGame : Game
 {
     private string _state;
     private MainMenu _menu;
-
+    private HighScores _scores;
+    private Credits _credits;
+    private LevelBase _level;
+    private Player _player;
 
 	public TimeGuardianGame () : base(800, 600, false)
 	{
+        _player = new Player();
 	    SetState("MainMenu");
 	}
 
@@ -37,6 +43,16 @@ public class TimeGuardianGame : Game
             case "MainMenu":
                 _menu.Destroy();
                 break;
+            case "HighScores":
+                _scores.Destroy();
+                break;
+            case "Credits":
+                _credits.Destroy();
+                break;
+            case "Level1":
+                _player = _level.GetPlayer();
+                _level.Destroy();
+                break;
         }
     }
 
@@ -48,9 +64,22 @@ public class TimeGuardianGame : Game
                 _menu = new MainMenu(this);
                 AddChild(_menu);
                 break;
+            case "HighScores":
+                _scores = new HighScores(this);
+                AddChild(_scores);
+                break;
+            case "Credits":
+                _credits = new Credits(this);
+                AddChild(_credits);
+                break;
+            case "Level1":
+                _level = new Level1(this, new []{2}, _player, 1);
+                break;
             case "Exit":
                 Environment.Exit(0);
                 break;
+            default:
+                throw new Exception("You tried to load a non-existant state");
         }
     }
 

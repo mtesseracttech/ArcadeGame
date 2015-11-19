@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TimeGuardian.Entity.Enemy
+﻿namespace TimeGuardian.Entity.Enemy
 {
     class BossBase : AnimationSprite
     {
@@ -12,8 +7,34 @@ namespace TimeGuardian.Entity.Enemy
         protected bool Vurnerable; //Value is used to temporarily make the boss vurnerable to player attacks, boss is invincible otherwise.
 
 
-        public BossBase(string filename, int cols, int rows, int frames = -1) : base(filename, cols, rows, frames)
+        public BossBase(string filename, int cols, int rows, int healthPoints, int damage) : base(filename, cols, rows)
         {
+            HealthPoints = healthPoints;
+            Damage = damage;
+            Vurnerable = false;
+        }
+
+        /// <summary>
+        /// When called, returns whether the boss is vurnerable or not at a given point.
+        /// </summary>
+        public bool GetVurnerability()
+        {
+            return Vurnerable;
+        }
+
+        /// <summary>
+        /// Does Damage to the Boss and Starts the boss' deathcycle in case his health hits 0
+        /// </summary>
+        public void DoDamage(int damage)
+        {
+            HealthPoints -= damage;
+            if (HealthPoints <= 0) DeathCycle();
+        }
+
+
+        private void DeathCycle()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

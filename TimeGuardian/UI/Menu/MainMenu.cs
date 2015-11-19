@@ -1,36 +1,55 @@
-﻿namespace TimeGuardian.UI.Menu
+﻿using System.ComponentModel;
+using Glide;
+
+namespace TimeGuardian.UI.Menu
 {
     class MainMenu : GameObject
     {
-        private Button[] _buttons;
+        private Sprite _header, _background;
+        private Button[] _buttons ;
         private TimeGuardianGame _game;
-        private int _selection = 0;
-        private int _cooldown = 0;
-
+        private int _selection;
 
         public MainMenu(TimeGuardianGame game)
         {
+            _game = game;
+            SetBackground();
+            SetHeader();
             _buttons = new []
             {
-            new Button(UtilStrings.AnimSpriteDebug, 2, 1, 100, 100, "Level1"),
-            new Button(UtilStrings.AnimSpriteDebug, 2, 1, 100, 200, "HighScores"),
-            new Button(UtilStrings.AnimSpriteDebug, 2, 1, 100, 300, "Exit")
+            new Button(UtilStrings.AnimSpriteDebug, 2, game.width/2, 200, "Level1"),
+            new Button(UtilStrings.AnimSpriteDebug, 2, game.width/2, 300, "HighScores"),
+            new Button(UtilStrings.AnimSpriteDebug, 2, game.width/2, 400, "Credits"), 
+            new Button(UtilStrings.AnimSpriteDebug, 2, game.width/2, 500, "Exit")
             };
+
             foreach (Button button in _buttons)
             {
                 AddChild(button);
             }
-            _game = game;
+        }
 
+        private void SetBackground()
+        {
+            _background = new Sprite(UtilStrings.BackgroundDebug);
+            AddChild(_background);
+        }
+
+        private void SetHeader()
+        {
+            _header = new Sprite(UtilStrings.SpriteDebug);
+            _header.SetOrigin(_header.width/2, _header.height/2);
+            _header.SetXY(game.width / 2, 80);
+            AddChild(_header);
         }
 
         void Update()
         {
+            //_tweener.Update(_updateTime);
             _buttons[_selection].Selected();
-            if (_cooldown > 0) _cooldown--;
-            if (Input.GetKeyDown(Key.UP) && _cooldown == 0) SelectionUp();
-            if (Input.GetKeyDown(Key.DOWN) && _cooldown == 0) SelectionDown();
-            if (Input.GetKey(Key.ENTER)) Select();
+            if (Input.GetKeyDown(Key.UP) || Input.GetKeyDown(Key.W)) SelectionUp();
+            if (Input.GetKeyDown(Key.DOWN) || Input.GetKeyDown(Key.S)) SelectionDown();
+            if (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE)) Select();
         }
 
         void SelectionDown()

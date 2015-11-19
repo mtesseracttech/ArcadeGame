@@ -42,6 +42,12 @@
     <Compile Include="Level\BossFight.cs" />
     <Compile Include="Level\Level1.cs" />
     <Compile Include="Level\LevelBase.cs" />
+    <Compile Include="Lib\Glide\AutoLerp.cs" />
+    <Compile Include="Lib\Glide\Ease.cs" />
+    <Compile Include="Lib\Glide\GlideInfo.cs" />
+    <Compile Include="Lib\Glide\Lerper.cs" />
+    <Compile Include="Lib\Glide\Tween.cs" />
+    <Compile Include="Lib\Glide\Tweener.cs" />
     <Compile Include="TimeGuardianGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -70,6 +76,8 @@
     <Compile Include="GXPEngine\Utils\Time.cs" />
     <Compile Include="GXPEngine\Utils\Utils.cs" />
     <Compile Include="UI\Menu\Button.cs" />
+    <Compile Include="UI\Menu\Credits.cs" />
+    <Compile Include="UI\Menu\HighScores.cs" />
     <Compile Include="UI\Menu\MainMenu.cs" />
     <Compile Include="Utility\FileReader.cs" />
     <Compile Include="Utility\UtilStrings.cs" />

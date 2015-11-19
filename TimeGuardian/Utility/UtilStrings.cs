@@ -13,6 +13,7 @@ namespace TimeGuardian
         public static readonly string SpritesPlayer = AssetPath + "sprites/player/";
         public static readonly string SpritesEnemy = AssetPath + "sprites/enemy/";
         public static readonly string SpritesUpgrades = AssetPath + "sprites/upgrade/";
+        public static readonly string SpritesOther = AssetPath + "sprites/misc/";
 
         public static readonly string SpritesLevel = AssetPath + "sprites/level/";
         //SOUNDS & MUSIC
@@ -28,7 +29,7 @@ namespace TimeGuardian
 
         public static string levelSprite(int levelNumber, int spriteNumber)
         {
-            return (UtilStrings.SpritesLevel + "/" + levelNumber + "/" + (spriteNumber + 1) + ".png");
+            return (UtilStrings.SpritesLevel + levelNumber + "/" + (spriteNumber + 1) + ".png");
         }
     }
 }
