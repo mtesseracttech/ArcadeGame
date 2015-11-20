@@ -7,18 +7,21 @@ namespace TimeGuardian.player
     {
         private LevelBase _level;
 //        private GameObject _feet;
-        private float _walkSpeed, _jumpSpeed;
+//        private float _walkSpeed, _jumpSpeed;
 //        private const float MaxMoveSpeed = 0.5f;
 //
-        private int _jumpCounter, _jumpTimer;
-//        private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame;
+//     	private int _jumpCounter, _jumpTimer;
+//      private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame;
 //
 //		private short[] _staticFrames = {8, 9, 10}; //TODO: Set to actual sprite values
 //		private short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};//TODO: Set to actual sprite values
-//        private short[] _jumpFrames = {11, 12, 13, 14}; //TODO: Set to actual sprite values
+//      private short[] _jumpFrames = {11, 12, 13, 14}; //TODO: Set to actual sprite values
 
 		private int _firstFrame = 0, _lastFrame = 0;
 		private float _frame = 0.0f;
+		private bool _jumping = false;
+		private float _startY = 500, _jumpSpeed = 0;
+
 
         public Player(LevelBase level) : base(UtilStrings.SpriteDebug, 1, 1)
         {
@@ -31,8 +34,7 @@ namespace TimeGuardian.player
             SetXY(100, 500);
             _level = level;
         }
-
-
+			
         void Update()
         {
             Movement();
@@ -41,38 +43,29 @@ namespace TimeGuardian.player
 
         private void Movement()
         {
-			//MovingSprite ();
-
 			if(Input.GetKey(Key.LEFT) || Input.GetKey(Key.RIGHT) || Input.GetKey(Key.SPACE)){
 				SetAnimationRange (0, 7);
 				if(Input.GetKey(Key.LEFT)) { x -= 5; Mirror (true, false); }
 				if(Input.GetKey(Key.RIGHT)) { x += 5; Mirror (false, false); }
-				if (IsOnSolidGround()) _jumpCounter = 0;
-				if(Input.GetKey(Key.SPACE) && _jumpCounter < 2) { 
-					_jumpCounter++;
-					_jumpTimer = 20;
-	               // _jumpSpeed = 1.0f;
+				if(_jumping){
+					y += _jumpSpeed; //making it go up
+					_jumpSpeed += 1;
+					if(y>=_startY){
+						y = _startY;
+						_jumping = false;
+					}
 				}
-				//if (_jumpSpeed != 0.0f) _jumpSpeed /= 1.01f;
-				if(_jumpTimer > 0){
-					_jumpTimer -= 1;
-					y -= 5;
-					if (IsOnSolidGround ())
-						_jumpSpeed = 0;
+				else{
+					if (Input.GetKey (Key.SPACE)) { 
+						_jumping = true;
+						_jumpSpeed = -14;
+					}
 				}
-				if(_jumpTimer==0) {
-					while(IsOnSolidGround()==false){
-						y += 5;
-					}	
-				}
-					
-				
 			}
 			else{
 				SetAnimationRange (8, 10);
 			}
 				
-
 //            if (_walkSpeed < MaxMoveSpeed && Input.GetKey(Key.D)) _walkSpeed += 0.01f;
 //            if (_walkSpeed > -MaxMoveSpeed && Input.GetKey(Key.A)) _walkSpeed -= 0.01f;
 //            if (_walkSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _walkSpeed /= 1.02f;
@@ -126,7 +119,7 @@ namespace TimeGuardian.player
 //            else _currentJumpingFrame = _jumpFrames[3];
 //        }
 
-		void UpdateAnimation()
+		private void UpdateAnimation()
 		{
 			_frame += 0.2f;
 			if (_frame > _lastFrame + 1)
@@ -138,8 +131,7 @@ namespace TimeGuardian.player
 
         private bool IsOnSolidGround()
         {
-			if(y==500)return true;
-			else {return false;}//TODO: Change value based 
+			return false;//TODO: Change value based 
         }
     }
 }

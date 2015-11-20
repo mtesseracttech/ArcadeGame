@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B5126D4C-7FE0-4552-BC8C-E68D529C22B2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>TimeGuardian</RootNamespace>
@@ -81,6 +79,7 @@
     <Compile Include="UI\Menu\MainMenu.cs" />
     <Compile Include="Utility\FileReader.cs" />
     <Compile Include="Utility\UtilStrings.cs" />
+    <Compile Include="Entity\Player\PickUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UI\HUD\" />

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TimeGuardian.player;
+using TimeGuardian.Entity;
 using TimeGuardian.Utility;
 
 namespace TimeGuardian.Level
@@ -13,6 +14,7 @@ namespace TimeGuardian.Level
 
         protected TimeGuardianGame Game;
         protected Player Player;
+		//protected PickUp PickUp;
         protected Sprite[] Spritesheet;
 
         public LevelBase(TimeGuardianGame game, int[] tiles, int levelNumber)
@@ -34,6 +36,10 @@ namespace TimeGuardian.Level
             return spriteList.ToArray();
         }
         
+
+//		public PickUp GetPickUp(){
+//			return PickUp;
+//		}
 
         public Player GetPlayer()
         {
