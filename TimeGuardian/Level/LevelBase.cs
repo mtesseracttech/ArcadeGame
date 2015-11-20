@@ -19,6 +19,7 @@ namespace TimeGuardian.Level
         {
             Game = game;
             Tiles = tiles;
+
             /*Spritesheet = CreateSpriteSheet(tiles, levelNumber);*/
         }
 
@@ -39,10 +40,10 @@ namespace TimeGuardian.Level
             return Player;
         }
 
-        public bool IsOnGround(GameObject gameObject)
-        {
-            if()
-        }
+//        public bool IsOnGround(GameObject gameObject)
+//        {
+//            if()
+//        }
 
 
         void Update()
