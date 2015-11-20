@@ -1,0 +1,24 @@
+﻿<Properties StartupItem="TimeGuardian\TimeGuardian.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TimeGuardian\Entity\Player\Player.cs">
+    <Files>
+      <File FileName="TimeGuardian\TimeGuardianGame.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\Level\Level1.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\Level\LevelBase.cs" Line="22" Column="4" />
+      <File FileName="TimeGuardian\Level\BossFight.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\Entity\Enemy\BossBase.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\Entity\Enemy\EnemyBase.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\Entity\Player\Player.cs" Line="83" Column="37" />
+      <File FileName="TimeGuardian\UI\Menu\Button.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\UI\Menu\Credits.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\UI\Menu\HighScores.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\UI\Menu\MainMenu.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\Utility\UtilStrings.cs" Line="1" Column="1" />
+      <File FileName="TimeGuardian\GXPEngine\GameObject.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
