@@ -6,13 +6,14 @@ namespace TimeGuardian.Level
     {
         public Level1(TimeGuardianGame game, int[] tiles, int levelNumber) : base(game, tiles, levelNumber)
         {
+            Sprite background = new Sprite(UtilStrings.SpritesLevel + "1/background.png");
+            AddChild(background);
             //Player = new Player(this);
-
-			Player player = new Player (UtilStrings.SpritesPlayer +"spritesheet_player_2.png", 8, 2, this);
-
+            Player player = new Player (UtilStrings.SpritesPlayer + "spritesheetplayer_temp.png", 8, 9, this);
             Game = game;
             Tiles = tiles;
             AddChild(player);
+
         }
 
 
