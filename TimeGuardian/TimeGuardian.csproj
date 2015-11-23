@@ -36,8 +36,8 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\DebugBall.cs" />
     <Compile Include="Entity\Enemy\BossBase.cs" />
-    <Compile Include="Entity\Enemy\EnemyBase.cs" />
     <Compile Include="Entity\Player\Player.cs" />
     <Compile Include="Level\Level1.cs" />
     <Compile Include="Level\LevelBase.cs" />
@@ -74,7 +74,9 @@
     <Compile Include="GXPEngine\Utils\MouseHandler.cs" />
     <Compile Include="GXPEngine\Utils\Time.cs" />
     <Compile Include="GXPEngine\Utils\Utils.cs" />
-    <Compile Include="UI\HUD.cs" />
+    <Compile Include="UI\HUD\Heart.cs" />
+    <Compile Include="UI\HUD\HUD.cs" />
+    <Compile Include="UI\HUD\ScoreKeeper.cs" />
     <Compile Include="UI\Menu\Button.cs" />
     <Compile Include="UI\Menu\Credits.cs" />
     <Compile Include="UI\Menu\HighScores.cs" />

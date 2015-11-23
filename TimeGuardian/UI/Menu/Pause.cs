@@ -14,7 +14,6 @@ namespace TimeGuardian.UI.Menu
         {
             _game = game;
 
-
             x = -500;
             _background = new Sprite(UtilStrings.SpritesMenu + "background_Pause.png");
             _background.SetOrigin(0,_background.height/2);
@@ -39,18 +38,22 @@ namespace TimeGuardian.UI.Menu
 
         void Update()
         {
+            Opener();
+        }
+
+        void Opener()
+        {
             if (_open)
             {
-                if (x < 0) x+=5;
+                if (x < 0) x += 5;
                 _buttons[_selection].Selected();
                 if (Input.GetKeyDown(Key.UP) || Input.GetKeyDown(Key.W)) SelectionUp();
                 if (Input.GetKeyDown(Key.DOWN) || Input.GetKeyDown(Key.S)) SelectionDown();
                 if (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE)) Select();
             }
-
             else
             {
-                if (x >= -500) x-=5;
+                if (x >= -500) x -= 5;
             }
         }
 

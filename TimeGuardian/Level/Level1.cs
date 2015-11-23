@@ -1,4 +1,5 @@
-﻿using TimeGuardian.player;
+﻿using TimeGuardian.Entity;
+using TimeGuardian.player;
 
 namespace TimeGuardian.Level
 {
@@ -14,11 +15,13 @@ namespace TimeGuardian.Level
             Tiles = tiles;
             AddChild(Player);
 
+            AddChild(new DebugBall(this));
+
         }
 
-        void Update()
+        protected override void Update()
         {
-            if (Input.GetKeyDown(Key.Q)) PauseToggle();
+            base.Update();
         }
 
         protected override void UpdateUnpaused()

@@ -27,8 +27,9 @@ namespace TimeGuardian.UI.Menu
             {
                 AddChild(button);
             }
+            _buttons[0].Selected();
         }
-
+        
         private void SetBackground()
         {
             _background = new Sprite(UtilStrings.SpritesMenu + "background.png");
@@ -47,7 +48,7 @@ namespace TimeGuardian.UI.Menu
         void Update()
         {
             //_tweener.Update(_updateTime);
-            _buttons[_selection].Selected();
+            //_buttons[_selection].Selected();
             if (Input.GetKeyDown(Key.UP) || Input.GetKeyDown(Key.W)) SelectionUp();
             if (Input.GetKeyDown(Key.DOWN) || Input.GetKeyDown(Key.S)) SelectionDown();
             if (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE)) Select();
@@ -58,6 +59,7 @@ namespace TimeGuardian.UI.Menu
             _buttons[_selection].DeSelect();
             if (_selection < _buttons.Length - 1) _selection++;
             else _selection = 0;
+            _buttons[_selection].Selected();
         }
 
         void SelectionUp()
@@ -65,6 +67,7 @@ namespace TimeGuardian.UI.Menu
             _buttons[_selection].DeSelect();
             if (_selection > 0) _selection--;
             else _selection = _buttons.Length - 1;
+            _buttons[_selection].Selected();
         }
 
         void Select()

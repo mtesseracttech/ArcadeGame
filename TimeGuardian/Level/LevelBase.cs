@@ -8,7 +8,6 @@ namespace TimeGuardian.Level
     abstract class LevelBase : GameObject
     {
         protected int[] Tiles;
-
         protected bool Paused;
         protected bool TimeStop;
 
@@ -34,7 +33,7 @@ namespace TimeGuardian.Level
             List<Sprite> spriteList = new List<Sprite>();
             for (int i = 0; i < tiles.Length; i++)
             {
-                spriteList.Add(new Sprite(UtilStrings.levelSprite(levelNumber, tiles[i])));
+                spriteList.Add(new Sprite(UtilStrings.LevelSprite(levelNumber, tiles[i])));
             }
             return spriteList.ToArray();
         }
@@ -50,8 +49,14 @@ namespace TimeGuardian.Level
             return Paused;
         }
 
-        void Update()
+        public bool GetTimeStopped()
         {
+            return TimeStop;
+        }
+
+        protected virtual void Update()
+        {
+            if (Input.GetKeyDown(Key.Q)) PauseToggle();
             if (!Paused) UpdateUnpaused();
         }
 
@@ -68,6 +73,11 @@ namespace TimeGuardian.Level
         protected virtual void HitDetection()
         {
             //Add General Hitdetection
+        }
+
+        public void FreezeTimeToggle()
+        {
+            TimeStop = !TimeStop;
         }
 
         public void PauseToggle()

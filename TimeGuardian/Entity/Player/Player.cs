@@ -2,14 +2,16 @@
 using System.Runtime.Remoting.Messaging;
 using TimeGuardian.Level;
 using TimeGuardian.UI;
+using TimeGuardian.UI.HUD;
 
 namespace TimeGuardian.player
 {
     class Player : AnimationSprite
     {
         private LevelBase _level;
+        private Heart _heart;
         private float _walkSpeed, _jumpSpeed;
-        private const float MaxMoveSpeed = 0.2f;
+        private const float MaxMoveSpeed = 1.0f;
 
         private int _jumpCounter;
         private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame;
@@ -26,13 +28,16 @@ namespace TimeGuardian.player
         {
             SetXY(100, 500);
             _level = level;
-            _hud = new HUD();
-            AddChild(_hud);
+            _heart = new Heart(100, 100);
+            _hud = new HUD(3, _level);
         }
 
 
         void Update()
         {
+            if(Input.GetKeyDown(Key.E)) _level.FreezeTimeToggle();
+            if (Input.GetKeyDown(Key.B)) _hud.LoseHeart();
+            if (Input.GetKeyDown(Key.C)) _hud.AddHeart();
             if(!_level.GetPaused()) UpdateUnpaused();
         }
 
@@ -93,7 +98,7 @@ namespace TimeGuardian.player
                 _jumpCounter++;
                 _jumpSpeed = 1.0f;
             }
-            if (_jumpSpeed != 0.0f) _jumpSpeed /= 1.01f;
+            if (_jumpSpeed != 0.0f) _jumpSpeed -= 0.01f;
             Move(_walkSpeed, -_jumpSpeed);
         }
 
@@ -155,6 +160,7 @@ namespace TimeGuardian.player
         {
             if (y == 500)
             {
+                _jumpSpeed = 0.0f;
                 return true;
             }
 
