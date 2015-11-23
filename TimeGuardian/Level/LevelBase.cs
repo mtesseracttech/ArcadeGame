@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TimeGuardian.player;
+using TimeGuardian.UI.Menu;
 using TimeGuardian.Utility;
 
 namespace TimeGuardian.Level
@@ -9,16 +10,20 @@ namespace TimeGuardian.Level
         protected int[] Tiles;
 
         protected bool Paused;
-        protected bool Night;
+        protected bool TimeStop;
 
         protected TimeGuardianGame Game;
         protected Player Player;
         protected Sprite[] Spritesheet;
+        protected Sprite Background;
+        protected Pause Pause;
 
         public LevelBase(TimeGuardianGame game, int[] tiles, int levelNumber)
         {
             Game = game;
             Tiles = tiles;
+            Pause = new Pause(game);
+            AddChild(Pause);
 
             /*Spritesheet = CreateSpriteSheet(tiles, levelNumber);*/
         }
@@ -40,42 +45,37 @@ namespace TimeGuardian.Level
             return Player;
         }
 
-//        public bool IsOnGround(GameObject gameObject)
-//        {
-//            if()
-//        }
-
+        public bool GetPaused()
+        {
+            return Paused;
+        }
 
         void Update()
         {
             if (!Paused) UpdateUnpaused();
         }
 
-        abstract protected void UpdateUnpaused();
+        protected virtual void UpdateUnpaused()
+        {
+            if (!TimeStop) UpdateUnpaused();
+        }
+
+        protected virtual void UpdateNoTimeStop()
+        {
+            
+        }
 
         protected virtual void HitDetection()
         {
             //Add General Hitdetection
         }
 
-        public void SetPause(bool paused)
+        public void PauseToggle()
         {
-            Paused = paused;
+            Paused = !Paused;
+            Pause.Toggle();
         }
 
-        public bool GetPause()
-        {
-            return Paused;
-        }
-
-        public void SetNight(bool night)
-        {
-            Night = night;
-        }
-
-        public bool GetNight()
-        {
-            return Night;
-        }
+        
     }
 }

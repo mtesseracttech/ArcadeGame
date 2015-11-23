@@ -1,5 +1,7 @@
-﻿using System.Runtime.Remoting.Messaging;
+﻿using System.Drawing.Text;
+using System.Runtime.Remoting.Messaging;
 using TimeGuardian.Level;
+using TimeGuardian.UI;
 
 namespace TimeGuardian.player
 {
@@ -9,13 +11,14 @@ namespace TimeGuardian.player
         private float _walkSpeed, _jumpSpeed;
         private const float MaxMoveSpeed = 0.2f;
 
-        private int _jumpCounter, _jumpTimer;
+        private int _jumpCounter;
         private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame;
 
   		private short[] _staticFrames = {64}; //TODO: Set to actual sprite values
 		private short[] _movingFrames = {35, 36, 37, 38, 39, 32, 33, 34};//TODO: Set to actual sprite values
         private short[] _jumpFrames = {11, 12, 13, 14}; //TODO: Set to actual sprite values
 
+        private HUD _hud;
 		//private int _firstFrame = 0, _lastFrame = 0;
 		//private float _frame = 0.0f;
 
@@ -23,14 +26,21 @@ namespace TimeGuardian.player
         {
             SetXY(100, 500);
             _level = level;
+            _hud = new HUD();
+            AddChild(_hud);
         }
 
 
         void Update()
         {
+            if(!_level.GetPaused()) UpdateUnpaused();
+        }
+
+        void UpdateUnpaused()
+        {
             Movement();
             SpriteHandler();
-			//UpdateAnimation ();
+            //UpdateAnimation ();
         }
 
         private void Movement()

@@ -10,11 +10,6 @@ namespace TimeGuardian.Enemy
             Level = level;
         }
 
-        private void Update()
-        {
-            if (!Level.GetPause()) UpdateUnpaused();
-        }
-
         protected abstract void UpdateUnpaused();
     }
 }
