@@ -3,6 +3,7 @@ using System.Runtime.Remoting.Messaging;
 using TimeGuardian.Level;
 using TimeGuardian.UI;
 using TimeGuardian.UI.HUD;
+using TimeGuardian.Entity.Enemy;
 
 namespace TimeGuardian.player
 {
@@ -11,18 +12,17 @@ namespace TimeGuardian.player
         private LevelBase _level;
         private Heart _heart;
         private float _walkSpeed, _jumpSpeed;
-        private const float MaxMoveSpeed = 1.0f;
+        private const float MaxMoveSpeed = 2.0f;
 
         private int _jumpCounter;
         private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame;
 
-  		private short[] _staticFrames = {64}; //TODO: Set to actual sprite values
-		private short[] _movingFrames = {35, 36, 37, 38, 39, 32, 33, 34};//TODO: Set to actual sprite values
-        private short[] _jumpFrames = {11, 12, 13, 14}; //TODO: Set to actual sprite values
+  		private short[] _staticFrames = {0}; //TODO: Set to actual sprite values
+		private short[] _movingFrames = {0,1,2,3,4,5,6,7};//TODO: Set to actual sprite values
+        private short[] _jumpFrames = {8,9,10,11,12}; //TODO: Set to actual sprite values
 
         private HUD _hud;
-		//private int _firstFrame = 0, _lastFrame = 0;
-		//private float _frame = 0.0f;
+		private bool _arcadeMachineControls;
 
         public Player(string filename, int cols, int rows, LevelBase level) : base(filename, cols, rows)
         {
@@ -35,9 +35,10 @@ namespace TimeGuardian.player
 
         void Update()
         {
-            if(Input.GetKeyDown(Key.E)) _level.FreezeTimeToggle();
-            if (Input.GetKeyDown(Key.B)) _hud.LoseHeart();
-            if (Input.GetKeyDown(Key.C)) _hud.AddHeart();
+            //for testing purposes only
+			if(Input.GetKeyDown(Key.E)) _level.FreezeTimeToggle();
+            //if (Input.GetKeyDown(Key.B)) _hud.LoseHeart();
+            //if (Input.GetKeyDown(Key.C)) _hud.AddHeart();
             if(!_level.GetPaused()) UpdateUnpaused();
         }
 
@@ -45,74 +46,62 @@ namespace TimeGuardian.player
         {
             Movement();
             SpriteHandler();
-            //UpdateAnimation ();
         }
 
         private void Movement()
-        {
-            /*
-			if(Input.GetKey(Key.LEFT) || Input.GetKey(Key.RIGHT) || Input.GetKey(Key.SPACE)){
-				SetAnimationRange (0, 7);
-				if(Input.GetKey(Key.LEFT)) { x -= 5; Mirror (true, false); }
-				if(Input.GetKey(Key.RIGHT)) { x += 5; Mirror (false, false); }
-				if (IsOnSolidGround()) _jumpCounter = 0;
-				if(Input.GetKey(Key.SPACE) && _jumpCounter < 2) { 
-					_jumpCounter++;
-					_jumpTimer = 20;
-	               // _jumpSpeed = 1.0f;
-				}
-				//if (_jumpSpeed != 0.0f) _jumpSpeed /= 1.01f;
-				if(_jumpTimer > 0){
-					_jumpTimer -= 1;
-					y -= 5;
-					if (IsOnSolidGround ())
-						_jumpSpeed = 0;
-				}
-				if(_jumpTimer==0) {
-					while(IsOnSolidGround()==false){
-						y += 5;
-					}	
-				}
-					
-				
-			}
-			else{
-				SetAnimationRange (8, 10);
-			}
-				*/
+		{
+			//change here wether we play on pc/laptop or arcade
+			_arcadeMachineControls = false;
+			if (_arcadeMachineControls == false) {
 
-            if (_walkSpeed < MaxMoveSpeed && Input.GetKey(Key.D))
-            {
-                _walkSpeed += 0.01f;
-                Mirror(false, false);
-            }
-            if (_walkSpeed > -MaxMoveSpeed && Input.GetKey(Key.A))
-            {
-                _walkSpeed -= 0.01f;
-                Mirror(true, false);
-            }
-            if (_walkSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _walkSpeed /= 1.02f;
-            if (IsOnSolidGround()) _jumpCounter = 0;
-            if (Input.GetKeyDown(Key.SPACE) && _jumpCounter < 2)
-            {
-                _jumpCounter++;
-                _jumpSpeed = 1.0f;
-            }
-            if (_jumpSpeed != 0.0f) _jumpSpeed -= 0.01f;
-            Move(_walkSpeed, -_jumpSpeed);
-        }
+				if (_walkSpeed < MaxMoveSpeed && Input.GetKey (Key.D)) {
+					_walkSpeed += 0.01f;
+					Mirror (false, false);
+				}
+				if (_walkSpeed > -MaxMoveSpeed && Input.GetKey (Key.A)) {
+					_walkSpeed -= 0.01f;
+					Mirror (true, false);
+				}
+				if (_walkSpeed != 0.0f && !Input.GetKey (Key.D) && !Input.GetKey (Key.A))
+					_walkSpeed /= 1.02f;
+				if (IsOnSolidGround ())
+					_jumpCounter = 0;
+				if (Input.GetKeyDown (Key.SPACE) && _jumpCounter < 2) {
+					_jumpCounter++;
+					_jumpSpeed = 1.0f;
+				}
+				if (_jumpSpeed != 0.0f)
+					_jumpSpeed -= 0.01f;
+				Move (_walkSpeed, -_jumpSpeed);
+			}
+			if(_arcadeMachineControls == true){
+				//arcademachine controls are in here
+			}
+				//makes it so you cannot walk beyond the borders of the screen
+				if (x < 0)
+					x = 0; 
+				if (x > 930)
+					x = 930;
+				if (y < 0)
+					y = 0;
+				if (y > 770)
+					y = 770;
+
+
+			//Random collision code
+//			foreach (Sprite other in GetCollisions ()) {
+//				if (x > 0) x = Mathf.Min (other.x - width, x); //at left side of block
+//				if (x < 0) x = Mathf.Max (other.x + other.width, x); //at right side of block
+//				if (y > 0) y = Mathf.Min (other.y - height, y); //at top of block
+//				if (y < 0) y = Mathf.Max (other.y + other.height, y); //at bottom of block
+//			}
+		}
 
 //        private GameObject Bottom()
 //        {
 //            
 //        }
 
-            /*
-		private void SetAnimationRange(int first, int last){
-			_firstFrame = first;
-			_lastFrame = last;
-		}
-        */
 
         private void SpriteHandler()
         {
@@ -143,19 +132,7 @@ namespace TimeGuardian.player
             else if(_jumpSpeed > -0.5f) _currentJumpingFrame = _jumpFrames[2];
             else _currentJumpingFrame = _jumpFrames[3];
         }
-
-        /*
-		void UpdateAnimation()
-		{
-			_frame += 0.2f;
-			if (_frame > _lastFrame + 1)
-				_frame = _firstFrame;
-			if (_frame < _firstFrame)
-				_frame = _lastFrame;
-			SetFrame ((int)_frame);
-		}
-        */
-
+			
         private bool IsOnSolidGround()
         {
             if (y == 500)
@@ -166,5 +143,12 @@ namespace TimeGuardian.player
 
 			else {return false;}//TODO: Change value based 
         }
+
+		private void OnCollision(GameObject other){
+			if(other is BossBase){
+				BossBase enemy = other as BossBase;
+				enemy.GetHit();
+			}
+		}
     }
 }

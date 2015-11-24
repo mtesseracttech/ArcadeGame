@@ -1,5 +1,6 @@
 ﻿using TimeGuardian.Entity;
 using TimeGuardian.player;
+using TimeGuardian.Entity.Enemy;
 
 namespace TimeGuardian.Level
 {
@@ -10,12 +11,15 @@ namespace TimeGuardian.Level
             Background = new Sprite(UtilStrings.SpritesLevel + "1/background.png");
             AddChild(Background);
             AddChild(Pause);
-            Player = new Player (UtilStrings.SpritesPlayer + "spritesheetplayer_temp.png", 8, 9, this);
+			Player player = new Player (UtilStrings.SpritesPlayer + "spritesheet_hero.png", 8, 2, this);
             Game = game;
             Tiles = tiles;
-            AddChild(Player);
+			//create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
+			BossBase eagleEnemy = new EagleEnemy (UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", 6, 1, 10, 5);
+            AddChild(player);
+			AddChild (eagleEnemy);
 
-            AddChild(new DebugBall(this));
+           // AddChild(new DebugBall(this));
 
         }
 
