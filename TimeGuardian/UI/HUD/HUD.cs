@@ -1,36 +1,49 @@
 ﻿using System.Collections.Generic;
 using TimeGuardian.Level;
+using TimeGuardian.player;
 
 namespace TimeGuardian.UI.HUD
 {
     class HUD : GameObject
     {
-        private List<Heart> _lifeHearts;
+        private List<HUDHeart> _lifeHearts;
+        private HUDAbility _hudAbility;
         private int _lives;
         private LevelBase _level;
+        private Player _player;
 
-        public HUD(int lives, LevelBase level)
+        public HUD(int lives, LevelBase level, Player player)
         {
-            _level = level;
             _lives = lives;
+            _level = level;
+            _player = player;
             CreateHearts();
+            _hudAbility = new HUDAbility(x + 30, 30 + 64, _player.GetMaxTimeStopTimer());
+            AddChild(_hudAbility);
             _level.AddChild(this);
         }
 
         private void CreateHearts()
         {
-            _lifeHearts = new List<Heart>();
+            _lifeHearts = new List<HUDHeart>();
             for (int i = 0; i < _lives; i++)
             {
-                _lifeHearts.Add(new Heart(x + 30 + (i * 64), 30));
+                _lifeHearts.Add(new HUDHeart(x + 30 + (i * 64), 30));
             }
-            foreach (Heart heart in _lifeHearts)
+            foreach (HUDHeart heart in _lifeHearts)
             {
                 AddChild(heart);
             }
+            
         }
 
-        public void LoseHeart()
+        public void SetHearts(int lives)
+        {
+            if(_lifeHearts.Count < lives) while (_lifeHearts.Count < lives) AddHeart();
+            else if(_lifeHearts.Count > lives) while (_lifeHearts.Count > lives) LoseHeart();
+        }
+
+        private void LoseHeart()
         {
             if (_lifeHearts.Count > 0)
             {
@@ -39,9 +52,9 @@ namespace TimeGuardian.UI.HUD
             }
         }
 
-        public void AddHeart()
+        private void AddHeart()
         {
-            _lifeHearts.Add(new Heart(x + 30 + ((_lifeHearts.Count) * 64), 30));
+            _lifeHearts.Add(new HUDHeart(x + 30 + ((_lifeHearts.Count) * 64), 30));
             AddChild(_lifeHearts[_lifeHearts.Count-1]);
         }
 
@@ -51,10 +64,9 @@ namespace TimeGuardian.UI.HUD
             
         }
 
-
-        public void Render()
+        public void UpdateAbility(int time, bool restoring)
         {
-            
+            _hudAbility.TimerTextureChanger(time, restoring);
         }
     }
 }

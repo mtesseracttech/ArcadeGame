@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TimeGuardian.Entity;
 using TimeGuardian.player;
 using TimeGuardian.UI.Menu;
 using TimeGuardian.Utility;
@@ -11,6 +12,8 @@ namespace TimeGuardian.Level
         protected bool Paused;
         protected bool TimeStop;
 
+
+        protected List<Sprite> Enemies; 
         protected TimeGuardianGame Game;
         protected Player Player;
         protected Sprite[] Spritesheet;
@@ -22,8 +25,8 @@ namespace TimeGuardian.Level
             Game = game;
             Tiles = tiles;
             Pause = new Pause(game);
+            Enemies = new List<Sprite>();
             AddChild(Pause);
-
             /*Spritesheet = CreateSpriteSheet(tiles, levelNumber);*/
         }
 
@@ -62,6 +65,7 @@ namespace TimeGuardian.Level
 
         protected virtual void UpdateUnpaused()
         {
+            HitDetection();
             if (!TimeStop) UpdateUnpaused();
         }
 
@@ -72,10 +76,22 @@ namespace TimeGuardian.Level
 
         protected virtual void HitDetection()
         {
-            //Add General Hitdetection
+            foreach (Sprite enemy in Enemies)
+            {
+                if (Player.HitTest(enemy))
+                {
+                    Player.LoseLife();
+                    AddChild(new DebugBall(this));
+                }
+            }
         }
 
-        public void FreezeTimeToggle()
+        public void SetTimeStop(bool timeStop)
+        {
+            TimeStop = timeStop;
+        }
+
+        public void StopTimeToggle()
         {
             TimeStop = !TimeStop;
         }
@@ -85,6 +101,8 @@ namespace TimeGuardian.Level
             Paused = !Paused;
             Pause.Toggle();
         }
+
+        
 
         
     }

@@ -74,7 +74,8 @@
     <Compile Include="GXPEngine\Utils\MouseHandler.cs" />
     <Compile Include="GXPEngine\Utils\Time.cs" />
     <Compile Include="GXPEngine\Utils\Utils.cs" />
-    <Compile Include="UI\HUD\Heart.cs" />
+    <Compile Include="UI\HUD\HUDAbility.cs" />
+    <Compile Include="UI\HUD\HUDHeart.cs" />
     <Compile Include="UI\HUD\HUD.cs" />
     <Compile Include="UI\HUD\ScoreKeeper.cs" />
     <Compile Include="UI\Menu\Button.cs" />

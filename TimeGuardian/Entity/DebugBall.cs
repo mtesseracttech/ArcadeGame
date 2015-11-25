@@ -34,6 +34,7 @@ namespace TimeGuardian.Entity
 
         void UpdateNoTimeStop()
         {
+            NextFrame();
             Move(_moveX, _moveY);
             Collision();
         }

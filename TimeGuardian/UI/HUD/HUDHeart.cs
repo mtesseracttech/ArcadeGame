@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TimeGuardian.UI.HUD
 {
-    class Heart : AnimationSprite
+    class HUDHeart : AnimationSprite
     {
         private int _currentCreateFrame, _currentDefaultFrame, _currentBreakFrame;
         private int[] _breakFrames = {0, 1, 2, 3, 4, 5, 6, 16};
@@ -15,7 +15,7 @@ namespace TimeGuardian.UI.HUD
 
         private int _state;
 
-        public Heart(float x, float y) : base(UtilStrings.SpritesHUD + "spritesheet_health.png", 7, 3)
+        public HUDHeart(float x, float y) : base(UtilStrings.SpritesHUD + "spritesheet_health.png", 7, 3)
         {
             SetXY(x, y);
             _state = 0;
