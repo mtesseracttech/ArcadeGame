@@ -13,42 +13,45 @@ namespace TimeGuardian.player
         private HUDHeart _hudHeart;
         private TimeGuardianGame _game;
         private float _xSpeed, _ySpeed;
-        private const float MaxXSpeed = 1.0f;
+        private const float MaxXSpeed = 2.0f;
         private const float MaxYSpeed = 2.0f;
-        private const int MaxTimeStopTimer = 2000;
+        private const int MaxTimeStopTimer = 1000;
         private const int MaxLifes = 5;
         private const int MaxInvTimer = 500;
         private int _invTimer;
         private bool _restoring;
         private int _lives;
         private const float _gravity = 0.2f;
-        private Heart _heart;
         private float _walkSpeed, _jumpSpeed;
         private const float MaxMoveSpeed = 2.0f;
 
         private int _jumpCounter;
         private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame, _currentDeathFrame;
 
+        /*
   		private short[] _staticFrames = {64};
 		private short[] _movingFrames = {35, 36, 37, 38, 39, 32, 33, 34};
         private short[] _jumpFrames = {43, 44, 45, 46};
         private short[] _deathFrames = {16, 17, 18, 19, 20, 21, 22, 23}; //TODO: Set to actual sprite values
+        */
 
         private int _timestopTimer;
-  		private short[] _staticFrames = {0}; //TODO: Set to actual sprite values
-		private short[] _movingFrames = {0,1,2,3,4,5,6,7};//TODO: Set to actual sprite values
-        private short[] _jumpFrames = {8,9,10,11,12}; //TODO: Set to actual sprite values
+
+        private short[] _staticFrames = {13, 14, 15}; //TODO: Set to actual sprite values
+        private short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};//TODO: Set to actual sprite values
+        private short[] _jumpFrames = {9, 9, 10, 11, 12}; //TODO: Set to actual sprite values
+        private short[] _deathFrames = {16, 17, 18, 19, 20, 21, 22, 23};
 
         private HUD _hud;
 		private bool _arcadeMachineControls;
 
-        public Player(string filename, int lives, int cols, int rows, LevelBase level, TimeGuardianGame game) : base(filename, cols, rows)
+        public Player(int lives, LevelBase level, TimeGuardianGame game) : base(UtilStrings.SpritesPlayer + "spritesheet_hero.png", 8, 2)
         {
             SetXY(100, 500);
             _game = game;
             _lives = lives;
             _level = level;
-            _timestopTimer = 2000;
+            _timestopTimer = 1000;
             _hud = new HUD(_lives, _level, this);
         }
 
@@ -58,9 +61,6 @@ namespace TimeGuardian.player
             if (Input.GetKeyDown(Key.B)) LoseLife();
             if (Input.GetKeyDown(Key.C)) GetLife();
             //for testing purposes only
-			if(Input.GetKeyDown(Key.E)) _level.FreezeTimeToggle();
-            //if (Input.GetKeyDown(Key.B)) _hud.LoseHeart();
-            //if (Input.GetKeyDown(Key.C)) _hud.AddHeart();
             if(!_level.GetPaused()) UpdateUnpaused();
         }
 
@@ -78,6 +78,7 @@ namespace TimeGuardian.player
                 _timestopTimer++;
                 _restoring = true;
             }
+            else _restoring = false;
             if (_level.GetTimeStopped() && _timestopTimer <= 0) _level.SetTimeStop(false);
             if (_level.GetTimeStopped())
             {
@@ -113,12 +114,12 @@ namespace TimeGuardian.player
         {
             if (_xSpeed < MaxXSpeed && Input.GetKey(Key.D))
             {
-                _xSpeed += 0.01f;
+                _xSpeed += 0.02f;
                 Mirror(false, false);
             }
             if (_xSpeed > -MaxXSpeed && Input.GetKey(Key.A))
             {
-                _xSpeed -= 0.01f;
+                _xSpeed -= 0.02f;
                 Mirror(true, false);
             }
             if (_xSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _xSpeed *= 0.95f;
@@ -236,12 +237,6 @@ namespace TimeGuardian.player
         {
             if (_invTimer > 0) return true;
             return false;
-        }
-
-            if (_jumpSpeed > 0.5f) _currentJumpingFrame = _jumpFrames[0];
-            else if(_jumpSpeed > 0.0f) _currentJumpingFrame = _jumpFrames[1];
-            else if(_jumpSpeed > -0.5f) _currentJumpingFrame = _jumpFrames[2];
-            else _currentJumpingFrame = _jumpFrames[3];
         }
 			
         private bool IsOnSolidGround()

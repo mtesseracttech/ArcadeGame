@@ -1,4 +1,6 @@
 ﻿using System;
+using TimeGuardian.Level;
+using TimeGuardian.Managers;
 
 namespace TimeGuardian.Entity.Enemy
 {
@@ -8,9 +10,11 @@ namespace TimeGuardian.Entity.Enemy
 		private float _moveX, _moveY;
 		int firstFrame = 0, lastFrame = 5;
 		float frame = 0.0f;
+	    private LevelBase _level;
 
-		public EagleEnemy(string filename, int cols, int rows, int healthPoints, int damage) : base(filename,cols,rows,healthPoints,damage)
+		public EagleEnemy(int cols, int rows, int healthPoints, int damage, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols,rows,healthPoints,damage,level)
 		{
+		    _level = level;
 			SetXY(750, 450);
 			HealthPoints = healthPoints;
 			Damage = damage;
@@ -21,29 +25,31 @@ namespace TimeGuardian.Entity.Enemy
 
 		}
 
-		void Update(){
-			//what happens when enemy is hit?
-			Movement ();
-			SpriteHandler ();
-		}
+	    protected override void Update()
+	    {
+	        base.Update();
+	    }
 
-		private void Movement(){	
-			//scripted movement for boss
-			Move (_moveX, _moveY);
-			if(y>650){
-				_moveY = -1;
-			}
-			if(y<450){
-				_moveY = 1;
-			}
+	    protected override void UpdateNoTimeStop()
+	    {
+            Movement();
+            SpriteHandler();
+        }
 
-
+        private void Movement(){	
+		    //scripted movement for boss
+		    Move (_moveX, _moveY);
+		    if(y>650){
+			    _moveY = -1;
+		    }
+		    if(y<450){
+			    _moveY = 1;
+		    }
 		}
 
 		private void SpriteHandler(){
 			GetVurnerability ();
 			MovingSprite ();
-
 		}
 
 		private void MovingSprite(){
@@ -54,8 +60,6 @@ namespace TimeGuardian.Entity.Enemy
 				frame = lastFrame;
 			SetFrame ((int)frame);
 		}
-
-	
 	}
 }
 

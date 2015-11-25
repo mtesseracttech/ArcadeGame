@@ -17,7 +17,7 @@ namespace TimeGuardian.Entity.Enemy
             Vurnerable = false;
         }
 
-        void Update()
+        protected virtual void Update()
         {
             if (!Level.GetPaused()) UpdateUnpaused();
         }

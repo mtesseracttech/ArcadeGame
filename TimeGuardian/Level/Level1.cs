@@ -10,22 +10,19 @@ namespace TimeGuardian.Level
 
         public Level1(TimeGuardianGame game, int[] tiles, int levelNumber) : base(game, tiles, levelNumber)
         {
+            Game = game;
             Background = new Sprite(UtilStrings.SpritesLevel + "1/background.png");
             AddChild(Background);
-            AddChild(Pause);
-            Player = new Player (UtilStrings.SpritesPlayer + "spritesheetplayer_temp.png", 3, 8, 9, this, Game);
-            Game = game;
             Tiles = tiles;
+            AddChild(Pause);
+            Player = new Player (4, this, Game);
+
             AddChild(Player);
             _testBall = new DebugBall(this);
             Enemies.Add(_testBall);
             AddChild(_testBall);
-			Player player = new Player (UtilStrings.SpritesPlayer + "spritesheet_hero.png", 8, 2, this);
-            Game = game;
-            Tiles = tiles;
 			//create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
-			BossBase eagleEnemy = new EagleEnemy (UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", 6, 1, 10, 5);
-            AddChild(player);
+			BossBase eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
 			AddChild (eagleEnemy);
 
         }
