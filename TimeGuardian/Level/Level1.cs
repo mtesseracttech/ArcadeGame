@@ -29,7 +29,7 @@ namespace TimeGuardian.Level
 
         protected override void UpdateUnpaused()
         {
-            
+            HitDetection();
         }
 
         protected override void UpdateNoTimeStop()

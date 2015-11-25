@@ -16,6 +16,8 @@ namespace TimeGuardian.player
         private const float MaxYSpeed = 2.0f;
         private const int MaxTimeStopTimer = 2000;
         private const int MaxLifes = 5;
+        private const int MaxInvTimer = 500;
+        private int _invTimer;
         private bool _restoring;
         private int _lives;
         private const float _gravity = 0.2f;
@@ -86,6 +88,7 @@ namespace TimeGuardian.player
             else
             {
                 _lives--;
+                _invTimer = MaxInvTimer;
                 _hud.SetHearts(_lives);
             }
         }
@@ -109,7 +112,7 @@ namespace TimeGuardian.player
                 _xSpeed -= 0.01f;
                 Mirror(true, false);
             }
-            if (_xSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _xSpeed /= 1.05f;
+            if (_xSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _xSpeed *= 0.95f;
 
             
             if (IsOnSolidGround())
@@ -144,9 +147,9 @@ namespace TimeGuardian.player
 
         private void MovingSprite()
         {
-            if (_currentMovingFrame < _movingFrames.Length * 100 - 1) _currentMovingFrame++;
+            if (_currentMovingFrame < _movingFrames.Length * 20 - 1) _currentMovingFrame++;
             else _currentMovingFrame = 0;
-            currentFrame = _movingFrames[_currentMovingFrame / 100];
+            currentFrame = _movingFrames[_currentMovingFrame / 20];
         }
 
         private void StaticSprite()
@@ -159,10 +162,16 @@ namespace TimeGuardian.player
         private void JumpingSprite()
         {
             //The frame of the jump can be decided by looking at the vertical speed of the player
-            if (_ySpeed > 0.5f) currentFrame = _jumpFrames[0];
+            if (_ySpeed > 1.0f) currentFrame = _jumpFrames[0];
             else if(_ySpeed > 0.0f) currentFrame = _jumpFrames[1];
-            else if (_ySpeed > -0.5f) currentFrame = _jumpFrames[2];
+            else if (_ySpeed > -1.0f) currentFrame = _jumpFrames[2];
             else currentFrame = _jumpFrames[3];
+        }
+
+        public bool IsInvincible()
+        {
+            if (_invTimer > 0) return true;
+            return false;
         }
 
         private bool IsOnSolidGround()
