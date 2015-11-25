@@ -73,7 +73,7 @@ public class TimeGuardianGame : Game
                 AddChild(_credits);
                 break;
             case "Level1":
-                _level = new Level1(this, new []{2}, 1);
+                _level = new Level1(this);
                 AddChild(_level);
                 break;
             case "Exit":
@@ -84,6 +84,14 @@ public class TimeGuardianGame : Game
         }
     }
 
+    void ResetLevel(LevelBase level)
+    {
+        if (level is Level1)
+        {
+            _level.Destroy();
+            _level = new Level1(this);
+        }
+    }
 
     void Update () 
 	{

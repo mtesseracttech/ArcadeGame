@@ -10,7 +10,6 @@ namespace TimeGuardian.player
     class Player : AnimationSprite
     {
         private LevelBase _level;
-        private HUDHeart _hudHeart;
         private TimeGuardianGame _game;
         private AnimationSprite _deadSprite;
         private float _xSpeed, _ySpeed;
@@ -19,25 +18,23 @@ namespace TimeGuardian.player
         private const float MaxYSpeed = 15.0f;
         private const int MaxTimeStopTimer = 200;
         private const int MaxLifes = 5;
-        private const int MaxInvTimer = 800;
-        private int _invTimer;
+        private const int MaxInvTimer = 100;
+
         private bool _restoring;
         private int _lives;
         private bool _dead = false;
-        private const float _gravity = 0.2f;
-        private float _walkSpeed, _jumpSpeed;
-        private const float MaxMoveSpeed = 2.0f;
 		private int _bottomPlayer;
 
         private int _jumpCounter;
-        private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame, _currentDeathFrame;
+        private int _currentStaticFrame, _currentMovingFrame, _currentDeathFrame;
 
         private int _timestopTimer;
+        private int _invincibilityTimer;
 
-        private short[] _staticFrames = {13, 14, 15}; //TODO: Set to actual sprite values
-        private short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};//TODO: Set to actual sprite values
-        private short[] _jumpFrames = {9, 9, 10, 11, 12}; //TODO: Set to actual sprite values
-        private short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6,};
+        private short[] _staticFrames = {13, 14, 15};
+        private short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};
+        private short[] _jumpFrames = {9, 9, 10, 11, 12};
+        private short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6};
 
         private HUD _hud;
 		private bool _arcadeMachineControls;
@@ -84,6 +81,7 @@ namespace TimeGuardian.player
 
         public void Ability()
         {
+            if (_invincibilityTimer > 0) _invincibilityTimer--;
             if (!_level.GetTimeStopped() && _timestopTimer < MaxTimeStopTimer)
             {
                 _timestopTimer++;
@@ -116,7 +114,7 @@ namespace TimeGuardian.player
             else
             {
                 _lives--;
-                _invTimer = MaxInvTimer;
+                _invincibilityTimer = MaxInvTimer;
                 _hud.SetHearts(_lives);
             }
         }
@@ -230,6 +228,8 @@ namespace TimeGuardian.player
         {
             if (!_dead)
             {
+                if (_invincibilityTimer > 0) alpha = 0.5f;
+                else alpha = 1;
                 if (_ySpeed > 0.1f || _ySpeed < -0.1f) JumpingSprite();
                 else if (_xSpeed > 0.1f || _xSpeed < -0.1f) MovingSprite();
                 else StaticSprite();
@@ -265,15 +265,16 @@ namespace TimeGuardian.player
         private void JumpingSprite()
         {
             //The frame of the jump can be decided by looking at the vertical speed of the player
+            //TODO: GETTING IT TO WORK PROPERLY, WITHOUT THE WEIRD "INBETWEEN" SPRITE
             if (_ySpeed > 10.0f) currentFrame = _jumpFrames[0];
             else if(_ySpeed > 0.0f) currentFrame = _jumpFrames[1];
-            else /*(_ySpeed > -20.0f)*/ currentFrame = _jumpFrames[2];
-            //else currentFrame = _jumpFrames[3];
+            else if(_ySpeed > -20.0f) currentFrame = _jumpFrames[2];
+            else currentFrame = _jumpFrames[3];
         }
 
         public bool IsInvincible()
         {
-            if (_invTimer > 0) return true;
+            if (_invincibilityTimer > 0) return true;
             return false;
         }
 			
@@ -284,7 +285,7 @@ namespace TimeGuardian.player
                 return true;
             }
 
-			return false;//TODO: Change value based 
+			return false;
         }
 
         public int GetMaxTimeStopTimer()

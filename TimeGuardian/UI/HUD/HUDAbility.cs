@@ -14,7 +14,6 @@ namespace TimeGuardian.UI.HUD
 
         private const int MaxDiv = 50;
         private int _currentAlarmFrame;
-        private bool _restoring;
 
         public HUDAbility(float x, float y, int MaxTime) : base(UtilStrings.SpritesHUD + "spritesheet_ability.png", 7, 3)
         {

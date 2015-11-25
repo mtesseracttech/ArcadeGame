@@ -21,10 +21,9 @@ namespace TimeGuardian.Level
 
 		private int _bottomPlayer;
 
-        public LevelBase(TimeGuardianGame game, int[] tiles, int levelNumber)
+        public LevelBase(TimeGuardianGame game)
         {
             Game = game;
-            Tiles = tiles;
             Pause = new Pause(game);
             Enemies = new List<GameObject>();
             Backgrounds = new List<Background>();
@@ -87,13 +86,7 @@ namespace TimeGuardian.Level
         {
             foreach (GameObject enemy in Enemies)
             {
-//                if (Player.HitTest(enemy))
-//                {
-//					Player.LoseLife ();
-//					Player.SetXY (100, 500);
-//                }
-
-				if(Player.HitTest(enemy) && !Player.IsDead())
+				if(Player.HitTest(enemy) && !Player.IsDead() && !Player.IsInvincible())
 				{
 					_bottomPlayer = Player.DefineFeet ();
 					if(_bottomPlayer < enemy.y)
@@ -102,7 +95,7 @@ namespace TimeGuardian.Level
 					}
 					else if(_bottomPlayer > enemy.y)
 					{ 
-						Player.LoseLife ();
+						Player.LoseLife();
 						Player.Bounce();
 					}
 				}

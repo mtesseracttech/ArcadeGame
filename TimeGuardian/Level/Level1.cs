@@ -7,16 +7,15 @@ namespace TimeGuardian.Level
 {
     class Level1 : LevelBase
     {
-        DebugBall _testBall;
+        //DebugBall _testBall;
 
-        public Level1(TimeGuardianGame game, int[] tiles, int levelNumber) : base(game, tiles, levelNumber)
+        public Level1(TimeGuardianGame game) : base(game)
         {
             Game = game;
             //Background = new Sprite(UtilStrings.SpritesLevel + "1/background.png");
             //AddChild(Background);
 
             BackgroundCreator();
-            Tiles = tiles;
 
             //AddChild(Pause);
 
@@ -50,7 +49,6 @@ namespace TimeGuardian.Level
             {
                 AddChild(Backgrounds[i]);
             }
-                
         }
 
         protected override void Update()
@@ -63,8 +61,9 @@ namespace TimeGuardian.Level
         {
             foreach (Background background in Backgrounds)
             {
-                //background.Scroll(Player.GetXSpeed(), Player.GetYSpeed());
-                background.Scroll(Player.x, Player.y);
+                //This solution works fine, as long as the player x and y are always manipulated through the x/ySpeed
+                background.Scroll(Player.GetXSpeed(), Player.GetYSpeed());
+                //background.Scroll(Player.x, Player.y);
             }
         }
 

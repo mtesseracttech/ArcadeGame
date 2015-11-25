@@ -19,18 +19,17 @@ namespace TimeGuardian.Level
             _level = level;
         }
 
-        /*
         public void Scroll(float xSpeed, float ySpeed)
         {
             
             Move(-(xSpeed * _index/10), (ySpeed * _index/10));
             
         }
-        */
-
+        /*
         public void Scroll(float x, float y)
         {
             SetXY(game.width/2 - (x * _index/10), game.height/2 + -(y * _index/10));
         }
+        */
     }
 }
