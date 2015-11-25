@@ -93,7 +93,7 @@ namespace TimeGuardian.Level
 //					Player.SetXY (100, 500);
 //                }
 
-				if(Player.HitTest(enemy))
+				if(Player.HitTest(enemy) && !Player.IsDead())
 				{
 					_bottomPlayer = Player.DefineFeet ();
 					if(_bottomPlayer < enemy.y)
@@ -103,7 +103,7 @@ namespace TimeGuardian.Level
 					else if(_bottomPlayer > enemy.y)
 					{ 
 						Player.LoseLife ();
-						Player.SetXY (100, 500);
+						Player.Bounce();
 					}
 				}
             }
@@ -135,8 +135,25 @@ namespace TimeGuardian.Level
         public void SetTimeStop(bool timeStop)
         {
             TimeStop = timeStop;
-            if (TimeStop) Background.color = 0x005555;
-            else Background.color = 0xFFFFFF;
+
+            if (TimeStop)
+            {
+                foreach (Background background in Backgrounds)
+                {
+                    background.color = 0x005555;
+                }
+            }
+            else
+            {
+                foreach (Background background in Backgrounds)
+                {
+                    background.color = 0xFFFFFF;
+                }
+            }
+
+
+
+                
         }
 
         /*

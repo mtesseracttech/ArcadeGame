@@ -19,7 +19,7 @@ namespace TimeGuardian.player
         private const float MaxYSpeed = 15.0f;
         private const int MaxTimeStopTimer = 200;
         private const int MaxLifes = 5;
-        private const int MaxInvTimer = 500;
+        private const int MaxInvTimer = 800;
         private int _invTimer;
         private bool _restoring;
         private int _lives;
@@ -107,6 +107,7 @@ namespace TimeGuardian.player
                 _dead = true;
                 _deadSprite.Mirror(_xFlip, false);
                 _deadSprite.visible = true;
+                _xSpeed = 0;
                 alpha = 0.0f;
                 AddChild(_deadSprite);
                 GameOver gameOver = new GameOver(_game);
@@ -304,6 +305,17 @@ namespace TimeGuardian.player
         public float GetYSpeed()
         {
             return _ySpeed;
+        }
+
+        public void Bounce()
+        {
+            _xSpeed = -_xSpeed;
+            _ySpeed = -_ySpeed;
+        }
+
+        public bool IsDead()
+        {
+            return _dead;
         }
 
 		private void OnCollision(GameObject other){
