@@ -109,6 +109,8 @@ namespace TimeGuardian.player
                 _deadSprite.visible = true;
                 alpha = 0.0f;
                 AddChild(_deadSprite);
+                GameOver gameOver = new GameOver(_game);
+                _level.AddChild(gameOver);
             }
             else
             {
@@ -237,9 +239,12 @@ namespace TimeGuardian.player
 
         private void DeathSprite()
         {
-            if (_currentDeathFrame < _deathFrames.Length * 20 - 1) _currentDeathFrame++;
-            else _game.SetState("LoseScreen");
-            _deadSprite.currentFrame = _deathFrames[_currentDeathFrame / 20];
+            if (_currentDeathFrame < _deathFrames.Length*10 - 1) _currentDeathFrame++;
+            else
+            {
+                //_game.SetState("LoseScreen");
+            }
+            _deadSprite.currentFrame = _deathFrames[_currentDeathFrame / 10];
         }
 
         private void MovingSprite()
