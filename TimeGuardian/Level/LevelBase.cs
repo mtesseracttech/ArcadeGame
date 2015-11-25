@@ -19,6 +19,8 @@ namespace TimeGuardian.Level
         protected Sprite Background;
         protected Pause Pause;
 
+		private int _bottomPlayer;
+
         public LevelBase(TimeGuardianGame game, int[] tiles, int levelNumber)
         {
             Game = game;
@@ -85,13 +87,50 @@ namespace TimeGuardian.Level
         {
             foreach (GameObject enemy in Enemies)
             {
-                if (Player.HitTest(enemy))
-                {
-                    Player.LoseLife();
-                    Player.SetXY(game.width/2, game.height/2);
-                }
+//                if (Player.HitTest(enemy))
+//                {
+//					Player.LoseLife ();
+//					Player.SetXY (100, 500);
+//                }
+
+				if(Player.HitTest(enemy))
+				{
+					_bottomPlayer = Player.DefineFeet ();
+					if(_bottomPlayer < enemy.y)
+					{
+						enemy.Destroy ();
+					}
+					else if(_bottomPlayer > enemy.y)
+					{ 
+						Player.LoseLife ();
+						Player.SetXY (100, 500);
+					}
+				}
             }
         }
+
+		protected virtual void HitDetectAbove()
+		{
+			foreach(GameObject enemy in Enemies)
+			{
+				//when player hits the top of the sprite, from above.
+				//bottom of the player
+				//has to be higher then the top of the boss in order to hit him
+				if(Player.HitTest(enemy))
+				{
+					_bottomPlayer = Player.DefineFeet ();
+					if(_bottomPlayer < enemy.y)
+					{
+						enemy.Destroy ();
+					}
+					else if(_bottomPlayer > enemy.y)
+					{ 
+						Player.LoseLife ();
+						Player.SetXY (100, 500);
+					}
+				}
+			}	
+		}
 
         public void SetTimeStop(bool timeStop)
         {

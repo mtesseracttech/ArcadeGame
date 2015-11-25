@@ -11,6 +11,7 @@ namespace TimeGuardian.Entity.Enemy
 		int firstFrame = 0, lastFrame = 5;
 		float frame = 0.0f;
 	    private LevelBase _level;
+		private HitBox _hitBox;
 
 		public EagleEnemy(int cols, int rows, int healthPoints, int damage, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols,rows,healthPoints,damage,level)
 		{
@@ -19,10 +20,15 @@ namespace TimeGuardian.Entity.Enemy
 			HealthPoints = healthPoints;
 			Damage = damage;
 			_moveY = 1;
-			HitBox hitBox = new HitBox (UtilStrings.SpritesEnemy+ "hitbox_enemy_2.png");
-			hitBox.alpha = 0; // make hitbox invisible(0) (1 is visible)
-			AddChild (hitBox);
+			_hitBox = new HitBox (UtilStrings.SpritesEnemy+ "hitbox_enemy_2.png");
+			_hitBox.alpha = 1; // make hitbox invisible(0) (1 is visible)
+			AddChild (_hitBox);
 
+		}
+
+		public HitBox GetHitBox()
+		{
+			return _hitBox;
 		}
 
 	    protected override void Update()
@@ -60,6 +66,7 @@ namespace TimeGuardian.Entity.Enemy
 				frame = lastFrame;
 			SetFrame ((int)frame);
 		}
+			
 	}
 }
 

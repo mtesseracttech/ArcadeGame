@@ -1,4 +1,5 @@
-﻿using TimeGuardian.Entity;
+﻿using System.Collections.Generic;
+using TimeGuardian.Entity;
 using TimeGuardian.player;
 using TimeGuardian.Entity.Enemy;
 
@@ -28,8 +29,13 @@ namespace TimeGuardian.Level
             AddChild(_testBall);
             */
 
-			BossBase eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
+			//create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
+			EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
+
 			AddChild (eagleEnemy);
+			Enemies.Add (eagleEnemy.GetHitBox());
+
+
 
 
         }
