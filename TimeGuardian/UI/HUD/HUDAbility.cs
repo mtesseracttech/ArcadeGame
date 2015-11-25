@@ -12,7 +12,7 @@ namespace TimeGuardian.UI.HUD
         private int[] _timerFrames = { 0,1,2,3,4,5,6 };
         private int[] _alarmFrames = { 13, 20};
 
-        private const int MaxDiv = 100;
+        private const int MaxDiv = 50;
         private int _currentAlarmFrame;
         private bool _restoring;
 

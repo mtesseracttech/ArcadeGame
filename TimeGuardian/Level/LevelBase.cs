@@ -93,13 +93,16 @@ namespace TimeGuardian.Level
         public void SetTimeStop(bool timeStop)
         {
             TimeStop = timeStop;
+            if (TimeStop) Background.color = 0x005555;
+            else Background.color = 0xFFFFFF;
         }
 
+        /*
         public void StopTimeToggle()
         {
             TimeStop = !TimeStop;
         }
-
+        */
         public void PauseToggle()
         {
             Paused = !Paused;

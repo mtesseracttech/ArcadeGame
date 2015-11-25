@@ -13,8 +13,8 @@ namespace TimeGuardian.player
         private HUDHeart _hudHeart;
         private TimeGuardianGame _game;
         private float _xSpeed, _ySpeed;
-        private const float MaxXSpeed = 5.0f;
-        private const float MaxYSpeed = 10.0f;
+        private const float MaxXSpeed = 6.0f;
+        private const float MaxYSpeed = 15.0f;
         private const int MaxTimeStopTimer = 200;
         private const int MaxLifes = 5;
         private const int MaxInvTimer = 500;
@@ -60,7 +60,7 @@ namespace TimeGuardian.player
         {
             if (Input.GetKeyDown(Key.B)) LoseLife();
             if (Input.GetKeyDown(Key.C)) GetLife();
-            //for testing purposes only
+
             if(!_level.GetPaused()) UpdateUnpaused();
         }
 
@@ -114,15 +114,15 @@ namespace TimeGuardian.player
         {
             if (_xSpeed < MaxXSpeed && Input.GetKey(Key.D))
             {
-                _xSpeed += 0.02f;
+                _xSpeed += 0.3f;
                 Mirror(false, false);
             }
             if (_xSpeed > -MaxXSpeed && Input.GetKey(Key.A))
             {
-                _xSpeed -= 0.02f;
+                _xSpeed -= 0.3f;
                 Mirror(true, false);
             }
-            if (_xSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _xSpeed *= 0.95f;
+            if (_xSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _xSpeed *= 0.3f;
 
             
             if (IsOnSolidGround())
@@ -133,9 +133,9 @@ namespace TimeGuardian.player
             if (Input.GetKeyDown(Key.SPACE) && _jumpCounter < 2)
             {
                 _jumpCounter++;
-                _ySpeed = 2.0f;
+                _ySpeed = 15.0f;
             }
-            if(!IsOnSolidGround())_ySpeed -= 0.01f;
+            if(!IsOnSolidGround())_ySpeed -= 0.5f;
             
 
             Move(_xSpeed, -_ySpeed);
@@ -205,32 +205,32 @@ namespace TimeGuardian.player
 
         private void DeathSprite()
         {
-            if (_currentDeathFrame < _deathFrames.Length * 50 - 1) _currentDeathFrame++;
+            if (_currentDeathFrame < _deathFrames.Length * 5 - 1) _currentDeathFrame++;
             else _game.SetState("LoseScreen");
             currentFrame = _deathFrames[_currentDeathFrame / 50];
         }
 
         private void MovingSprite()
         {
-            if (_currentMovingFrame < _movingFrames.Length * 20 - 1) _currentMovingFrame++;
+            if (_currentMovingFrame < _movingFrames.Length * 5 - 1) _currentMovingFrame++;
             else _currentMovingFrame = 0;
-            currentFrame = _movingFrames[_currentMovingFrame / 20];
+            currentFrame = _movingFrames[_currentMovingFrame / 5];
         }
 
         private void StaticSprite()
         {
-            if (_currentStaticFrame < _staticFrames.Length * 100 - 1) _currentStaticFrame++;
+            if (_currentStaticFrame < _staticFrames.Length * 10 - 1) _currentStaticFrame++;
             else _currentStaticFrame = 0;
-            currentFrame = _staticFrames[_currentStaticFrame / 100];
+            currentFrame = _staticFrames[_currentStaticFrame / 10];
         }
 
         private void JumpingSprite()
         {
             //The frame of the jump can be decided by looking at the vertical speed of the player
-            if (_ySpeed > 1.0f) currentFrame = _jumpFrames[0];
+            if (_ySpeed > 10.0f) currentFrame = _jumpFrames[0];
             else if(_ySpeed > 0.0f) currentFrame = _jumpFrames[1];
-            else if (_ySpeed > -1.0f) currentFrame = _jumpFrames[2];
-            else currentFrame = _jumpFrames[3];
+            else /*(_ySpeed > -20.0f)*/ currentFrame = _jumpFrames[2];
+            //else currentFrame = _jumpFrames[3];
         }
 
         public bool IsInvincible()
@@ -246,7 +246,7 @@ namespace TimeGuardian.player
                 return true;
             }
 
-			else {return false;}//TODO: Change value based 
+			return false;//TODO: Change value based 
         }
 
         public int GetMaxTimeStopTimer()
