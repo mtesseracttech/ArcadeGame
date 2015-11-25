@@ -51,23 +51,23 @@ namespace TimeGuardian.UI.HUD
 
         private void CreationFrames()
         {
-            if (_currentCreateFrame < _createFrames.Length * 50 - 1) _currentCreateFrame++;
+            if (_currentCreateFrame < _createFrames.Length * 10 - 1) _currentCreateFrame++;
             else _state = 1;
-            currentFrame = _createFrames[_currentCreateFrame / 50];
+            currentFrame = _createFrames[_currentCreateFrame / 10];
         }
 
         private void DefaultFrames()
         {
-            if (_currentDefaultFrame < _defaultFrames.Length * 100 - 1) _currentDefaultFrame++;
+            if (_currentDefaultFrame < _defaultFrames.Length * 20 - 1) _currentDefaultFrame++;
             else _currentDefaultFrame = 0;
-            currentFrame = _defaultFrames[_currentDefaultFrame / 100];
+            currentFrame = _defaultFrames[_currentDefaultFrame / 20];
         }
 
         private void BreakFrames()
         {
-            if (_currentBreakFrame < _breakFrames.Length*50 - 1) _currentBreakFrame++;
+            if (_currentBreakFrame < _breakFrames.Length*5 - 1) _currentBreakFrame++;
             else Destroy();
-            currentFrame = _breakFrames[_currentBreakFrame/50];
+            currentFrame = _breakFrames[_currentBreakFrame/5];
         }
     }
 }
