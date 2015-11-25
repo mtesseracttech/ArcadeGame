@@ -13,9 +13,9 @@ namespace TimeGuardian.player
         private HUDHeart _hudHeart;
         private TimeGuardianGame _game;
         private float _xSpeed, _ySpeed;
-        private const float MaxXSpeed = 2.0f;
-        private const float MaxYSpeed = 2.0f;
-        private const int MaxTimeStopTimer = 1000;
+        private const float MaxXSpeed = 5.0f;
+        private const float MaxYSpeed = 10.0f;
+        private const int MaxTimeStopTimer = 200;
         private const int MaxLifes = 5;
         private const int MaxInvTimer = 500;
         private int _invTimer;
@@ -52,7 +52,7 @@ namespace TimeGuardian.player
             _game = game;
             _lives = lives;
             _level = level;
-            _timestopTimer = 1000;
+            _timestopTimer = 200;
             _hud = new HUD(_lives, _level, this);
         }
 

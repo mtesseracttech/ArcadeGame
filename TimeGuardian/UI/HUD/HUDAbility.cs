@@ -36,9 +36,9 @@ namespace TimeGuardian.UI.HUD
 
         private void AlarmFrames()
         {
-            if (_currentAlarmFrame < _alarmFrames.Length * 50 - 1) _currentAlarmFrame++;
+            if (_currentAlarmFrame < _alarmFrames.Length * 5 - 1) _currentAlarmFrame++;
             else _currentAlarmFrame = 0;
-            currentFrame = _alarmFrames[_currentAlarmFrame / 50];
+            currentFrame = _alarmFrames[_currentAlarmFrame / 5];
         }
 
     }
