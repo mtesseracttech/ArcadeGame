@@ -12,7 +12,9 @@ namespace TimeGuardian.player
         private LevelBase _level;
         private HUDHeart _hudHeart;
         private TimeGuardianGame _game;
+        private AnimationSprite _deadSprite;
         private float _xSpeed, _ySpeed;
+        private bool _xFlip;
         private const float MaxXSpeed = 6.0f;
         private const float MaxYSpeed = 15.0f;
         private const int MaxTimeStopTimer = 200;
@@ -21,6 +23,7 @@ namespace TimeGuardian.player
         private int _invTimer;
         private bool _restoring;
         private int _lives;
+        private bool _dead = false;
         private const float _gravity = 0.2f;
         private float _walkSpeed, _jumpSpeed;
         private const float MaxMoveSpeed = 2.0f;
@@ -28,31 +31,33 @@ namespace TimeGuardian.player
         private int _jumpCounter;
         private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame, _currentDeathFrame;
 
-        /*
-  		private short[] _staticFrames = {64};
-		private short[] _movingFrames = {35, 36, 37, 38, 39, 32, 33, 34};
-        private short[] _jumpFrames = {43, 44, 45, 46};
-        private short[] _deathFrames = {16, 17, 18, 19, 20, 21, 22, 23}; //TODO: Set to actual sprite values
-        */
-
         private int _timestopTimer;
 
         private short[] _staticFrames = {13, 14, 15}; //TODO: Set to actual sprite values
         private short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};//TODO: Set to actual sprite values
         private short[] _jumpFrames = {9, 9, 10, 11, 12}; //TODO: Set to actual sprite values
-        private short[] _deathFrames = {16, 17, 18, 19, 20, 21, 22, 23};
+        private short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6,};
 
         private HUD _hud;
 		private bool _arcadeMachineControls;
 
         public Player(int lives, LevelBase level, TimeGuardianGame game) : base(UtilStrings.SpritesPlayer + "spritesheet_hero.png", 8, 2)
         {
+            SetOrigin(width/2, 0);
             SetXY(100, 500);
             _game = game;
             _lives = lives;
             _level = level;
-            _timestopTimer = 200;
+            _timestopTimer = MaxTimeStopTimer;
+            DeadSpriteCreator();
             _hud = new HUD(_lives, _level, this);
+        }
+
+        private void DeadSpriteCreator()
+        {
+            _deadSprite = new AnimationSprite(UtilStrings.SpritesPlayer + "spritesheet_hero_death.png", 4, 2);
+            _deadSprite.SetOrigin(_deadSprite.width/2, 24);
+            _deadSprite.visible = false;
         }
 
 
@@ -66,8 +71,8 @@ namespace TimeGuardian.player
 
         void UpdateUnpaused()
         {
+            if (!_dead) Ability();
             Movement();
-            Ability();
             SpriteHandler();
         }
 
@@ -93,7 +98,11 @@ namespace TimeGuardian.player
         {
             if (_lives < 1)
             {
-                DeathSprite();
+                _dead = true;
+                _deadSprite.Mirror(_xFlip, false);
+                _deadSprite.visible = true;
+                alpha = 0.0f;
+                AddChild(_deadSprite);
             }
             else
             {
@@ -112,33 +121,44 @@ namespace TimeGuardian.player
 
         private void Movement()
         {
-            if (_xSpeed < MaxXSpeed && Input.GetKey(Key.D))
-            {
-                _xSpeed += 0.3f;
-                Mirror(false, false);
-            }
-            if (_xSpeed > -MaxXSpeed && Input.GetKey(Key.A))
-            {
-                _xSpeed -= 0.3f;
-                Mirror(true, false);
-            }
-            if (_xSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _xSpeed *= 0.3f;
-
-            
             if (IsOnSolidGround())
             {
                 _ySpeed = 0f;
                 _jumpCounter = 0;
             }
-            if (Input.GetKeyDown(Key.SPACE) && _jumpCounter < 2)
-            {
-                _jumpCounter++;
-                _ySpeed = 15.0f;
-            }
-            if(!IsOnSolidGround())_ySpeed -= 0.5f;
-            
+            if (!IsOnSolidGround()) _ySpeed -= 0.5f;
 
+            if (!_dead)
+            {
+                if (_xSpeed < MaxXSpeed && Input.GetKey(Key.D))
+                {
+                    _xSpeed += 0.3f;
+                    _xFlip = false;
+                    Mirror(_xFlip, false);
+                }
+                if (_xSpeed > -MaxXSpeed && Input.GetKey(Key.A))
+                {
+                    _xSpeed -= 0.3f;
+                    _xFlip = true;
+                    Mirror(_xFlip, false);
+                }
+                if (_xSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _xSpeed *= 0.3f;
+
+                if (Input.GetKeyDown(Key.SPACE) && _jumpCounter < 2)
+                {
+                    _jumpCounter++;
+                    _ySpeed = 15.0f;
+                }
+            }
+
+            EdgeBumper();
             Move(_xSpeed, -_ySpeed);
+        }
+
+        private void EdgeBumper()
+        {
+            if (x + width/2 > game.width) _xSpeed = -_xSpeed;
+            else if(x - width/2 < 0) _xSpeed = -_xSpeed;
         }
 /*
         private void Movement()
@@ -198,16 +218,21 @@ namespace TimeGuardian.player
 
         private void SpriteHandler()
         {
-            if(_ySpeed > 0.1f || _ySpeed < -0.1f) JumpingSprite();
-            else if (_xSpeed > 0.1f || _xSpeed < -0.1f) MovingSprite();
-            else StaticSprite();
+            if (!_dead)
+            {
+                if (_ySpeed > 0.1f || _ySpeed < -0.1f) JumpingSprite();
+                else if (_xSpeed > 0.1f || _xSpeed < -0.1f) MovingSprite();
+                else StaticSprite();
+            }
+            else DeathSprite();
+
         }
 
         private void DeathSprite()
         {
-            if (_currentDeathFrame < _deathFrames.Length * 5 - 1) _currentDeathFrame++;
+            if (_currentDeathFrame < _deathFrames.Length * 20 - 1) _currentDeathFrame++;
             else _game.SetState("LoseScreen");
-            currentFrame = _deathFrames[_currentDeathFrame / 50];
+            _deadSprite.currentFrame = _deathFrames[_currentDeathFrame / 20];
         }
 
         private void MovingSprite()
@@ -257,6 +282,16 @@ namespace TimeGuardian.player
         public int GetTimeStopTimer()
         {
             return _timestopTimer;
+        }
+
+        public float GetXSpeed()
+        {
+            return _xSpeed;
+        }
+
+        public float GetYSpeed()
+        {
+            return _ySpeed;
         }
 
 		private void OnCollision(GameObject other){

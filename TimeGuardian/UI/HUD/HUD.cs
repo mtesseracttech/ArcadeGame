@@ -20,7 +20,7 @@ namespace TimeGuardian.UI.HUD
             CreateHearts();
             _hudAbility = new HUDAbility(x + 30, 30 + 70, _player.GetMaxTimeStopTimer());
             AddChild(_hudAbility);
-            _level.AddChild(this);
+            _level.AddChildAt(this,10);
         }
 
         private void CreateHearts()

@@ -11,8 +11,8 @@ namespace TimeGuardian.Level
         protected bool Paused;
         protected bool TimeStop;
 
-
-        protected List<GameObject> Enemies; 
+        protected List<GameObject> Enemies;
+        protected List<Background> Backgrounds; 
         protected TimeGuardianGame Game;
         protected Player Player;
         protected Sprite[] Spritesheet;
@@ -25,7 +25,10 @@ namespace TimeGuardian.Level
             Tiles = tiles;
             Pause = new Pause(game);
             Enemies = new List<GameObject>();
+            Backgrounds = new List<Background>();
             AddChild(Pause);
+            
+
             /*Spritesheet = CreateSpriteSheet(tiles, levelNumber);*/
         }
 

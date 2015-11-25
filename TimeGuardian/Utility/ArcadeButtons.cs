@@ -6,7 +6,6 @@ namespace TimeGuardian.Utility
 
 	public class ArcadeButtons
 	{
-
 		private static int _player1_left = Key.A;
 		private static int _player1_right = Key.D;
 		private static int _player1_up = Key.W;

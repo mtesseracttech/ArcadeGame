@@ -37,6 +37,7 @@
     <Compile Include="Entity\DebugBall.cs" />
     <Compile Include="Entity\Enemy\BossBase.cs" />
     <Compile Include="Entity\Player\Player.cs" />
+    <Compile Include="Level\Background.cs" />
     <Compile Include="Level\Level1.cs" />
     <Compile Include="Level\LevelBase.cs" />
     <Compile Include="Lib\Glide\AutoLerp.cs" />
