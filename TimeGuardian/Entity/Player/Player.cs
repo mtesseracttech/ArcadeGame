@@ -3,6 +3,7 @@ using System.Runtime.Remoting.Messaging;
 using TimeGuardian.Level;
 using TimeGuardian.UI;
 using TimeGuardian.UI.HUD;
+using TimeGuardian.Entity.Enemy;
 
 namespace TimeGuardian.player
 {
@@ -21,7 +22,9 @@ namespace TimeGuardian.player
         private bool _restoring;
         private int _lives;
         private const float _gravity = 0.2f;
-
+        private Heart _heart;
+        private float _walkSpeed, _jumpSpeed;
+        private const float MaxMoveSpeed = 2.0f;
 
         private int _jumpCounter;
         private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame, _currentDeathFrame;
@@ -32,10 +35,12 @@ namespace TimeGuardian.player
         private short[] _deathFrames = {16, 17, 18, 19, 20, 21, 22, 23}; //TODO: Set to actual sprite values
 
         private int _timestopTimer;
+  		private short[] _staticFrames = {0}; //TODO: Set to actual sprite values
+		private short[] _movingFrames = {0,1,2,3,4,5,6,7};//TODO: Set to actual sprite values
+        private short[] _jumpFrames = {8,9,10,11,12}; //TODO: Set to actual sprite values
 
         private HUD _hud;
-		//private int _firstFrame = 0, _lastFrame = 0;
-		//private float _frame = 0.0f;
+		private bool _arcadeMachineControls;
 
         public Player(string filename, int lives, int cols, int rows, LevelBase level, TimeGuardianGame game) : base(filename, cols, rows)
         {
@@ -52,6 +57,10 @@ namespace TimeGuardian.player
         {
             if (Input.GetKeyDown(Key.B)) LoseLife();
             if (Input.GetKeyDown(Key.C)) GetLife();
+            //for testing purposes only
+			if(Input.GetKeyDown(Key.E)) _level.FreezeTimeToggle();
+            //if (Input.GetKeyDown(Key.B)) _hud.LoseHeart();
+            //if (Input.GetKeyDown(Key.C)) _hud.AddHeart();
             if(!_level.GetPaused()) UpdateUnpaused();
         }
 
@@ -130,6 +139,61 @@ namespace TimeGuardian.player
 
             Move(_xSpeed, -_ySpeed);
         }
+/*
+        private void Movement()
+		{
+			//change here wether we play on pc/laptop or arcade
+			_arcadeMachineControls = false;
+			if (_arcadeMachineControls == false) {
+
+				if (_walkSpeed < MaxMoveSpeed && Input.GetKey (Key.D)) {
+					_walkSpeed += 0.01f;
+					Mirror (false, false);
+				}
+				if (_walkSpeed > -MaxMoveSpeed && Input.GetKey (Key.A)) {
+					_walkSpeed -= 0.01f;
+					Mirror (true, false);
+				}
+				if (_walkSpeed != 0.0f && !Input.GetKey (Key.D) && !Input.GetKey (Key.A))
+					_walkSpeed /= 1.02f;
+				if (IsOnSolidGround ())
+					_jumpCounter = 0;
+				if (Input.GetKeyDown (Key.SPACE) && _jumpCounter < 2) {
+					_jumpCounter++;
+					_jumpSpeed = 1.0f;
+				}
+				if (_jumpSpeed != 0.0f)
+					_jumpSpeed -= 0.01f;
+				Move (_walkSpeed, -_jumpSpeed);
+			}
+			if(_arcadeMachineControls == true){
+				//arcademachine controls are in here
+			}
+				//makes it so you cannot walk beyond the borders of the screen
+				if (x < 0)
+					x = 0; 
+				if (x > 930)
+					x = 930;
+				if (y < 0)
+					y = 0;
+				if (y > 770)
+					y = 770;
+
+
+			//Random collision code
+//			foreach (Sprite other in GetCollisions ()) {
+//				if (x > 0) x = Mathf.Min (other.x - width, x); //at left side of block
+//				if (x < 0) x = Mathf.Max (other.x + other.width, x); //at right side of block
+//				if (y > 0) y = Mathf.Min (other.y - height, y); //at top of block
+//				if (y < 0) y = Mathf.Max (other.y + other.height, y); //at bottom of block
+//			}
+		}
+        */
+
+//        private GameObject Bottom()
+//        {
+//            
+//        }
 
         private void SpriteHandler()
         {
@@ -174,6 +238,12 @@ namespace TimeGuardian.player
             return false;
         }
 
+            if (_jumpSpeed > 0.5f) _currentJumpingFrame = _jumpFrames[0];
+            else if(_jumpSpeed > 0.0f) _currentJumpingFrame = _jumpFrames[1];
+            else if(_jumpSpeed > -0.5f) _currentJumpingFrame = _jumpFrames[2];
+            else _currentJumpingFrame = _jumpFrames[3];
+        }
+			
         private bool IsOnSolidGround()
         {
             if (y >= 500)
@@ -193,5 +263,12 @@ namespace TimeGuardian.player
         {
             return _timestopTimer;
         }
+
+		private void OnCollision(GameObject other){
+			if(other is BossBase){
+				BossBase enemy = other as BossBase;
+				enemy.GetHit();
+			}
+		}
     }
 }

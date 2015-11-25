@@ -1,2 +1,7 @@
 .vs/
 .vs/GXPEngine/v14/.suo
+TimeGuardian/bin/Debug/TimeGuardian.exe
+TimeGuardian/bin/Debug/TimeGuardian.exe
+*.exe
+TimeGuardian.userprefs
+TimeGuardian/Entity/Player/Player.cs

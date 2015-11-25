@@ -54,6 +54,18 @@ namespace TimeGuardian.Entity.Enemy
         private void DeathCycle()
         {
             throw new System.NotImplementedException();
+			//this.Destroy ();
         }
+
+		public void GetHit(){
+			GetVurnerability ();
+			if(Vurnerable == true){
+				System.Console.WriteLine("YOU HIT THE BOSS");
+			}
+			if(Vurnerable == false){
+				System.Console.WriteLine ("YOU CAN NEVER HIT ME");
+			}
+
+		}
     }
 }
