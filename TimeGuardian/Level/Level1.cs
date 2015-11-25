@@ -63,7 +63,8 @@ namespace TimeGuardian.Level
         {
             foreach (Background background in Backgrounds)
             {
-                background.Scroll(Player.GetXSpeed(), Player.GetYSpeed());
+                //background.Scroll(Player.GetXSpeed(), Player.GetYSpeed());
+                background.Scroll(Player.x, Player.y);
             }
         }
 
