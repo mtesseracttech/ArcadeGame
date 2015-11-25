@@ -13,7 +13,7 @@ public class TimeGuardianGame : Game
     private LevelBase _level;
     private Player _player;
 
-	public TimeGuardianGame () : base(1024, 768, false)
+	public TimeGuardianGame () : base(1024, 768, false, true)
 	{
 	    SetState("MainMenu");
 	}

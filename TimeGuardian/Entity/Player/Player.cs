@@ -24,6 +24,7 @@ namespace TimeGuardian.player
         private const float _gravity = 0.2f;
         private float _walkSpeed, _jumpSpeed;
         private const float MaxMoveSpeed = 2.0f;
+		private int _bottomPlayer;
 
         private int _jumpCounter;
         private int _currentStaticFrame, _currentMovingFrame, _currentJumpingFrame, _currentDeathFrame;
@@ -55,6 +56,11 @@ namespace TimeGuardian.player
             _hud = new HUD(_lives, _level, this);
         }
 
+		public int DefineFeet()
+		{
+			_bottomPlayer = (int)y + height;
+			return _bottomPlayer;
+		}
 
         void Update()
         {
@@ -136,9 +142,9 @@ namespace TimeGuardian.player
                 _ySpeed = 2.0f;
             }
             if(!IsOnSolidGround())_ySpeed -= 0.01f;
-            
 
             Move(_xSpeed, -_ySpeed);
+
         }
 /*
         private void Movement()
