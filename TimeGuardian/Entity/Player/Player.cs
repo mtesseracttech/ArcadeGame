@@ -122,6 +122,11 @@ namespace TimeGuardian.player
             }
         }
 
+        public int GetLives()
+        {
+            return _lives;
+        }
+
         public void GetLife()
         {
             if (_lives >= MaxLifes) return;
@@ -270,11 +275,17 @@ namespace TimeGuardian.player
             return _dead;
         }
 
-		private void OnCollision(GameObject other){
+		private void OnCollision(GameObject other)
+        {
 			if(other is BossBase){
 				BossBase enemy = other as BossBase;
 				enemy.GetHit();
 			}
 		}
+
+        public void SetLevel(LevelBase level)
+        {
+            _level = level;
+        }
     }
 }

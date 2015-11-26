@@ -14,6 +14,7 @@ public class TimeGuardianGame : Game
     private Level2 _level2;
     private Level3 _level3;
     private Player _player;
+    private int _lives;
 
 	public TimeGuardianGame () : base(1024, 768, false, false)
 
@@ -52,15 +53,15 @@ public class TimeGuardianGame : Game
                 _credits.Destroy();
                 break;
             case "Level1":
-                _player = _level1.GetPlayer();
+                _lives = _level1.GetPlayer().GetLives();
                 _level1.Destroy();
                 break;
             case "Level2":
-                _player = _level2.GetPlayer();
+                _lives = _level2.GetPlayer().GetLives();
                 _level2.Destroy();
                 break;
             case "Level3":
-                _player = _level3.GetPlayer();
+                _lives = _level3.GetPlayer().GetLives();
                 _level3.Destroy();
                 break;
                 
@@ -88,11 +89,11 @@ public class TimeGuardianGame : Game
                 AddChild(_level1);
                 break;
             case "Level2":
-                _level2 = new Level2(this, _player);
+                _level2 = new Level2(this, _lives);
                 AddChild(_level2);
                 break;
             case "Level3":
-                _level3 = new Level3(this, _player);
+                _level3 = new Level3(this, _lives);
                 AddChild(_level3);
                 break;
             case "Exit":

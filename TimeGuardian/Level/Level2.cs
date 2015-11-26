@@ -12,21 +12,18 @@ namespace TimeGuardian.Level
 
         private Sound _sound;
 
-        public Level2(TimeGuardianGame game, Player player) : base(game)
+        public Level2(TimeGuardianGame game, int lives) : base(game)
         {
             Game = game;
-            Player = player;
-            Player = new Player(3, this, Game);
-
             BackgroundCreator();
-
             _tileMap = FileReader.levelMaker(_levelNr, UtilStrings.TilesX, UtilStrings.TilesY);
-
-            AddChild(Player);
+            Player = new Player(lives, this, Game);
             CreateLevel();
-
+            AddChild(Player);
             AddChild(Pause);
         }
+
+
 
         private void CreateLevel()
         {
