@@ -19,6 +19,7 @@ namespace TimeGuardian.Level
 
             //AddChild(Pause);
 
+            LevelTiles tiles = new LevelTiles(1, this);
             Player = new Player (4, this, Game);
             AddChild(Player);
 

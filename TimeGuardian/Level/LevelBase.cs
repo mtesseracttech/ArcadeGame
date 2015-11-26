@@ -11,6 +11,7 @@ namespace TimeGuardian.Level
         protected bool Paused;
         protected bool TimeStop;
 
+
         protected List<GameObject> Enemies;
         protected List<Background> Backgrounds; 
         protected TimeGuardianGame Game;
@@ -24,6 +25,7 @@ namespace TimeGuardian.Level
         public LevelBase(TimeGuardianGame game)
         {
             Game = game;
+
             Pause = new Pause(game);
             Enemies = new List<GameObject>();
             Backgrounds = new List<Background>();
@@ -33,7 +35,7 @@ namespace TimeGuardian.Level
             /*Spritesheet = CreateSpriteSheet(tiles, levelNumber);*/
         }
 
-        
+        /*
         protected virtual Sprite[] CreateSpriteSheet(int[] tiles, int levelNumber)
         {
             List<Sprite> spriteList = new List<Sprite>();
@@ -43,6 +45,7 @@ namespace TimeGuardian.Level
             }
             return spriteList.ToArray();
         }
+        */
         
 
         public Player GetPlayer()

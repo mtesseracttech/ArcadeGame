@@ -1,43 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.IO;
 
 namespace TimeGuardian.Utility
 {
     class FileReader
     {
-        public static List<int[,]> LevelsCompiler(int numberOfLevels)
+        public static int[,] levelMaker(int levelnr, int width, int height)
         {
-            List<int[,]> levels = new List<int[,]>();
+            int[,] level = new int[height,width];
 
-            for (int i = 0; i < numberOfLevels; i++)
-            {
-                levels.Add(levelMaker(i + 1));
-            }
-
-            return levels;
-        }
-
-
-        public static int[,] levelMaker(int levelnr)
-        {
-            StreamReader reader = new StreamReader("level" + levelnr + ".txt");
+            StreamReader reader = new StreamReader("level_" + levelnr + ".txt");
             string fileData = reader.ReadToEnd();
             reader.Close();
 
-            int[,] level = new int[0, 0];
             string[] lines = fileData.Split('\n');
-            for (int i = 0; i < lines.Length; i++)
+            for (int i = 0; i < height; i++)
             {
-                string[] cols = lines[i].Split(',');
-                for (int j = 0; j < cols.Length; j++)
+                string[] columns = lines[i].Split(',');
+                for (int j = 0; j < width; j++)
                 {
-                    //Sets the height and width the first time
-                    //TODO: Check if lines.Length and cols.Length have to be switched around
-                    if (i == 0 && j == 0) level = new int[lines.Length, cols.Length];
-                    level[i, j] = int.Parse(cols[j]);
+                    level[i, j] = int.Parse(columns[j]);
                 }
             }
-
             return level;
         }
     }
