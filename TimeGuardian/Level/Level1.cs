@@ -13,6 +13,8 @@ namespace TimeGuardian.Level
 
         private int[,] _tileMap;
 
+        private Sound _sound;
+
         public Level1(TimeGuardianGame game) : base(game)
         {
             Game = game;

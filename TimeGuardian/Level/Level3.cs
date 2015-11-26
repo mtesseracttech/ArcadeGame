@@ -11,12 +11,13 @@ namespace TimeGuardian.Level
  
         private int[,] _tileMap;
 
+        private Sound _sound;
+
         public Level3(TimeGuardianGame game, Player player) : base(game)
         {
             Game = game;
             Player = player;
             BackgroundCreator();
-
             _tileMap = FileReader.levelMaker(_levelNr, UtilStrings.TilesX, UtilStrings.TilesY);
 
             AddChild(Player);
