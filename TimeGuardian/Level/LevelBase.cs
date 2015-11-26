@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TimeGuardian.Entity;
+using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.player;
 using TimeGuardian.UI.Menu;
 
@@ -12,7 +13,8 @@ namespace TimeGuardian.Level
         protected bool TimeStop;
 
         protected List<GameObject> Enemies;
-        protected List<Background> Backgrounds; 
+        protected List<Background> Backgrounds;
+        protected List<Wall> Walls;
         protected TimeGuardianGame Game;
         protected Player Player;
         protected Sprite[] Spritesheet;
@@ -27,24 +29,11 @@ namespace TimeGuardian.Level
             Pause = new Pause(game, this);
             Enemies = new List<GameObject>();
             Backgrounds = new List<Background>();
+            Walls = new List<Wall>();
             //AddChild(Pause);
-            
-
-            /*Spritesheet = CreateSpriteSheet(tiles, levelNumber);*/
         }
 
-        /*
-        protected virtual Sprite[] CreateSpriteSheet(int[] tiles, int levelNumber)
-        {
-            List<Sprite> spriteList = new List<Sprite>();
-            for (int i = 0; i < tiles.Length; i++)
-            {
-                spriteList.Add(new Sprite(UtilStrings.LevelSprite(levelNumber, tiles[i])));
-            }
-            return spriteList.ToArray();
-        }
-        */
-        
+
 
         public Player GetPlayer()
         {
@@ -85,21 +74,27 @@ namespace TimeGuardian.Level
 
         protected virtual void HitDetection()
         {
+            if (!Player.IsDead() && !Player.IsInvincible()) PlayerHitDetection();
+        }
+
+        protected virtual void PlayerHitDetection()
+        {
             foreach (GameObject enemy in Enemies)
             {
-				if(Player.HitTest(enemy) && !Player.IsDead() && !Player.IsInvincible())
-				{
-					_bottomPlayer = Player.DefineFeet ();
-					if(_bottomPlayer < enemy.y)
-					{
-						enemy.Destroy ();
-					}
-					else if(_bottomPlayer > enemy.y)
-					{ 
-						Player.LoseLife();
-						Player.Bounce();
-					}
-				}
+                if (Player.HitTest(enemy))
+                {
+                    _bottomPlayer = Player.DefineFeet();
+                    if (_bottomPlayer < enemy.y)
+                    {
+                        enemy.Destroy();
+
+                    }
+                    else if (_bottomPlayer > enemy.y)
+                    {
+                        Player.LoseLife();
+                        Player.Bounce();
+                    }
+                }
             }
         }
 

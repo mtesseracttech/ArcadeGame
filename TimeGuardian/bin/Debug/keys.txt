@@ -1,0 +1,33 @@
+//player 1 controls
+
+p1left = 65;//A
+p1right =68;//D
+p1up =87;//W
+p1down = 83;//S
+
+p1button1 = 70;//F
+p1button2 = 71;//G
+p1button3 = 72;//H
+p1button4 = 86;//V
+p1button5 = 66;//B
+p1button6 =78;//N
+
+//player 2 controls
+
+p2left = 74;//J
+p2right = 76;//L
+p2up = 73;//I
+p2down =75;//K
+
+p2button1 = 296;//INSERT
+p2button2 = 300;//HOME
+p2button3 = 298;//PAGE_UP
+p2button4 = 297;//DELETE
+p2button5 = 301;//END
+p2button6 = 299//PAGE_DOWN
+
+//common controls
+
+p1button = 88;//X
+p2button = 46;//DOT
+creditsbutton = 90;//Z

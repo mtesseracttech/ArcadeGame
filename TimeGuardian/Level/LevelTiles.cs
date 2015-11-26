@@ -15,10 +15,10 @@ namespace TimeGuardian.Level
         public LevelTiles(int levelNr, LevelBase level)
         {
             _tileMap = FileReader.levelMaker(levelNr, TilesX, TilesY);
-            CreateLevel();
+            //CreateLevel();
             level.AddChild(this);
         }
-
+        
         private void CreateLevel()
         {
             for (int i = 0; i < TilesY; i++)
@@ -30,12 +30,13 @@ namespace TimeGuardian.Level
                 }
             }
         }
-
+        
         private void AddObject(int x, int y, int tile)
         {
             switch (tile)
             {
             }
         }
+        
     }
 }

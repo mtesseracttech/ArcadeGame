@@ -8,27 +8,22 @@ namespace TimeGuardian.Level
     class Level1 : LevelBase
     {
         string LevelName = "Level1";
+
         public Level1(TimeGuardianGame game) : base(game)
         {
             Game = game;
-            
-            //Background = new Sprite(UtilStrings.SpritesLevel + "1/background.png");
-            //AddChild(Background);
 
             BackgroundCreator();
 
-            //AddChild(Pause);
-
-            //LevelTiles tiles = new LevelTiles(1, this);
             Player = new Player (4, this, Game);
 
             AddChild(Player);
 
 			//create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
-			EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
+			//EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
 
-			AddChild (eagleEnemy);
-			Enemies.Add (eagleEnemy.GetHitBox());
+			//AddChild (eagleEnemy);
+			//Enemies.Add (eagleEnemy.GetHitBox());
 
             AddChild(Pause);
         }

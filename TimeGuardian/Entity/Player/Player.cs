@@ -107,7 +107,7 @@ namespace TimeGuardian.player
                 _xSpeed = 0;
                 alpha = 0.0f;
                 AddChild(_deadSprite);
-                GameOver gameOver = new GameOver(_game);
+                GameOver gameOver = new GameOver(_game, _level);
                 _level.AddChild(gameOver);
             }
             else

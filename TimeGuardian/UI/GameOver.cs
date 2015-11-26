@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TimeGuardian.Level;
 using TimeGuardian.UI.Menu;
 
 namespace TimeGuardian.UI
@@ -11,16 +12,19 @@ namespace TimeGuardian.UI
         private TimeGuardianGame _game;
         private Sprite _header, _background;
         private Button[] _buttons;
+        private LevelBase _level;
         private int _selection;
 
-        public GameOver(TimeGuardianGame game)
+        public GameOver(TimeGuardianGame game, LevelBase level)
         {
+
             _game = game;
+            _level = level;
             SetBackground();
             SetHeader();
             _buttons = new[]
             {
-            new Button(UtilStrings.SpritesOther + "gameover/button_restart.png", 2, 300, 550, "Level1"),
+            new Button(UtilStrings.SpritesOther + "gameover/button_restart.png", 2, 300, 550, _level.GetLevelName()),
             new Button(UtilStrings.SpritesOther + "gameover/button_exit.png", 2, game.width - 300, 550, "MainMenu")
             };
             foreach (Button button in _buttons)
@@ -72,7 +76,16 @@ namespace TimeGuardian.UI
 
         void Select()
         {
-            _game.SetState(_buttons[_selection].Pressed());
+            switch (_selection)
+            {
+                case 0:
+                    _game.SetState(_buttons[_selection].Pressed(), true);
+                    break;
+                case 1:
+                    _game.SetState(_buttons[_selection].Pressed());
+                    break;
+            }
+            
         }
 
     }
