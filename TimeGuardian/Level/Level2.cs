@@ -14,23 +14,17 @@ namespace TimeGuardian.Level
 
         private int[,] _tileMap;
 
-        public Level2(TimeGuardianGame game) : base(game)
+        public Level2(TimeGuardianGame game, Player player) : base(game)
         {
             Game = game;
+            Player = player;
 
             BackgroundCreator();
 
             _tileMap = FileReader.levelMaker(_levelNr, UtilStrings.TilesX, UtilStrings.TilesY);
 
-            Player = new Player(4, this, Game);
-
             AddChild(Player);
             CreateLevel();
-            //create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
-            //EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
-
-            //AddChild (eagleEnemy);
-            //Enemies.Add (eagleEnemy.GetHitBox());
 
             AddChild(Pause);
         }

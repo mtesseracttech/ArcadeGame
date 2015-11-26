@@ -43,7 +43,6 @@
     <Compile Include="Level\Level2.cs" />
     <Compile Include="Level\Level3.cs" />
     <Compile Include="Level\LevelBase.cs" />
-    <Compile Include="Level\LevelTiles.cs" />
     <Compile Include="Lib\Glide\AutoLerp.cs" />
     <Compile Include="Lib\Glide\Ease.cs" />
     <Compile Include="Lib\Glide\GlideInfo.cs" />
