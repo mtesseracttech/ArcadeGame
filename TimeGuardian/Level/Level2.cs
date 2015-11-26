@@ -39,77 +39,73 @@ namespace TimeGuardian.Level
                     if (tile != 0) AddObject(j * UtilStrings.TileSize, i * UtilStrings.TileSize, tile);
                 }
             }
+            foreach (Wall wall in Walls)
+            {
+                AddChild(wall);
+            }
         }
 
         private void AddObject(int x, int y, int tile)
         {
-            Wall wall = new Wall(UtilStrings.SpriteDebug);
             switch (tile)
             {
                 case 17:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall17 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall17.SetXY(x, y);
+                    Walls.Add(wall17);
                     break;
                 case 18:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall18 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall18.SetXY(x, y);
+                    Walls.Add(wall18);
                     break;
                 case 19:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall19 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall19.SetXY(x, y);
+                    Walls.Add(wall19);
                     break;
                 case 20:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall20 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall20.SetXY(x, y);
+                    Walls.Add(wall20);
                     break;
                 case 21:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall21 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall21.SetXY(x, y);
+                    Walls.Add(wall21);
                     break;
                 case 22:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall22 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall22.SetXY(x, y);
+                    Walls.Add(wall22);
                     break;
                 case 23:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall23 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall23.SetXY(x, y);
+                    Walls.Add(wall23);
                     break;
                 case 24:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall24 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall24.SetXY(x, y);
+                    Walls.Add(wall24);
                     break;
                 case 25:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall25 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall25.SetXY(x, y);
+                    Walls.Add(wall25);
                     break;
                 case 26:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png");
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall26 = new Wall(UtilStrings.TileLevel1 + tile + ".png");
+                    wall26.SetXY(x, y);
+                    Walls.Add(wall26);
                     break;
                 case 27:
-                    wall = new Wall(UtilStrings.TileLevel1 + tile + ".png"); //INVISIBLE WALL
-                    wall.SetXY(x, y);
-                    AddChild(wall);
+                    Wall wall27 = new Wall(UtilStrings.TileLevel1 + tile + ".png"); //INVISIBLE WALL
+                    wall27.SetXY(x, y);
+                    Walls.Add(wall27);
                     break;
             }
-
         }
-
-
-
-
-
-
 
         private void BackgroundCreator()
         {
