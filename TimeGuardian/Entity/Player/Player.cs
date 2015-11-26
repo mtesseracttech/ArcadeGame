@@ -12,24 +12,23 @@ namespace TimeGuardian.player
         private LevelBase _level;
         private TimeGuardianGame _game;
         private AnimationSprite _deadSprite;
-        private float _xSpeed, _ySpeed;
-        private bool _xFlip;
+
         private const float MaxXSpeed = 6.0f;
         private const float MaxYSpeed = 15.0f;
         private const int MaxTimeStopTimer = 200;
         private const int MaxLifes = 5;
         private const int MaxInvTimer = 100;
-
-        private bool _restoring;
-        private int _lives;
         private bool _dead = false;
-		private int _bottomPlayer;
 
+        private float _xSpeed, _ySpeed;
+        private bool _xFlip;
+        private bool _restoring;
+
+        private int _lives;
+        private int _bottomPlayer;
         private int _jumpCounter;
         private int _currentStaticFrame, _currentMovingFrame, _currentDeathFrame;
-
-        private int _timestopTimer;
-        private int _invincibilityTimer;
+        private int _timestopTimer, _invincibilityTimer;
 
         private short[] _staticFrames = {13, 14, 15};
         private short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};
@@ -139,12 +138,14 @@ namespace TimeGuardian.player
             {
                 if (_xSpeed < MaxXSpeed && Input.GetKey(Key.D))
                 {
+                    if (_xSpeed < 0) _xSpeed = 0f;
                     _xSpeed += 0.3f;
                     _xFlip = false;
                     Mirror(_xFlip, false);
                 }
                 if (_xSpeed > -MaxXSpeed && Input.GetKey(Key.A))
                 {
+                    if (_xSpeed > 0) _xSpeed = 0f;
                     _xSpeed -= 0.3f;
                     _xFlip = true;
                     Mirror(_xFlip, false);
@@ -165,8 +166,16 @@ namespace TimeGuardian.player
 
         private void EdgeBumper()
         {
-            if (x + width/2 > game.width) _xSpeed = -_xSpeed;
-            else if(x - width/2 < 0) _xSpeed = -_xSpeed;
+            if (x + width/2 > game.width)
+            {
+                x = game.width - width/2;
+                _xSpeed = -_xSpeed;
+            }
+            else if (x - width/2 < 0)
+            {
+                x = 0 + width/2;
+                _xSpeed = -_xSpeed;
+            }
         }
 /*
         private void Movement()

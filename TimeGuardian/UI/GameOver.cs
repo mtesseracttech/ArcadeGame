@@ -17,13 +17,12 @@ namespace TimeGuardian.UI
         {
             _game = game;
             SetBackground();
-
+            SetHeader();
             _buttons = new[]
             {
-            new Button(UtilStrings.SpritesOther + "gameover/button_restart.png", 2, 300, 600, "Level1"),
-            new Button(UtilStrings.SpritesOther + "gameover/button_exit.png", 2, game.width - 300, 600, "MainMenu")
+            new Button(UtilStrings.SpritesOther + "gameover/button_restart.png", 2, 300, 550, "Level1"),
+            new Button(UtilStrings.SpritesOther + "gameover/button_exit.png", 2, game.width - 300, 550, "MainMenu")
             };
-
             foreach (Button button in _buttons)
             {
                 AddChild(button);
@@ -40,10 +39,9 @@ namespace TimeGuardian.UI
 
         private void SetHeader()
         {
-            _header = new Sprite(UtilStrings.SpriteDebug);
+            _header = new Sprite(UtilStrings.SpritesOther + "gameover/header_gameover.png");
             _header.SetOrigin(_header.width / 2, _header.height / 2);
-            _header.SetXY(game.width / 2, 120);
-            _header.SetScaleXY(6f, 2f);
+            _header.SetXY(game.width / 2, 250);
             AddChild(_header);
         }
 

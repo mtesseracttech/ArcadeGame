@@ -7,11 +7,11 @@ namespace TimeGuardian.Level
 {
     class Level1 : LevelBase
     {
-        //DebugBall _testBall;
-
+        string LevelName = "Level1";
         public Level1(TimeGuardianGame game) : base(game)
         {
             Game = game;
+            
             //Background = new Sprite(UtilStrings.SpritesLevel + "1/background.png");
             //AddChild(Background);
 
@@ -19,15 +19,10 @@ namespace TimeGuardian.Level
 
             //AddChild(Pause);
 
-            LevelTiles tiles = new LevelTiles(1, this);
+            //LevelTiles tiles = new LevelTiles(1, this);
             Player = new Player (4, this, Game);
-            AddChild(Player);
 
-            /*
-            _testBall = new DebugBall(this);
-            Enemies.Add(_testBall);
-            AddChild(_testBall);
-            */
+            AddChild(Player);
 
 			//create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
 			EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
@@ -35,9 +30,7 @@ namespace TimeGuardian.Level
 			AddChild (eagleEnemy);
 			Enemies.Add (eagleEnemy.GetHitBox());
 
-
-
-
+            AddChild(Pause);
         }
 
         private void BackgroundCreator()
@@ -63,8 +56,8 @@ namespace TimeGuardian.Level
             foreach (Background background in Backgrounds)
             {
                 //This solution works fine, as long as the player x and y are always manipulated through the x/ySpeed
-                background.Scroll(Player.GetXSpeed(), Player.GetYSpeed());
-                //background.Scroll(Player.x, Player.y);
+                //background.Scroll(Player.GetXSpeed(), Player.GetYSpeed());
+                background.Scroll(Player.x, Player.y);
             }
         }
 
@@ -81,6 +74,11 @@ namespace TimeGuardian.Level
         protected override void HitDetection()
         {
             base.HitDetection();
+        }
+
+        public override string GetLevelName()
+        {
+            return LevelName;
         }
     }
 }

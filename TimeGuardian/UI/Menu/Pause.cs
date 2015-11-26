@@ -1,34 +1,40 @@
 ﻿using System.Drawing.Imaging;
+using TimeGuardian.Level;
 
 namespace TimeGuardian.UI.Menu
 {
     class Pause : GameObject
     {
-        private Sprite _header, _background;
         private Button[] _buttons;
         private TimeGuardianGame _game;
+        private LevelBase _level;
         private int _selection;
         private bool _open;
 
-        public Pause(TimeGuardianGame game)
+        public Pause(TimeGuardianGame game, LevelBase level)
         {
+            _level = level;
             _game = game;
 
             x = -500;
-            _background = new Sprite(UtilStrings.SpritesMenu + "background_Pause.png");
-            _background.SetOrigin(0,_background.height/2);
-            _background.y = game.height/2;
-            _header = new Sprite(UtilStrings.SpriteDebug);
-            _header.SetOrigin(_header.width/2, _header.height/2);
-            _header.SetXY(_background.width/2, 200);
+
+            Sprite background = new Sprite(UtilStrings.SpritesPause + "background_pause.png");
+            background.SetOrigin(0,background.height/2);
+            background.y = game.height/2;
+
+            Sprite header = new Sprite(UtilStrings.SpritesPause + "header_pause.png");
+            header.SetOrigin(header.width/2, header.height/2);
+            header.SetXY(background.width/2, 200);
+
             _buttons = new[]
             {
-            new Button(UtilStrings.SpritesMenu + "button_exit.png", 2, _background.width/2, 350, ""),
-            new Button(UtilStrings.SpritesMenu + "button_exit.png", 2, _background.width/2, 450, "")
+            new Button(UtilStrings.SpritesPause + "button_resume.png", 2, background.width/2, 350, "Resume"),
+            new Button(UtilStrings.SpritesPause + "button_restart.png", 2, background.width/2, 450, _level.GetLevelName()),
+            new Button(UtilStrings.SpritesPause + "button_exit.png", 2, background.width/2, 550, "MainMenu")
             };
 
-            AddChild(_background);
-            AddChild(_header);
+            AddChild(background);
+            AddChild(header);
             foreach (Button button in _buttons)
             {
                 AddChild(button);
@@ -45,7 +51,7 @@ namespace TimeGuardian.UI.Menu
         {
             if (_open)
             {
-                if (x < 0) x += 5;
+                if (x < 0) x += 50;
                 _buttons[_selection].Selected();
                 if (Input.GetKeyDown(Key.UP) || Input.GetKeyDown(Key.W)) SelectionUp();
                 if (Input.GetKeyDown(Key.DOWN) || Input.GetKeyDown(Key.S)) SelectionDown();
@@ -53,7 +59,7 @@ namespace TimeGuardian.UI.Menu
             }
             else
             {
-                if (x >= -500) x -= 5;
+                if (x >= -500) x -= 50;
             }
         }
 
@@ -81,10 +87,17 @@ namespace TimeGuardian.UI.Menu
 
         void Select()
         {
-            if (_selection == 0) Toggle();
-            else
+            switch (_selection)
             {
-                _game.SetState(_buttons[_selection].Pressed());
+                case 0:
+                    _level.PauseToggle();
+                    break;
+                case 1:
+                    _game.SetState(_buttons[_selection].Pressed(), true);
+                    break;
+                case 2:
+                    _game.SetState(_buttons[_selection].Pressed(), true);
+                    break;
             }
         }
     }

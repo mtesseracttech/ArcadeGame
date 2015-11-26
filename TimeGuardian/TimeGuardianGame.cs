@@ -10,7 +10,7 @@ public class TimeGuardianGame : Game
     private MainMenu _menu;
     private HighScores _scores;
     private Credits _credits;
-    private LevelBase _level;
+    private Level1 _level1;
     private Player _player;
 
 	public TimeGuardianGame () : base(1024, 768, false, false)
@@ -28,9 +28,9 @@ public class TimeGuardianGame : Game
     //Lose: State for when it's Game Over
     //Pause: Makes all the entities pause the things they do in their Update()
 
-    public void SetState(string state)
+    public void SetState(string state, bool restart = false)
     {
-        if (state == _state) return;
+        if (state == _state && !restart) return;
         StopState();
         _state = state;
         StartState();
@@ -50,9 +50,19 @@ public class TimeGuardianGame : Game
                 _credits.Destroy();
                 break;
             case "Level1":
-                _player = _level.GetPlayer();
-                _level.Destroy();
+                _player = _level1.GetPlayer();
+                _level1.Destroy();
                 break;
+                /*
+            case "Level2":
+                _player = _level2.GetPlayer();
+                _level2.Destroy();
+                break;
+            case "Level3":
+                _player = _level3.GetPlayer();
+                _level3.Destroy();
+                break;
+                */
         }
     }
 
@@ -73,23 +83,22 @@ public class TimeGuardianGame : Game
                 AddChild(_credits);
                 break;
             case "Level1":
-                _level = new Level1(this);
-                AddChild(_level);
+                _level1 = new Level1(this);
+                AddChild(_level1);
+                break;
+            case "Level2":
+                //_level = new Level2(this);
+                //AddChild(_level2);
+                break;
+            case "Level3":
+                //_level = new Level2(this);
+                //AddChild(_level3);
                 break;
             case "Exit":
                 Environment.Exit(0);
                 break;
             default:
                 throw new Exception("You tried to load a non-existant state");
-        }
-    }
-
-    void ResetLevel(LevelBase level)
-    {
-        if (level is Level1)
-        {
-            _level.Destroy();
-            _level = new Level1(this);
         }
     }
 

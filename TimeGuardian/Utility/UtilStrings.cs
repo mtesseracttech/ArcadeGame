@@ -15,7 +15,8 @@ namespace TimeGuardian
         public static readonly string SpritesUpgrades = AssetPath + "sprites/upgrade/";
 
         public static readonly string SpritesMenu = AssetPath + "sprites/misc/menu/";
-        public static readonly string SpritesHUD = AssetPath + "sprites/misc/HUD/";
+        public static readonly string SpritesHUD = AssetPath + "sprites/misc/hud/";
+        public static readonly string SpritesPause = AssetPath + "sprites/misc/pause/";
         public static readonly string SpritesOther = AssetPath + "sprites/misc/";
 
         public static readonly string SpritesLevel = AssetPath + "sprites/level/";
