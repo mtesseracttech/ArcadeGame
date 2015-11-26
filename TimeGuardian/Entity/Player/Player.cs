@@ -30,10 +30,10 @@ namespace TimeGuardian.player
         private int _currentStaticFrame, _currentMovingFrame, _currentDeathFrame;
         private int _timestopTimer, _invincibilityTimer;
 
-        private short[] _staticFrames = {13, 14, 15};
-        private short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};
-        private short[] _jumpFrames = {9, 9, 10, 11, 12};
-        private short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6};
+        private readonly short[] _staticFrames = {13, 14, 15};
+        private readonly short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};
+        private readonly short[] _jumpFrames = {9, 9, 10, 11, 12};
+        private readonly short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6};
 
         private HUD _hud;
 		private bool _arcadeMachineControls;
@@ -67,6 +67,10 @@ namespace TimeGuardian.player
         {
             if (Input.GetKeyDown(Key.B)) LoseLife();
             if (Input.GetKeyDown(Key.C)) GetLife();
+            if (Input.GetKeyDown(Key.F)) _game.SetState("Level1");
+            if (Input.GetKeyDown(Key.G)) _game.SetState("Level2");
+            if (Input.GetKeyDown(Key.H)) _game.SetState("Level3");
+
 
             if(!_level.GetPaused()) UpdateUnpaused();
         }

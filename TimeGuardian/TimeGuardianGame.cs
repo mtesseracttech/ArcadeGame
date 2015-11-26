@@ -88,12 +88,12 @@ public class TimeGuardianGame : Game
                 AddChild(_level1);
                 break;
             case "Level2":
-                //_level = new Level2(this);
-                //AddChild(_level2);
+                _level2 = new Level2(this, _player);
+                AddChild(_level2);
                 break;
             case "Level3":
-                //_level = new Level2(this);
-                //AddChild(_level3);
+                _level3 = new Level3(this, _player);
+                AddChild(_level3);
                 break;
             case "Exit":
                 Environment.Exit(0);

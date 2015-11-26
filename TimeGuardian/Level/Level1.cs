@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using TimeGuardian.Entity;
-using TimeGuardian.player;
-using TimeGuardian.Entity.Enemy;
+﻿using TimeGuardian.Entity.Enemy;
 using TimeGuardian.Entity.LevelEntities;
+using TimeGuardian.player;
 using TimeGuardian.Utility;
 
 namespace TimeGuardian.Level
