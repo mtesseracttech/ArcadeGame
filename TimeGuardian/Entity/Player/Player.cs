@@ -158,10 +158,8 @@ namespace TimeGuardian.player
                     _ySpeed = 15.0f;
                 }
             }
-
             EdgeBumper();
             Move(_xSpeed, -_ySpeed);
-
         }
 
         private void EdgeBumper()
@@ -177,61 +175,6 @@ namespace TimeGuardian.player
                 _xSpeed = -_xSpeed;
             }
         }
-/*
-        private void Movement()
-		{
-			//change here wether we play on pc/laptop or arcade
-			_arcadeMachineControls = false;
-			if (_arcadeMachineControls == false) {
-
-				if (_walkSpeed < MaxMoveSpeed && Input.GetKey (Key.D)) {
-					_walkSpeed += 0.01f;
-					Mirror (false, false);
-				}
-				if (_walkSpeed > -MaxMoveSpeed && Input.GetKey (Key.A)) {
-					_walkSpeed -= 0.01f;
-					Mirror (true, false);
-				}
-				if (_walkSpeed != 0.0f && !Input.GetKey (Key.D) && !Input.GetKey (Key.A))
-					_walkSpeed /= 1.02f;
-				if (IsOnSolidGround ())
-					_jumpCounter = 0;
-				if (Input.GetKeyDown (Key.SPACE) && _jumpCounter < 2) {
-					_jumpCounter++;
-					_jumpSpeed = 1.0f;
-				}
-				if (_jumpSpeed != 0.0f)
-					_jumpSpeed -= 0.01f;
-				Move (_walkSpeed, -_jumpSpeed);
-			}
-			if(_arcadeMachineControls == true){
-				//arcademachine controls are in here
-			}
-				//makes it so you cannot walk beyond the borders of the screen
-				if (x < 0)
-					x = 0; 
-				if (x > 930)
-					x = 930;
-				if (y < 0)
-					y = 0;
-				if (y > 770)
-					y = 770;
-
-
-			//Random collision code
-//			foreach (Sprite other in GetCollisions ()) {
-//				if (x > 0) x = Mathf.Min (other.x - width, x); //at left side of block
-//				if (x < 0) x = Mathf.Max (other.x + other.width, x); //at right side of block
-//				if (y > 0) y = Mathf.Min (other.y - height, y); //at top of block
-//				if (y < 0) y = Mathf.Max (other.y + other.height, y); //at bottom of block
-//			}
-		}
-        */
-
-//        private GameObject Bottom()
-//        {
-//            
-//        }
 
         private void SpriteHandler()
         {
@@ -250,10 +193,6 @@ namespace TimeGuardian.player
         private void DeathSprite()
         {
             if (_currentDeathFrame < _deathFrames.Length*10 - 1) _currentDeathFrame++;
-            else
-            {
-                //_game.SetState("LoseScreen");
-            }
             _deadSprite.currentFrame = _deathFrames[_currentDeathFrame / 10];
         }
 
@@ -273,7 +212,6 @@ namespace TimeGuardian.player
 
         private void JumpingSprite()
         {
-            //The frame of the jump can be decided by looking at the vertical speed of the player
             //TODO: GETTING IT TO WORK PROPERLY, WITHOUT THE WEIRD "INBETWEEN" SPRITE
             if (_ySpeed > 10.0f) currentFrame = _jumpFrames[0];
             else if(_ySpeed > 0.0f) currentFrame = _jumpFrames[1];

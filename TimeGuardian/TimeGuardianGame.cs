@@ -11,6 +11,8 @@ public class TimeGuardianGame : Game
     private HighScores _scores;
     private Credits _credits;
     private Level1 _level1;
+    private Level2 _level2;
+    private Level3 _level3;
     private Player _player;
 
 	public TimeGuardianGame () : base(1024, 768, false, false)
@@ -53,7 +55,6 @@ public class TimeGuardianGame : Game
                 _player = _level1.GetPlayer();
                 _level1.Destroy();
                 break;
-                /*
             case "Level2":
                 _player = _level2.GetPlayer();
                 _level2.Destroy();
@@ -62,7 +63,7 @@ public class TimeGuardianGame : Game
                 _player = _level3.GetPlayer();
                 _level3.Destroy();
                 break;
-                */
+                
         }
     }
 

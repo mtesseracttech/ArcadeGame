@@ -1,19 +1,20 @@
-﻿using System.Collections.Generic;
-using TimeGuardian.Entity;
-using TimeGuardian.player;
-using TimeGuardian.Entity.Enemy;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using TimeGuardian.Entity.LevelEntities;
+using TimeGuardian.player;
 using TimeGuardian.Utility;
 
 namespace TimeGuardian.Level
 {
-    class Level1 : LevelBase
+    class Level2 : LevelBase
     {
-        private int _levelNr = 1;
+        private int _levelNr = 2;
 
         private int[,] _tileMap;
 
-        public Level1(TimeGuardianGame game) : base(game)
+        public Level2(TimeGuardianGame game) : base(game)
         {
             Game = game;
 
@@ -21,15 +22,15 @@ namespace TimeGuardian.Level
 
             _tileMap = FileReader.levelMaker(_levelNr, UtilStrings.TilesX, UtilStrings.TilesY);
 
-            Player = new Player (4, this, Game);
+            Player = new Player(4, this, Game);
 
             AddChild(Player);
             CreateLevel();
-			//create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
-			//EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
+            //create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
+            //EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
 
-			//AddChild (eagleEnemy);
-			//Enemies.Add (eagleEnemy.GetHitBox());
+            //AddChild (eagleEnemy);
+            //Enemies.Add (eagleEnemy.GetHitBox());
 
             AddChild(Pause);
         }
@@ -151,7 +152,7 @@ namespace TimeGuardian.Level
 
         protected override void UpdateNoTimeStop()
         {
-            
+
         }
 
         protected override void HitDetection()
@@ -161,7 +162,7 @@ namespace TimeGuardian.Level
 
         public override string GetLevelName()
         {
-            return "Level"+_levelNr;
+            return "Level" + _levelNr;
         }
     }
 }

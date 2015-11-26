@@ -40,6 +40,8 @@
     <Compile Include="Entity\Player\Player.cs" />
     <Compile Include="Level\Background.cs" />
     <Compile Include="Level\Level1.cs" />
+    <Compile Include="Level\Level2.cs" />
+    <Compile Include="Level\Level3.cs" />
     <Compile Include="Level\LevelBase.cs" />
     <Compile Include="Level\LevelTiles.cs" />
     <Compile Include="Lib\Glide\AutoLerp.cs" />
