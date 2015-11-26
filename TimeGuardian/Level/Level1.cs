@@ -2,12 +2,18 @@
 using TimeGuardian.Entity;
 using TimeGuardian.player;
 using TimeGuardian.Entity.Enemy;
+using TimeGuardian.Entity.LevelEntities;
+using TimeGuardian.Utility;
 
 namespace TimeGuardian.Level
 {
     class Level1 : LevelBase
     {
-        string LevelName = "Level1";
+        private int _levelNr = 1;
+        private const int TileSize = 32;
+        private const int TilesX = 32;
+        private const int TilesY = 24;
+        private int[,] _tileMap;
 
         public Level1(TimeGuardianGame game) : base(game)
         {
@@ -15,10 +21,12 @@ namespace TimeGuardian.Level
 
             BackgroundCreator();
 
+            _tileMap = FileReader.levelMaker(_levelNr, TilesX, TilesY);
+
             Player = new Player (4, this, Game);
 
             AddChild(Player);
-
+            CreateLevel();
 			//create new enemy with ?? 10 ?? healthpoints and ?? 5 ?? damage
 			//EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
 
@@ -27,6 +35,37 @@ namespace TimeGuardian.Level
 
             AddChild(Pause);
         }
+
+        private void CreateLevel()
+        {
+            for (int i = 0; i < TilesY; i++)
+            {
+                for (int j = 0; j < TilesX; j++)
+                {
+                    int tile = _tileMap[i, j];
+                    if (tile != 0) AddObject(j * TileSize, i * TileSize, tile);
+                }
+            }
+        }
+
+        private void AddObject(int x, int y, int tile)
+        {
+            switch (tile)
+            {
+                case 1:
+                    Wall debugWall = new Wall(UtilStrings.SpriteDebugSmall);
+                    debugWall.SetXY(x, y);
+                    AddChild(debugWall);
+                    break;
+            }
+
+        }
+
+
+
+
+
+
 
         private void BackgroundCreator()
         {
@@ -73,7 +112,7 @@ namespace TimeGuardian.Level
 
         public override string GetLevelName()
         {
-            return LevelName;
+            return "Level"+_levelNr;
         }
     }
 }

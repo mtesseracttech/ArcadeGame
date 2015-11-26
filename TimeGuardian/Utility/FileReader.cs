@@ -8,7 +8,7 @@ namespace TimeGuardian.Utility
     {
         public static int[,] levelMaker(int levelnr, int width, int height)
         {
-            int[,] level = new int[height,width];
+            int[,] level = new int[height, width];
 
             StreamReader reader = new StreamReader("level_" + levelnr + ".txt");
             string fileData = reader.ReadToEnd();

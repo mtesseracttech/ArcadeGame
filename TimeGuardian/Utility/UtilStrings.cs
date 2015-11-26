@@ -27,13 +27,8 @@ namespace TimeGuardian
 
         //DEBUG RESOURCES
         public static readonly string SpriteDebug = AssetPath + "sprites/debug/debugSprite.png";
+        public static readonly string SpriteDebugSmall = AssetPath + "sprites/debug/debugSpriteSmall.png";
         public static readonly string AnimSpriteDebug = AssetPath + "sprites/debug/debugAnimSprite.png";
         public static readonly string BackgroundDebug = AssetPath + "sprites/debug/debugBackground.png";
-
-
-        public static string LevelSprite(int levelNumber, int spriteNumber)
-        {
-            return (UtilStrings.SpritesLevel + levelNumber + "/" + (spriteNumber + 1) + ".png");
-        }
     }
 }
