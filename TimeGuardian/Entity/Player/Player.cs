@@ -15,6 +15,7 @@ namespace TimeGuardian.player
 
         private Sound _jumpSound;
         private Sound _hurtSound;
+        private Sound _getLifeSound;
         private Sound _abilityLoadedSound;
         private Sound _abilityDepletedSound;
 
@@ -56,6 +57,7 @@ namespace TimeGuardian.player
 
             _jumpSound = new Sound(UtilStrings.SoundsPlayer + "sound_jump.wav");
             _hurtSound = new Sound(UtilStrings.SoundsPlayer + "sound_hurt.wav");
+            _getLifeSound = new Sound(UtilStrings.SoundsPlayer + "sound_getLife.wav");
             _abilityLoadedSound = new Sound(UtilStrings.SoundsPlayer + "sound_abilityActive.wav");
             _abilityDepletedSound = new Sound(UtilStrings.SoundsPlayer + "sound_abilityDepleted.wav");
         }
@@ -149,6 +151,7 @@ namespace TimeGuardian.player
         public void GetLife()
         {
             if (_lives >= MaxLifes) return;
+            _getLifeSound.Play();
             _lives++;
             _hud.SetHearts(_lives);
         }

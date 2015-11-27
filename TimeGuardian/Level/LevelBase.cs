@@ -165,6 +165,10 @@ namespace TimeGuardian.Level
             MusicChannel.Stop();
         }
 
+        public void PauseMusic(bool pause)
+        {
+            MusicChannel.IsPaused = pause;
+        }
 
         public abstract string GetLevelName();
 

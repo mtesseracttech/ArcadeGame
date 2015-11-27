@@ -8,6 +8,8 @@ namespace TimeGuardian.UI.Menu
         private Button[] _buttons;
         private TimeGuardianGame _game;
         private LevelBase _level;
+        private Sound _selectedSound;
+        private Sound _openSound;
         private int _selection;
         private bool _open;
 
@@ -39,6 +41,9 @@ namespace TimeGuardian.UI.Menu
             {
                 AddChild(button);
             }
+
+            _selectedSound = new Sound(UtilStrings.SoundsMenu + "sound_selected.wav");
+            _openSound = new Sound(UtilStrings.SoundsMenu + "sound_pause.wav");
         }
 
 
@@ -65,6 +70,7 @@ namespace TimeGuardian.UI.Menu
 
         void SelectionDown()
         {
+            _selectedSound.Play();
             _buttons[_selection].DeSelect();
             if (_selection < _buttons.Length - 1) _selection++;
             else _selection = 0;
@@ -72,6 +78,7 @@ namespace TimeGuardian.UI.Menu
 
         void SelectionUp()
         {
+            _selectedSound.Play();
             _buttons[_selection].DeSelect();
             if (_selection > 0) _selection--;
             else _selection = _buttons.Length - 1;
@@ -82,7 +89,13 @@ namespace TimeGuardian.UI.Menu
         {
             _open = !_open;
             _buttons[_selection].DeSelect();
-            if (_open) _selection = 0;
+            _openSound.Play();
+            if (_open)
+            {
+                _level.PauseMusic(true);
+                _selection = 0;
+            }
+            else _level.PauseMusic(false);
         }
 
         void Select()
