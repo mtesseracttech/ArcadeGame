@@ -39,13 +39,13 @@ namespace TimeGuardian.UI.HUD
 
         public void Break()
         {
-            _currentBreakFrame = 0;
+            _currentBreakFrame = _breakFrames[0];
             _state = 2;
         }
 
         public void Create()
         {
-            _currentCreateFrame = 0;
+            _currentCreateFrame = _createFrames[0];
             _state = 0;
         }
 

@@ -13,17 +13,16 @@ namespace TimeGuardian.Entity.Enemy
 	    private LevelBase _level;
 		private HitBox _hitBox;
 
-		public EagleEnemy(int cols, int rows, int healthPoints, int damage, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols,rows,healthPoints,damage,level)
+		public EagleEnemy(int cols, int rows, int healthPoints, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols,rows,healthPoints,level)
 		{
 		    _level = level;
             SetOrigin(height/2, width/2);
 		    SetXY(500, 450);
 			HealthPoints = healthPoints;
-			Damage = damage;
 		    _moveX = -2;
 			_moveY = 1;
 			_hitBox = new HitBox (UtilStrings.SpritesEnemy+ "hitbox_enemy_2.png");
-			_hitBox.alpha = 1; // make hitbox invisible(0) (1 is visible)
+			_hitBox.alpha = 0; // make hitbox invisible(0) (1 is visible)
 			AddChild (_hitBox);
 
 		}

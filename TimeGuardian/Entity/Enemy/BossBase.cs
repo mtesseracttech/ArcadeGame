@@ -9,11 +9,10 @@ namespace TimeGuardian.Entity.Enemy
         protected bool Vurnerable; //Value is used to temporarily make the boss vurnerable to player attacks, boss is invincible otherwise.
         protected LevelBase Level;
 
-        public BossBase(string filename, int cols, int rows, int healthPoints, int damage, LevelBase level) : base(filename, cols, rows)
+        public BossBase(string filename, int cols, int rows, int healthPoints, LevelBase level) : base(filename, cols, rows)
         {
             Level = level;
             HealthPoints = healthPoints;
-            Damage = damage;
             Vurnerable = false;
         }
 

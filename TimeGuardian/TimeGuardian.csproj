@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Entity\DebugBall.cs" />
     <Compile Include="Entity\Enemy\BossBase.cs" />
+    <Compile Include="Entity\Enemy\EnemyOwl.cs" />
     <Compile Include="Entity\LevelEntities\Wall.cs" />
     <Compile Include="Entity\Player\Player.cs" />
     <Compile Include="Level\Background.cs" />

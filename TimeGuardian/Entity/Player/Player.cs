@@ -78,13 +78,13 @@ namespace TimeGuardian.player
 
         void Update()
         {
-            /*
-            if (Input.GetKeyDown(Key.B)) LoseLife();
-            if (Input.GetKeyDown(Key.C)) GetLife();
-            if (Input.GetKeyDown(Key.F)) _game.SetState("Level1");
-            if (Input.GetKeyDown(Key.G)) _game.SetState("Level2");
-            if (Input.GetKeyDown(Key.H)) _game.SetState("Level3");
-            */
+            
+            if (Input.GetKeyDown(Key.R)) LoseLife();
+            if (Input.GetKeyDown(Key.T)) GetLife();
+            if (Input.GetKeyDown(Key.Y)) _game.SetState("Level1");
+            if (Input.GetKeyDown(Key.U)) _game.SetState("Level2");
+            if (Input.GetKeyDown(Key.I)) _game.SetState("Level3");
+            
 
             if(!_level.GetPaused()) UpdateUnpaused();
         }
