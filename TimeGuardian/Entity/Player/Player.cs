@@ -4,6 +4,7 @@ using TimeGuardian.Level;
 using TimeGuardian.UI;
 using TimeGuardian.UI.HUD;
 using TimeGuardian.Entity.Enemy;
+using TimeGuardian.Utility;
 
 namespace TimeGuardian.player
 {
@@ -77,12 +78,13 @@ namespace TimeGuardian.player
 
         void Update()
         {
+            /*
             if (Input.GetKeyDown(Key.B)) LoseLife();
             if (Input.GetKeyDown(Key.C)) GetLife();
             if (Input.GetKeyDown(Key.F)) _game.SetState("Level1");
             if (Input.GetKeyDown(Key.G)) _game.SetState("Level2");
             if (Input.GetKeyDown(Key.H)) _game.SetState("Level3");
-
+            */
 
             if(!_level.GetPaused()) UpdateUnpaused();
         }
@@ -113,7 +115,7 @@ namespace TimeGuardian.player
                 _timestopTimer--;
                 _restoring = false;
             }
-            if (!_level.GetTimeStopped() && _timestopTimer == MaxTimeStopTimer && Input.GetKeyDown(Key.E))
+            if (!_level.GetTimeStopped() && _timestopTimer == MaxTimeStopTimer && Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON4))
             {
                 _abilityLoadedSound.Play();
                 _level.SetTimeStop(true);
@@ -167,23 +169,23 @@ namespace TimeGuardian.player
 
             if (!_dead)
             {
-                if (_xSpeed < MaxXSpeed && Input.GetKey(Key.D))
+                if (_xSpeed < MaxXSpeed && Input.GetKey(ArcadeButtons.PLAYER1_RIGHT))
                 {
                     if (_xSpeed < 0) _xSpeed = 0f;
                     _xSpeed += 0.3f;
                     _xFlip = false;
                     Mirror(_xFlip, false);
                 }
-                if (_xSpeed > -MaxXSpeed && Input.GetKey(Key.A))
+                if (_xSpeed > -MaxXSpeed && Input.GetKey(ArcadeButtons.PLAYER1_LEFT))
                 {
                     if (_xSpeed > 0) _xSpeed = 0f;
                     _xSpeed -= 0.3f;
                     _xFlip = true;
                     Mirror(_xFlip, false);
                 }
-                if (_xSpeed != 0.0f && !Input.GetKey(Key.D) && !Input.GetKey(Key.A)) _xSpeed *= 0.3f;
+                if (_xSpeed != 0.0f && !Input.GetKey(ArcadeButtons.PLAYER1_RIGHT) && !Input.GetKey(ArcadeButtons.PLAYER1_LEFT)) _xSpeed *= 0.3f;
 
-                if (Input.GetKeyDown(Key.SPACE) && _jumpCounter < 2)
+                if (Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON1) && _jumpCounter < 2)
                 {
                     _jumpSound.Play();
                     _jumpCounter++;

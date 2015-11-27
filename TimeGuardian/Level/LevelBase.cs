@@ -4,6 +4,7 @@ using TimeGuardian.Entity;
 using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.player;
 using TimeGuardian.UI.Menu;
+using TimeGuardian.Utility;
 
 namespace TimeGuardian.Level
 {
@@ -55,13 +56,15 @@ namespace TimeGuardian.Level
 
         protected virtual void Update()
         {
-            if (Input.GetKeyDown(Key.Q)) PauseToggle();
+            if (Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON5)) PauseToggle();
+            /*
             if (Input.GetKeyDown(Key.G))
             {
                 DebugBall DBBall = new DebugBall(this);
                 Enemies.Add(DBBall);
                 AddChild(DBBall);
             }
+            */
             if (!Paused) UpdateUnpaused();
         }
 
