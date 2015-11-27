@@ -89,11 +89,11 @@ public class TimeGuardianGame : Game
                 AddChild(_level1);
                 break;
             case "Level2":
-                _level2 = new Level2(this, _lives);
+                _level2 = new Level2(this, 5); //Would have _lives instead of 5 if pickups were implemented
                 AddChild(_level2);
                 break;
             case "Level3":
-                _level3 = new Level3(this, _lives);
+                _level3 = new Level3(this, 5); //Idem ditto
                 AddChild(_level3);
                 break;
             case "Exit":
