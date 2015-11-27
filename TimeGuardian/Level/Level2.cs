@@ -20,6 +20,8 @@ namespace TimeGuardian.Level
             Player = new Player(lives, this, Game);
             CreateLevel();
             AddChild(Player);
+            Music = new Sound(UtilStrings.SoundsBackground + "music_level_2.mp3", true, true);
+            MusicChannel = Music.Play();
             AddChild(Pause);
         }
 

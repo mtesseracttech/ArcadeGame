@@ -44,6 +44,7 @@ public class TimeGuardianGame : Game
         switch (_state)
         {
             case "MainMenu":
+                _menu.StopMusic();
                 _menu.Destroy();
                 break;
             case "HighScores":
@@ -54,14 +55,17 @@ public class TimeGuardianGame : Game
                 break;
             case "Level1":
                 _lives = _level1.GetPlayer().GetLives();
+                _level1.StopMusic();
                 _level1.Destroy();
                 break;
             case "Level2":
                 _lives = _level2.GetPlayer().GetLives();
+                _level2.StopMusic();
                 _level2.Destroy();
                 break;
             case "Level3":
                 _lives = _level3.GetPlayer().GetLives();
+                _level3.StopMusic();
                 _level3.Destroy();
                 break;
                 

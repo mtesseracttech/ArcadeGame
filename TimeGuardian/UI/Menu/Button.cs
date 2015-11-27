@@ -6,6 +6,8 @@ namespace TimeGuardian.UI.Menu
     class Button : AnimationSprite
     {
         private string _state;
+        private Sound _selectedSound;
+        private Sound _selectSound;
 
         public Button(string filename, int rows, int x, int y, string state) : base(filename, 1, rows)
         {
@@ -13,10 +15,13 @@ namespace TimeGuardian.UI.Menu
             SetOrigin(width / 2, height / 2);
             SetXY(x, y);
             _state = state;
+            _selectedSound = new Sound(UtilStrings.SoundsMenu + "sound_selected.wav");
+            _selectSound = new Sound(UtilStrings.SoundsMenu + "sound_click.mp3");
         }
 
         public void Selected()
         {
+            _selectedSound.Play();
             if(scaleX != 1.2f) SetScaleXY(1.2f, 1.2f); //Only made it scan for scaleX because if that one is not right, the other won't be either
             SetFrame(0);
         }
@@ -31,6 +36,7 @@ namespace TimeGuardian.UI.Menu
         //Should get called when the button is being pressed, it returns the gamestate to which the game should be set
         public string Pressed()
         {
+            _selectSound.Play();
             return _state;
         }
 

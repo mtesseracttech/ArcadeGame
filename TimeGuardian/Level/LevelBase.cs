@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TimeGuardian.Entity;
 using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.player;
@@ -12,6 +13,7 @@ namespace TimeGuardian.Level
         protected bool Paused;
         protected bool TimeStop;
 
+
         protected List<GameObject> Enemies;
         protected List<Background> Backgrounds;
         protected List<Wall> Walls;
@@ -20,8 +22,10 @@ namespace TimeGuardian.Level
         protected Sprite[] Spritesheet;
         protected Sprite Background;
         protected Pause Pause;
+        protected Sound Music;
+        protected SoundChannel MusicChannel;
 
-		private int _bottomPlayer;
+        private int _bottomPlayer;
 
         protected LevelBase(TimeGuardianGame game)
         {
@@ -30,7 +34,6 @@ namespace TimeGuardian.Level
             Enemies = new List<GameObject>();
             Backgrounds = new List<Background>();
             Walls = new List<Wall>();
-            //AddChild(Pause);
         }
 
 
@@ -156,6 +159,12 @@ namespace TimeGuardian.Level
             Paused = !Paused;
             Pause.Toggle();
         }
+
+        public void StopMusic()
+        {
+            MusicChannel.Stop();
+        }
+
 
         public abstract string GetLevelName();
 

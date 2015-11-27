@@ -32,7 +32,8 @@ namespace TimeGuardian
 
         //SOUNDS & MUSIC
         public static readonly string SoundsPlayer = AssetPath + "sounds/player/";
-        public static readonly string SoundsWeapon = AssetPath + "sounds/weapon/";
+        public static readonly string SoundsEnemy = AssetPath + "sounds/enemy/";
+        public static readonly string SoundsMenu = AssetPath + "sounds/menu/";
         public static readonly string SoundsBackground = AssetPath + "sounds/music/";
 
         //DEBUG RESOURCES

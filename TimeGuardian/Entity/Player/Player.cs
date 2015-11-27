@@ -13,6 +13,11 @@ namespace TimeGuardian.player
         private TimeGuardianGame _game;
         private AnimationSprite _deadSprite;
 
+        private Sound _jumpSound;
+        private Sound _hurtSound;
+        private Sound _abilityLoadedSound;
+        private Sound _abilityDepletedSound;
+
         private const float MaxXSpeed = 6.0f;
         private const float MaxYSpeed = 15.0f;
         private const int MaxTimeStopTimer = 200;
@@ -48,6 +53,11 @@ namespace TimeGuardian.player
             _timestopTimer = MaxTimeStopTimer;
             DeadSpriteCreator();
             _hud = new HUD(_lives, _level, this);
+
+            _jumpSound = new Sound(UtilStrings.SoundsPlayer + "sound_jump.wav");
+            _hurtSound = new Sound(UtilStrings.SoundsPlayer + "sound_hurt.wav");
+            _abilityLoadedSound = new Sound(UtilStrings.SoundsPlayer + "sound_abilityActive.wav");
+            _abilityDepletedSound = new Sound(UtilStrings.SoundsPlayer + "sound_abilityDepleted.wav");
         }
 
         private void DeadSpriteCreator()
@@ -91,18 +101,27 @@ namespace TimeGuardian.player
                 _restoring = true;
             }
             else _restoring = false;
-            if (_level.GetTimeStopped() && _timestopTimer <= 0) _level.SetTimeStop(false);
+            if (_level.GetTimeStopped() && _timestopTimer <= 0)
+            {
+                _level.SetTimeStop(false);
+                _abilityDepletedSound.Play();
+            }
             if (_level.GetTimeStopped())
             {
                 _timestopTimer--;
                 _restoring = false;
             }
-            if (!_level.GetTimeStopped() && _timestopTimer == MaxTimeStopTimer && Input.GetKeyDown(Key.E)) _level.SetTimeStop(true);
+            if (!_level.GetTimeStopped() && _timestopTimer == MaxTimeStopTimer && Input.GetKeyDown(Key.E))
+            {
+                _abilityLoadedSound.Play();
+                _level.SetTimeStop(true);
+            }
             _hud.UpdateAbility(_timestopTimer, _restoring);
         }
 
         public void LoseLife()
         {
+            _hurtSound.Play();
             if (_lives < 1)
             {
                 _dead = true;
@@ -163,6 +182,7 @@ namespace TimeGuardian.player
 
                 if (Input.GetKeyDown(Key.SPACE) && _jumpCounter < 2)
                 {
+                    _jumpSound.Play();
                     _jumpCounter++;
                     _ySpeed = 15.0f;
                 }

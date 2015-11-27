@@ -11,8 +11,6 @@ namespace TimeGuardian.Level
 
         private int[,] _tileMap;
 
-        private Sound _sound;
-
         public Level1(TimeGuardianGame game) : base(game)
         {
             Game = game;
@@ -24,6 +22,8 @@ namespace TimeGuardian.Level
 			EagleEnemy eagleEnemy = new EagleEnemy (6, 1, 10, 5, this);
 			AddChild (eagleEnemy);
 			Enemies.Add (eagleEnemy.GetHitBox());
+            Music = new Sound(UtilStrings.SoundsBackground+ "music_level_1.mp3", true, true);
+            MusicChannel = Music.Play();
             AddChild(Pause);
         }
 
