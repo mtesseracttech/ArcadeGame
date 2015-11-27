@@ -28,9 +28,9 @@ namespace TimeGuardian.Level
         }
         */
 
-        public void Scroll(float x, float y)
+        public void Scroll(float x)
         {
-            SetXY(game.width/2 - (x * _index/10), game.height/2 + -(y * _index/10));
+            SetXY(game.width/2 - (x * _index/10), game.height/2);
         }
     }
 }

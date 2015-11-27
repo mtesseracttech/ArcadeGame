@@ -127,7 +127,7 @@ namespace TimeGuardian.Level
             {
                 //This solution works fine, as long as the player x and y are always manipulated through the x/ySpeed
                 //background.Scroll(Player.GetXSpeed(), Player.GetYSpeed());
-                background.Scroll(Player.x, Player.y);
+                background.Scroll(Player.x);
             }
         }
 
