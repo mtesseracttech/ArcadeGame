@@ -85,6 +85,7 @@ namespace TimeGuardian.Level
 
         protected virtual void PlayerHitDetection()
         {
+            /*
             foreach (GameObject enemy in Enemies)
             {
                 if (Player.HitTest(enemy))
@@ -98,10 +99,11 @@ namespace TimeGuardian.Level
                     else if (_bottomPlayer > enemy.y)
                     {
                         Player.LoseLife();
-                        Player.Bounce();
+                        //Player.Bounce();
                     }
                 }
             }
+            */
         }
 
 		protected virtual void HitDetectAbove()

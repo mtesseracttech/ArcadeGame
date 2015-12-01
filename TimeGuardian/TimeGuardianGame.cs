@@ -19,7 +19,7 @@ public class TimeGuardianGame : Game
 	public TimeGuardianGame () : base(1024, 768, false, false)
 
 	{
-	    SetState("MainMenu");
+	    SetState("Level1");
 	}
 
     //List of States:

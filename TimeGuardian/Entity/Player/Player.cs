@@ -1,9 +1,12 @@
-﻿using System.Drawing.Text;
+﻿using System;
+using System.ComponentModel.Design;
+using System.Drawing.Text;
 using System.Runtime.Remoting.Messaging;
 using TimeGuardian.Level;
 using TimeGuardian.UI;
 using TimeGuardian.UI.HUD;
 using TimeGuardian.Entity.Enemy;
+using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.Utility;
 
 namespace TimeGuardian.player
@@ -27,9 +30,11 @@ namespace TimeGuardian.player
         private const int MaxInvTimer = 100;
         private bool _dead = false;
 
+        private float _prevX, _prexY;
         private float _xSpeed, _ySpeed;
         private bool _xFlip;
         private bool _restoring;
+        private bool _isGrounded;
 
         private int _lives;
         private int _bottomPlayer;
@@ -160,12 +165,7 @@ namespace TimeGuardian.player
 
         private void Movement()
         {
-            if (IsOnSolidGround())
-            {
-                _ySpeed = 0f;
-                _jumpCounter = 0;
-            }
-            if (!IsOnSolidGround()) _ySpeed -= 0.5f;
+            if (!_isGrounded && _ySpeed > -MaxYSpeed) _ySpeed -= 0.5f;
 
             if (!_dead)
             {
@@ -176,7 +176,7 @@ namespace TimeGuardian.player
                     _xFlip = false;
                     Mirror(_xFlip, false);
                 }
-                if (_xSpeed > -MaxXSpeed && Input.GetKey(ArcadeButtons.PLAYER1_LEFT))
+                else if (_xSpeed > -MaxXSpeed && Input.GetKey(ArcadeButtons.PLAYER1_LEFT))
                 {
                     if (_xSpeed > 0) _xSpeed = 0f;
                     _xSpeed -= 0.3f;
@@ -192,9 +192,60 @@ namespace TimeGuardian.player
                     _ySpeed = 15.0f;
                 }
             }
-            EdgeBumper();
-            Move(_xSpeed, -_ySpeed);
+            //EdgeBumper();
+            move(_xSpeed, -_ySpeed);
+            //Move(_xSpeed, -_ySpeed);
         }
+
+        void move(float moveX, float moveY)
+        {
+            x = x + moveX;
+            y = y + moveY;
+
+            foreach (Sprite other in GetCollisions())
+            {
+                if (other is Wall)
+                {
+                    
+                    if (moveX > 0)
+                    {
+                        x = Mathf.Min(other.x - width, x); //at left side of block
+                    }
+                    if (moveX < 0)
+                    {
+                        x = Mathf.Max(other.x + other.width, x); //at right side of block
+                    }
+                    
+                    if (moveY > 0)
+                    {
+                        y = Mathf.Min(other.y - height, y); //at top of block
+                        _ySpeed = 0f;
+                        _jumpCounter = 0;
+                    }
+                    if (moveY < 0)
+                    {
+                        y = Mathf.Max(other.y + other.height, y); //at bottom of block
+                        _ySpeed = 0f;
+                    }
+                }
+                else
+                {
+                    _isGrounded = false;
+                }
+
+                if (other is BossBase)
+                {
+                    if (!_dead && !IsInvincible())
+                    {
+                        LoseLife();
+                        Bounce();
+                    }
+                }
+            }
+        }
+
+
+
 
         private void EdgeBumper()
         {
@@ -259,7 +310,7 @@ namespace TimeGuardian.player
             return false;
         }
 			
-        private bool IsOnSolidGround()
+        /*private bool IsOnSolidGround()
         {
             if (y >= 500)
             {
@@ -268,6 +319,7 @@ namespace TimeGuardian.player
 
 			return false;
         }
+        */
 
         public int GetMaxTimeStopTimer()
         {
@@ -300,13 +352,17 @@ namespace TimeGuardian.player
             return _dead;
         }
 
-		private void OnCollision(GameObject other)
+        private void StorePosition()
         {
-			if(other is BossBase){
-				BossBase enemy = other as BossBase;
-				enemy.GetHit();
-			}
-		}
+            _prevX = x;
+            _prexY = y;
+        }
+
+        private void MoveBack()
+        {
+            x = _prevX;
+            y = _prexY;
+        }
 
         public void SetLevel(LevelBase level)
         {

@@ -1,4 +1,7 @@
-﻿using TimeGuardian.Entity.LevelEntities;
+﻿using System;
+using TimeGuardian.Core;
+using TimeGuardian.Entity.Enemy;
+using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.player;
 using TimeGuardian.Utility;
 
@@ -7,6 +10,8 @@ namespace TimeGuardian.Level
     class Level2 : LevelBase
     {
         private int _levelNr = 2;
+        private EnemyOwl enemy;
+        private Vector2 mouse_pos;
 
         private int[,] _tileMap;
 
@@ -18,11 +23,16 @@ namespace TimeGuardian.Level
             BackgroundCreator();
             _tileMap = FileReader.levelMaker(_levelNr, UtilStrings.TilesX, UtilStrings.TilesY);
             Player = new Player(lives, this, Game);
+            enemy = new EnemyOwl(this);
             CreateLevel();
             AddChild(Player);
+            AddChild(enemy);
             Music = new Sound(UtilStrings.SoundsBackground + "music_level_2.mp3", true, true);
             MusicChannel = Music.Play();
             AddChild(Pause);
+
+
+            mouse_pos = new Vector2();
         }
 
 
@@ -119,6 +129,8 @@ namespace TimeGuardian.Level
 
         protected override void Update()
         {
+            
+            Console.WriteLine(enemy.rotation);
             BackgroundManager();
             base.Update();
         }
@@ -140,7 +152,7 @@ namespace TimeGuardian.Level
 
         protected override void UpdateNoTimeStop()
         {
-
+            enemy.rotation = Mathf.Atan2(Input.mouseY, Input.mouseX);
         }
 
         protected override void HitDetection()

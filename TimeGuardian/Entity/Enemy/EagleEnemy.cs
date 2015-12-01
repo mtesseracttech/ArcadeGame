@@ -1,6 +1,4 @@
-﻿using System;
-using TimeGuardian.Level;
-using TimeGuardian.Managers;
+﻿using TimeGuardian.Level;
 
 namespace TimeGuardian.Entity.Enemy
 {

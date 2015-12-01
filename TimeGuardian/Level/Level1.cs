@@ -105,12 +105,6 @@ namespace TimeGuardian.Level
             }
         }
 
-
-
-
-
-
-
         private void BackgroundCreator()
         {
             for (int i = 0; i < 2; i++)
@@ -133,8 +127,6 @@ namespace TimeGuardian.Level
         {
             foreach (Background background in Backgrounds)
             {
-                //This solution works fine, as long as the player x and y are always manipulated through the x/ySpeed
-                //background.Scroll(Player.GetXSpeed(), Player.GetYSpeed());
                 background.Scroll(Player.x);
             }
         }
