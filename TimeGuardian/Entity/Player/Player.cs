@@ -193,7 +193,8 @@ namespace TimeGuardian.player
                 }
             }
             //EdgeBumper();
-            move(_xSpeed, -_ySpeed);
+            move(_xSpeed, 0);
+            move(0, -_ySpeed);
             //Move(_xSpeed, -_ySpeed);
         }
 
@@ -201,6 +202,7 @@ namespace TimeGuardian.player
         {
             x = x + moveX;
             y = y + moveY;
+            Console.WriteLine(y);
 
             foreach (Sprite other in GetCollisions())
             {
