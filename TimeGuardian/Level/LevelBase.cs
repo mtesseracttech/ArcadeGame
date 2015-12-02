@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using TimeGuardian.Entity;
 using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.player;
 using TimeGuardian.UI.Menu;
@@ -147,10 +145,6 @@ namespace TimeGuardian.Level
                     background.color = 0xFFFFFF;
                 }
             }
-
-
-
-                
         }
 
         /*

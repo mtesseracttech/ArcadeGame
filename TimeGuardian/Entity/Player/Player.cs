@@ -202,7 +202,6 @@ namespace TimeGuardian.player
         {
             x = x + moveX;
             y = y + moveY;
-            Console.WriteLine(y);
 
             foreach (Sprite other in GetCollisions())
             {

@@ -129,8 +129,6 @@ namespace TimeGuardian.Level
 
         protected override void Update()
         {
-            
-            Console.WriteLine(enemy.rotation);
             BackgroundManager();
             base.Update();
         }
@@ -152,7 +150,6 @@ namespace TimeGuardian.Level
 
         protected override void UpdateNoTimeStop()
         {
-            enemy.rotation = Mathf.Atan2(Input.mouseY, Input.mouseX);
         }
 
         protected override void HitDetection()
