@@ -10,7 +10,6 @@ namespace TimeGuardian.Entity.Enemy
         private int _staticCounter;
 
         private int[] _flyFrames = {1, 2, 3, 4, 5};
-        private int[] _deathFrames = {1, 2, 3, 4, 5};
 
         private int _currentFlyFrame;
 
@@ -18,9 +17,24 @@ namespace TimeGuardian.Entity.Enemy
         {
             SetOrigin(width/2, height/2);
             SetXY(game.width/2 +100, game.height/2 -70);
+            CreateHitBoxes();
             _level = level;
+            hitSound = new Sound(UtilStrings.SoundsEnemy+ "boss_2/sound_enemy_hit.wav");
             _state = 0;
         }
+
+        private void CreateHitBoxes()
+        {
+            WeakSpotHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_2/hitbox_owl_head.png", true, this);
+            WeakSpotHitBox.SetOrigin(WeakSpotHitBox.width/2, 0);
+            WeakSpotHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height / 2);
+            AddChild(WeakSpotHitBox);
+            BodyHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_2/hitbox_owl_body.png", false, this);
+            BodyHitBox.SetOrigin(BodyHitBox.width/2, 0);
+            BodyHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height*1.5f);
+            AddChild(BodyHitBox);
+        }
+
 
         protected override void UpdateNoTimeStop()
         {
@@ -110,6 +124,8 @@ namespace TimeGuardian.Entity.Enemy
             currentFrame = 6;
             Move(-20, 0);
         }
+
+        
 
         private void FlyFrames()
         {

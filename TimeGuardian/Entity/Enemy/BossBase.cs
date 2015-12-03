@@ -4,16 +4,21 @@ namespace TimeGuardian.Entity.Enemy
 {
     class BossBase : AnimationSprite
     {
-        protected int HealthPoints;
+        protected int Lives;
         protected int Damage;
         protected bool Vurnerable; //Value is used to temporarily make the boss vurnerable to player attacks, boss is invincible otherwise.
+        protected int MaxInvTimer = 50;
+        protected bool Dead;
+        protected int InvincibilityTimer;
         protected LevelBase Level;
-        protected EnemyHitBox WeakSpot;
+        protected EnemyHitBox WeakSpotHitBox;
+        protected EnemyHitBox BodyHitBox;
+        protected Sound hitSound;
 
-        public BossBase(string filename, int cols, int rows, int healthPoints, LevelBase level) : base(filename, cols, rows)
+        public BossBase(string filename, int cols, int rows, int lives, LevelBase level) : base(filename, cols, rows)
         {
             Level = level;
-            HealthPoints = healthPoints;
+            Lives = lives;
             Vurnerable = false;
         }
 
@@ -29,12 +34,12 @@ namespace TimeGuardian.Entity.Enemy
 
         protected virtual void UpdateNoTimeStop()
         {
-
+            if (InvincibilityTimer > 0) InvincibilityTimer--;
         }
 
-        public virtual EnemyHitBox GetWeakSpot()
+        public EnemyHitBox GetWeakSpot()
         {
-            return WeakSpot;
+            return WeakSpotHitBox;
         }
 
         /// <summary>
@@ -48,27 +53,34 @@ namespace TimeGuardian.Entity.Enemy
         /// <summary>
         /// Does Damage to the Boss and Starts the boss' deathcycle in case his health hits 0
         /// </summary>
-        public void DoDamage(int damage)
+        public virtual void LoseLife(int damage)
         {
-            HealthPoints -= damage;
-            if (HealthPoints <= 0) DeathCycle();
+            System.Console.WriteLine("YOU HIT THE BOSS");
+            if (Lives < 1)
+            {
+                DeathCycle();
+            }
+            else
+            {
+                Lives--;
+                InvincibilityTimer = MaxInvTimer;
+            }
         }
 
-
-        private void DeathCycle()
+        /// <summary>
+        /// This keeps track of the grace period timer after a hit
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool IsInvincible()
         {
+            if (InvincibilityTimer > 0) return true;
+            return false;
+        }
+
+        protected virtual void DeathCycle()
+        {
+            Dead = true;
             throw new System.NotImplementedException();
-        }
-
-		public void GetHit()
-		{
-		    IsVurnerable();
-			if(Vurnerable){
-				System.Console.WriteLine("YOU HIT THE BOSS");
-			}
-			if(!Vurnerable){
-				System.Console.WriteLine ("YOU CAN NEVER HIT ME");
-			}
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TimeGuardian.Entity.Enemy
+﻿namespace TimeGuardian.Entity.Enemy
 {
     class EnemyHitBox : Sprite
     {
@@ -25,6 +20,14 @@ namespace TimeGuardian.Entity.Enemy
         public BossBase GetOwner()
         {
             return _boss;
+        }
+
+        public void DamageOwner()
+        {
+            if (_boss.IsVurnerable() && !_boss.IsInvincible())
+            {
+                _boss.LoseLife(1);
+            }
         }
     }
 }

@@ -14,11 +14,7 @@ namespace TimeGuardian.Entity.Player
         private TimeGuardianGame _game;
         private AnimationSprite _deadSprite;
 
-        private Sound _jumpSound;
-        private Sound _hurtSound;
-        private Sound _getLifeSound;
-        private Sound _abilityLoadedSound;
-        private Sound _abilityDepletedSound;
+        private Sound _jumpSound, _hurtSound, _getLifeSound, _abilityLoadedSound, _abilityDepletedSound;
 
         private const float MaxXSpeed = 6.0f;
         private const float MaxYSpeed = 15.0f;
@@ -210,6 +206,7 @@ namespace TimeGuardian.Entity.Player
             //EdgeBumper();
             move(_xSpeed, 0);
             move(0, -_ySpeed);
+            FeetDetection();
             //Move(_xSpeed, -_ySpeed);
         }
 
@@ -250,6 +247,7 @@ namespace TimeGuardian.Entity.Player
                     _isGrounded = false;
                 }
 
+                /*
                 if (other is BossBase)
                 {
                     boss = (BossBase)other;
@@ -261,7 +259,7 @@ namespace TimeGuardian.Entity.Player
                             {
                                 y = Mathf.Min(other.y - height, y); //at top of block
                                 Bounce();
-                                boss.DoDamage(1);
+                                boss.LoseLife(1);
                             }
                         }
                         else
@@ -271,15 +269,24 @@ namespace TimeGuardian.Entity.Player
                         }
                     }
                 }
+                */
 
             }
         }
 
-        private void HitBoxDetection()
+        private void FeetDetection()
         {
+            EnemyHitBox hb;
             foreach (Sprite collision in _feetHitBox.GetCollisions())
             {
-                
+                if (collision is EnemyHitBox)
+                {
+                    hb = collision as EnemyHitBox;
+                    if (hb.IsWeakSpot())
+                    {
+                        hb.DamageOwner();
+                    }
+                }
             }
         }
 

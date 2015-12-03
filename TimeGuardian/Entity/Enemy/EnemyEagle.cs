@@ -1,4 +1,5 @@
-﻿using TimeGuardian.Level;
+﻿using System;
+using TimeGuardian.Level;
 
 namespace TimeGuardian.Entity.Enemy
 {
@@ -11,21 +12,21 @@ namespace TimeGuardian.Entity.Enemy
 	    private LevelBase _level;
 		private EnemyHitBox _hitBox;
 
-		public EnemyEagle(int cols, int rows, int healthPoints, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols,rows,healthPoints,level)
+		public EnemyEagle(int cols, int rows, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols, rows, 2, level)
 		{
 		    _level = level;
             SetOrigin(height/2, width/2);
 		    SetXY(500, 450);
-			HealthPoints = healthPoints;
 		    _moveX = -2;
 			_moveY = 1;
 			_hitBox = new EnemyHitBox (UtilStrings.SpritesEnemy + "hitbox_enemy_2.png", true, this);
 			_hitBox.alpha = 1; // make hitbox invisible(0) (1 is visible)
 			AddChild (_hitBox);
-
+            Console.WriteLine(Lives);
 		}
 
-		public EnemyHitBox GetHitBox()
+
+	     public EnemyHitBox GetHitBox()
 		{
 			return _hitBox;
 		}

@@ -19,7 +19,7 @@ namespace TimeGuardian.Level
             CreateLevel();
             Player = new Player (5, this, Game);
             AddChild(Player);
-			EnemyEagle enemyEagle = new EnemyEagle (6, 1, 10, this);
+			EnemyEagle enemyEagle = new EnemyEagle (6, 1, this);
 			AddChild (enemyEagle);
 			Enemies.Add (enemyEagle.GetHitBox());
             Music = new Sound(UtilStrings.SoundsBackground+ "music_level_1.mp3", true, true);

@@ -1,6 +1,4 @@
-﻿using TimeGuardian.Entity.Player;
-
-namespace TimeGuardian.Entity.Player
+﻿namespace TimeGuardian.Entity.Player
 {
     class PlayerHitBox : Sprite
     {
