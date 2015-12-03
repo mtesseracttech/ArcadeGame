@@ -6,7 +6,6 @@ namespace TimeGuardian.UI.Menu
     class Button : AnimationSprite
     {
         private string _state;
-        private Sound _selectedSound;
         private Sound _selectSound;
 
         public Button(string filename, int rows, int x, int y, string state) : base(filename, 1, rows)

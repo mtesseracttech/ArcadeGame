@@ -79,6 +79,7 @@
     <Compile Include="GXPEngine\Utils\MouseHandler.cs" />
     <Compile Include="GXPEngine\Utils\Time.cs" />
     <Compile Include="GXPEngine\Utils\Utils.cs" />
+    <Compile Include="UI\BossBeaten.cs" />
     <Compile Include="UI\GameOver.cs" />
     <Compile Include="UI\HUD\HUDAbility.cs" />
     <Compile Include="UI\HUD\HUDHeart.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="UI\Menu\HighScores.cs" />
     <Compile Include="UI\Menu\MainMenu.cs" />
     <Compile Include="UI\Menu\Pause.cs" />
+    <Compile Include="UI\Menu\WonGame.cs" />
     <Compile Include="Utility\ArcadeButtons.cs" />
     <Compile Include="Utility\FileReader.cs" />
     <Compile Include="Utility\UtilStrings.cs" />

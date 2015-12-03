@@ -10,8 +10,6 @@ namespace TimeGuardian.Level
  
         private int[,] _tileMap;
 
-        private Sound _sound;
-
         public Level3(TimeGuardianGame game, int lives) : base(game)
         {
             Game = game;
@@ -133,7 +131,7 @@ namespace TimeGuardian.Level
 
         protected override void UpdateUnpaused()
         {
-            HitDetection();
+
         }
 
         protected override void UpdateNoTimeStop()
@@ -141,14 +139,14 @@ namespace TimeGuardian.Level
 
         }
 
-        protected override void HitDetection()
-        {
-            base.HitDetection();
-        }
-
         public override string GetLevelName()
         {
             return "Level" + _levelNr;
+        }
+
+        public override string GetNextLevelName()
+        {
+            return "WonGame";
         }
     }
 }

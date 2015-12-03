@@ -133,7 +133,7 @@ namespace TimeGuardian.Level
 
         protected override void UpdateUnpaused()
         {
-            HitDetection();
+
         }
 
         protected override void UpdateNoTimeStop()
@@ -141,14 +141,16 @@ namespace TimeGuardian.Level
             
         }
 
-        protected override void HitDetection()
-        {
-            base.HitDetection();
-        }
+
 
         public override string GetLevelName()
         {
             return "Level"+_levelNr;
+        }
+
+        public override string GetNextLevelName()
+        {
+            return "Level" + (_levelNr + 1);
         }
     }
 }

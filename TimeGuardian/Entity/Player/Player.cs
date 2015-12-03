@@ -44,7 +44,6 @@ namespace TimeGuardian.Entity.Player
         private PlayerHitBox _bodyHitBox;
         private PlayerHitBox _feetHitBox;
         private HUD _hud;
-		private bool _arcadeMachineControls;
 
         public Player(int lives, LevelBase level, TimeGuardianGame game) : base(UtilStrings.SpritesPlayer + "spritesheet_hero.png", 8, 2)
         {
@@ -68,11 +67,13 @@ namespace TimeGuardian.Entity.Player
         {
             _bodyHitBox = new PlayerHitBox(UtilStrings.SpritesPlayer + "hitbox_hero_body.png", this);
             _bodyHitBox.SetOrigin(_bodyHitBox.width/2, 0);
+            _bodyHitBox.alpha = 0f;
             AddChild(_bodyHitBox);
             Console.WriteLine(_bodyHitBox.x + " " + _bodyHitBox.y);
             _feetHitBox = new PlayerHitBox(UtilStrings.SpritesPlayer + "hitbox_hero_feet.png", this);
             _feetHitBox.SetOrigin(_feetHitBox.width/2, 0);
             _feetHitBox.SetXY(0, height-_feetHitBox.height);
+            _feetHitBox.alpha = 0f;
             AddChild(_feetHitBox);
 
         }
@@ -175,8 +176,8 @@ namespace TimeGuardian.Entity.Player
         private void Movement()
         {
             if (!_isGrounded && _ySpeed > -MaxYSpeed) _ySpeed -= 0.5f;
-
-            if (!_dead)
+            if (_level.GetFinished()) _xSpeed = 0.0f;
+            if (!_dead && !_level.GetFinished())
             {
                 if (_xSpeed < MaxXSpeed && Input.GetKey(ArcadeButtons.PLAYER1_RIGHT))
                 {
@@ -206,7 +207,8 @@ namespace TimeGuardian.Entity.Player
             //EdgeBumper();
             move(_xSpeed, 0);
             move(0, -_ySpeed);
-            FeetDetection();
+            if (!IsDead() && !_level.GetFinished()) FeetDetection();
+            if (!IsInvincible() && !IsDead() && !_level.GetFinished()) BodyDetection();
             //Move(_xSpeed, -_ySpeed);
         }
 
@@ -214,7 +216,6 @@ namespace TimeGuardian.Entity.Player
         {
             x = x + moveX;
             y = y + moveY;
-            BossBase boss;
 
             foreach (Sprite other in GetCollisions())
             {
@@ -246,31 +247,6 @@ namespace TimeGuardian.Entity.Player
                 {
                     _isGrounded = false;
                 }
-
-                /*
-                if (other is BossBase)
-                {
-                    boss = (BossBase)other;
-                    if (!_dead && !IsInvincible())
-                    {
-                        if (boss.IsVurnerable() && _level.GetTimeStopped())
-                        {
-                            if (moveY > 0)
-                            {
-                                y = Mathf.Min(other.y - height, y); //at top of block
-                                Bounce();
-                                boss.LoseLife(1);
-                            }
-                        }
-                        else
-                        {
-                            LoseLife();
-                            Bounce();
-                        }
-                    }
-                }
-                */
-
             }
         }
 
@@ -284,26 +260,32 @@ namespace TimeGuardian.Entity.Player
                     hb = collision as EnemyHitBox;
                     if (hb.IsWeakSpot())
                     {
+                        Bounce();
                         hb.DamageOwner();
+                    }
+                    else
+                    {
+                        Bounce();
+                        if (!IsInvincible()) LoseLife();
                     }
                 }
             }
         }
 
-
-
-
-        private void EdgeBumper()
+        private void BodyDetection()
         {
-            if (x + width/2 > game.width)
+            //EnemyHitBox hb;
+            foreach (Sprite collision in _bodyHitBox.GetCollisions())
             {
-                x = game.width - width/2;
-                _xSpeed = -_xSpeed;
-            }
-            else if (x - width/2 < 0)
-            {
-                x = 0 + width/2;
-                _xSpeed = -_xSpeed;
+                if (collision is EnemyHitBox)
+                {
+                    if (_level.GetTimeStopped()) Bounce();
+                    else
+                    {
+                        Bounce();
+                        LoseLife();
+                    }
+                }
             }
         }
 
@@ -355,17 +337,6 @@ namespace TimeGuardian.Entity.Player
             if (_invincibilityTimer > 0) return true;
             return false;
         }
-			
-        /*private bool IsOnSolidGround()
-        {
-            if (y >= 500)
-            {
-                return true;
-            }
-
-			return false;
-        }
-        */
 
         public int GetMaxTimeStopTimer()
         {
@@ -396,18 +367,6 @@ namespace TimeGuardian.Entity.Player
         public bool IsDead()
         {
             return _dead;
-        }
-
-        private void StorePosition()
-        {
-            _prevX = x;
-            _prexY = y;
-        }
-
-        private void MoveBack()
-        {
-            x = _prevX;
-            y = _prexY;
         }
 
         public void SetLevel(LevelBase level)

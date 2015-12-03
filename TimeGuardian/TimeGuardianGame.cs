@@ -13,7 +13,7 @@ public class TimeGuardianGame : Game
     private Level1 _level1;
     private Level2 _level2;
     private Level3 _level3;
-    private Player _player;
+    private WonGame _wonGame;
     private int _lives;
 
 	public TimeGuardianGame () : base(1024, 768, false, false)
@@ -68,7 +68,10 @@ public class TimeGuardianGame : Game
                 _level3.StopMusic();
                 _level3.Destroy();
                 break;
-                
+            case "WonGame":
+                _wonGame.Destroy();
+                break;
+
         }
     }
 
@@ -100,6 +103,9 @@ public class TimeGuardianGame : Game
                 _level3 = new Level3(this, 5); //Idem ditto
                 AddChild(_level3);
                 break;
+            //case "WonGame":
+                //AddChild(_wonGame);
+                //break;
             case "Exit":
                 Environment.Exit(0);
                 break;
@@ -113,7 +119,8 @@ public class TimeGuardianGame : Game
 		//empty
 	}
 
-	static void Main() {
+	static void Main()
+    {
 		new TimeGuardianGame().Start();
 	}
 }

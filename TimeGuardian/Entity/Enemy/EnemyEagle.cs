@@ -9,26 +9,24 @@ namespace TimeGuardian.Entity.Enemy
 		private float _moveX, _moveY;
 		int firstFrame = 0, lastFrame = 5;
 		float frame = 0.0f;
-	    private LevelBase _level;
-		private EnemyHitBox _hitBox;
 
 		public EnemyEagle(int cols, int rows, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols, rows, 2, level)
 		{
-		    _level = level;
+		    Level = level;
             SetOrigin(height/2, width/2);
 		    SetXY(500, 450);
 		    _moveX = -2;
 			_moveY = 1;
-			_hitBox = new EnemyHitBox (UtilStrings.SpritesEnemy + "hitbox_enemy_2.png", true, this);
-			_hitBox.alpha = 1; // make hitbox invisible(0) (1 is visible)
-			AddChild (_hitBox);
+			WeakSpotHitBox = new EnemyHitBox (UtilStrings.SpritesEnemy + "hitbox_enemy_2.png", true, this);
+            WeakSpotHitBox.alpha = 1; // make hitbox invisible(0) (1 is visible)
+			AddChild (WeakSpotHitBox);
             Console.WriteLine(Lives);
 		}
 
 
 	     public EnemyHitBox GetHitBox()
 		{
-			return _hitBox;
+			return WeakSpotHitBox;
 		}
 
 	    protected override void Update()
@@ -42,7 +40,8 @@ namespace TimeGuardian.Entity.Enemy
             SpriteHandler();
         }
 
-        private void Movement(){	
+        private void Movement()
+        {
 		    //scripted movement for boss
 		    Move (_moveX, _moveY);
 

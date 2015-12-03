@@ -5,20 +5,21 @@ namespace TimeGuardian.Entity.Enemy
     class EnemyOwl : BossBase
     {
         private int _state;
-        private LevelBase _level;
+        //private LevelBase _level;
 
         private int _staticCounter;
 
         private int[] _flyFrames = {1, 2, 3, 4, 5};
+        private int[] _surrenderFrames = {8, 9};
 
-        private int _currentFlyFrame;
+        private int _currentFlyFrame, _currentSurrenderFrame;
 
-        public EnemyOwl(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_2/spritesheet_boss_owl.png", 3, 4, 5, level)
+        public EnemyOwl(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_2/spritesheet_boss_owl.png", 3, 4, 1, level)
         {
             SetOrigin(width/2, height/2);
             SetXY(game.width/2 +100, game.height/2 -70);
             CreateHitBoxes();
-            _level = level;
+            Level = level;
             hitSound = new Sound(UtilStrings.SoundsEnemy+ "boss_2/sound_enemy_hit.wav");
             _state = 0;
         }
@@ -28,16 +29,19 @@ namespace TimeGuardian.Entity.Enemy
             WeakSpotHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_2/hitbox_owl_head.png", true, this);
             WeakSpotHitBox.SetOrigin(WeakSpotHitBox.width/2, 0);
             WeakSpotHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height / 2);
+            WeakSpotHitBox.alpha = 0f;
             AddChild(WeakSpotHitBox);
             BodyHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_2/hitbox_owl_body.png", false, this);
             BodyHitBox.SetOrigin(BodyHitBox.width/2, 0);
             BodyHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height*1.5f);
+            BodyHitBox.alpha = 0f;
             AddChild(BodyHitBox);
         }
 
 
         protected override void UpdateNoTimeStop()
         {
+            base.UpdateNoTimeStop();
             if (Input.GetKeyDown(Key.Z)) { _state = 1; }
 
             switch (_state)
@@ -60,12 +64,17 @@ namespace TimeGuardian.Entity.Enemy
                     MoveUp(14);
                     break;
                 case 4: //Death state
-
+                    FallDown();
+                    break;
+                case 5:
+                    SurrenderSprites();
                     break;
             }
 
             SideReturn();
         }
+
+        
 
         private void SideReturn()
         {
@@ -113,7 +122,7 @@ namespace TimeGuardian.Entity.Enemy
 
         private void AimAtPlayer()
         {
-            Player.Player player = _level.GetPlayer();
+            Player.Player player = Level.GetPlayer();
             float deltaX = this.x - player.x;
             float deltaY = this.y - player.y;
             rotation = (Mathf.Atan2(deltaY, deltaX) * 180) / Mathf.PI;
@@ -132,6 +141,31 @@ namespace TimeGuardian.Entity.Enemy
             if (_currentFlyFrame < _flyFrames.Length * 5 - 1) _currentFlyFrame++;
             else _currentFlyFrame = 0;
             currentFrame = _flyFrames[_currentFlyFrame / 5];
+        }
+
+
+        private void FallDown()
+        {
+            currentFrame = 7;
+            if (y < game.height - UtilStrings.TileSize - height/2 - 5) y += 5;
+            else if (y > game.height - UtilStrings.TileSize - height/2 + 5) y -= 5;
+            else _state = 5;
+        }
+
+        protected override void DeathCycle()
+        {
+            base.DeathCycle();
+            rotation = 0;
+            _state = 4;
+        }
+
+        private void SurrenderSprites()
+        {
+            if (Level.GetPlayer().x > x) Mirror(true, false);
+            else Mirror(false, false);
+
+            if (_currentSurrenderFrame < _surrenderFrames.Length*50 - 1) _currentSurrenderFrame++;
+            currentFrame = _surrenderFrames[_currentSurrenderFrame / 50];
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using TimeGuardian.Level;
+﻿using System;
+using TimeGuardian.Level;
+using TimeGuardian.UI;
 
 namespace TimeGuardian.Entity.Enemy
 {
     class BossBase : AnimationSprite
     {
         protected int Lives;
-        protected int Damage;
         protected bool Vurnerable; //Value is used to temporarily make the boss vurnerable to player attacks, boss is invincible otherwise.
         protected int MaxInvTimer = 50;
         protected bool Dead;
@@ -55,8 +56,9 @@ namespace TimeGuardian.Entity.Enemy
         /// </summary>
         public virtual void LoseLife(int damage)
         {
+            hitSound.Play();
             System.Console.WriteLine("YOU HIT THE BOSS");
-            if (Lives < 1)
+            if (Lives <= 1)
             {
                 DeathCycle();
             }
@@ -80,7 +82,20 @@ namespace TimeGuardian.Entity.Enemy
         protected virtual void DeathCycle()
         {
             Dead = true;
-            throw new System.NotImplementedException();
+            Level.SetFinished(true);
+            BossBeaten beaten = new BossBeaten(Level.GetGame(), Level);
+            Level.AddChild(beaten);
+        }
+
+        public bool IsDead()
+        {
+            return Dead;
+        }
+
+        public bool IsFrozen()
+        {
+            if (Level.GetTimeStopped()) return true;
+            return false;
         }
     }
 }

@@ -10,11 +10,8 @@ namespace TimeGuardian.Level
     {
         private int _levelNr = 2;
         private EnemyOwl enemy;
-        private Vector2 mouse_pos;
 
         private int[,] _tileMap;
-
-        private Sound _sound;
 
         public Level2(TimeGuardianGame game, int lives) : base(game)
         {
@@ -29,9 +26,6 @@ namespace TimeGuardian.Level
             Music = new Sound(UtilStrings.SoundsBackground + "music_level_2.mp3", true, true);
             MusicChannel = Music.Play();
             AddChild(Pause);
-
-
-            mouse_pos = new Vector2();
         }
 
 
@@ -128,9 +122,11 @@ namespace TimeGuardian.Level
 
         protected override void Update()
         {
+            if (enemy.IsDead()) TimeStop = false;
             BackgroundManager();
             base.Update();
         }
+
 
         private void BackgroundManager()
         {
@@ -142,23 +138,15 @@ namespace TimeGuardian.Level
             }
         }
 
-        protected override void UpdateUnpaused()
-        {
-            HitDetection();
-        }
-
-        protected override void UpdateNoTimeStop()
-        {
-        }
-
-        protected override void HitDetection()
-        {
-            base.HitDetection();
-        }
 
         public override string GetLevelName()
         {
             return "Level" + _levelNr;
+        }
+
+        public override string GetNextLevelName()
+        {
+            return "Level" + (_levelNr + 1);
         }
     }
 }

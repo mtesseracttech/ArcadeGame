@@ -24,7 +24,7 @@
 
         public void DamageOwner()
         {
-            if (_boss.IsVurnerable() && !_boss.IsInvincible())
+            if (_boss.IsVurnerable() && !_boss.IsInvincible() && !_boss.IsDead() && _boss.IsFrozen())
             {
                 _boss.LoseLife(1);
             }

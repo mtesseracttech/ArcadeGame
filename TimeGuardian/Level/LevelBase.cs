@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TimeGuardian.Entity.Enemy;
 using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.Entity.Player;
 using TimeGuardian.UI.Menu;
@@ -12,6 +13,7 @@ namespace TimeGuardian.Level
         protected bool Paused;
         protected bool TimeStop;
 
+        protected bool Finished = false;
 
         protected List<GameObject> Enemies;
         protected List<Background> Backgrounds;
@@ -55,20 +57,12 @@ namespace TimeGuardian.Level
         protected virtual void Update()
         {
             if (Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON5)) PauseToggle();
-            /*
-            if (Input.GetKeyDown(Key.G))
-            {
-                DebugBall DBBall = new DebugBall(this);
-                Enemies.Add(DBBall);
-                AddChild(DBBall);
-            }
-            */
             if (!Paused) UpdateUnpaused();
         }
 
         protected virtual void UpdateUnpaused()
         {
-            if (!TimeStop) UpdateUnpaused();
+            if (!TimeStop) UpdateNoTimeStop();
         }
 
         protected virtual void UpdateNoTimeStop()
@@ -76,56 +70,6 @@ namespace TimeGuardian.Level
             
         }
 
-        protected virtual void HitDetection()
-        {
-            if (!Player.IsDead() && !Player.IsInvincible()) PlayerHitDetection();
-        }
-
-        protected virtual void PlayerHitDetection()
-        {
-            /*
-            foreach (GameObject enemy in Enemies)
-            {
-                if (Player.HitTest(enemy))
-                {
-                    _bottomPlayer = Player.DefineFeet();
-                    if (_bottomPlayer < enemy.y)
-                    {
-                        enemy.Destroy();
-
-                    }
-                    else if (_bottomPlayer > enemy.y)
-                    {
-                        Player.LoseLife();
-                        //Player.Bounce();
-                    }
-                }
-            }
-            */
-        }
-
-		protected virtual void HitDetectAbove()
-		{
-			foreach(GameObject enemy in Enemies)
-			{
-				//when player hits the top of the sprite, from above.
-				//bottom of the player
-				//has to be higher then the top of the boss in order to hit him
-				if(Player.HitTest(enemy))
-				{
-					_bottomPlayer = Player.DefineFeet ();
-					if(_bottomPlayer < enemy.y)
-					{
-						enemy.Destroy ();
-					}
-					else if(_bottomPlayer > enemy.y)
-					{ 
-						Player.LoseLife ();
-						Player.SetXY (100, 500);
-					}
-				}
-			}	
-		}
 
         public void SetTimeStop(bool timeStop)
         {
@@ -147,12 +91,6 @@ namespace TimeGuardian.Level
             }
         }
 
-        /*
-        public void StopTimeToggle()
-        {
-            TimeStop = !TimeStop;
-        }
-        */
         public void PauseToggle()
         {
             Paused = !Paused;
@@ -171,5 +109,21 @@ namespace TimeGuardian.Level
 
         public abstract string GetLevelName();
 
+        public abstract string GetNextLevelName();
+
+        public TimeGuardianGame GetGame()
+        {
+            return Game;
+        }
+
+        public bool GetFinished()
+        {
+            return Finished;
+        }
+
+        public void SetFinished(bool finished)
+        {
+            Finished = finished;
+        }
     }
 }
