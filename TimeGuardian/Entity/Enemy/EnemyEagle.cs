@@ -2,7 +2,7 @@
 
 namespace TimeGuardian.Entity.Enemy
 {
-	 class EagleEnemy : BossBase
+	 class EnemyEagle : BossBase
 	{
 
 		private float _moveX, _moveY;
@@ -11,7 +11,7 @@ namespace TimeGuardian.Entity.Enemy
 	    private LevelBase _level;
 		private HitBox _hitBox;
 
-		public EagleEnemy(int cols, int rows, int healthPoints, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols,rows,healthPoints,level)
+		public EnemyEagle(int cols, int rows, int healthPoints, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols,rows,healthPoints,level)
 		{
 		    _level = level;
             SetOrigin(height/2, width/2);
@@ -19,8 +19,8 @@ namespace TimeGuardian.Entity.Enemy
 			HealthPoints = healthPoints;
 		    _moveX = -2;
 			_moveY = 1;
-			_hitBox = new HitBox (UtilStrings.SpritesEnemy+ "hitbox_enemy_2.png");
-			_hitBox.alpha = 0; // make hitbox invisible(0) (1 is visible)
+			_hitBox = new HitBox (UtilStrings.SpritesEnemy + "hitbox_enemy_2.png");
+			_hitBox.alpha = 1; // make hitbox invisible(0) (1 is visible)
 			AddChild (_hitBox);
 
 		}
@@ -60,7 +60,7 @@ namespace TimeGuardian.Entity.Enemy
 		}
 
 		private void SpriteHandler(){
-			GetVurnerability ();
+			IsVurnerable ();
 			MovingSprite ();
 		}
 

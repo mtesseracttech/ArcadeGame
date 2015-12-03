@@ -90,7 +90,7 @@
     <Compile Include="Utility\ArcadeButtons.cs" />
     <Compile Include="Utility\FileReader.cs" />
     <Compile Include="Utility\UtilStrings.cs" />
-    <Compile Include="Entity\Enemy\EagleEnemy.cs" />
+    <Compile Include="Entity\Enemy\EnemyEagle.cs" />
     <Compile Include="Entity\HitBox.cs" />
   </ItemGroup>
   <ItemGroup />

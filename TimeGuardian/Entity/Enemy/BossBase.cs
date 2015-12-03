@@ -35,7 +35,7 @@ namespace TimeGuardian.Entity.Enemy
         /// <summary>
         /// When called, returns whether the boss is vurnerable or not at a given point.
         /// </summary>
-        public bool GetVurnerability()
+        public bool IsVurnerable()
         {
             return Vurnerable;
         }
@@ -56,12 +56,13 @@ namespace TimeGuardian.Entity.Enemy
 			//this.Destroy ();
         }
 
-		public void GetHit(){
-			GetVurnerability ();
-			if(Vurnerable == true){
+		public void GetHit()
+		{
+		    IsVurnerable();
+			if(Vurnerable){
 				System.Console.WriteLine("YOU HIT THE BOSS");
 			}
-			if(Vurnerable == false){
+			if(!Vurnerable){
 				System.Console.WriteLine ("YOU CAN NEVER HIT ME");
 			}
 

@@ -2,6 +2,7 @@
 using System.ComponentModel.Design;
 using System.Drawing.Text;
 using System.Runtime.Remoting.Messaging;
+using TimeGuardian.Entity;
 using TimeGuardian.Level;
 using TimeGuardian.UI;
 using TimeGuardian.UI.HUD;
@@ -31,7 +32,8 @@ namespace TimeGuardian.player
         private bool _dead = false;
 
         private float _prevX, _prexY;
-        private float _xSpeed, _ySpeed;
+        private float _xSpeed;
+        private float _ySpeed;
         private bool _xFlip;
         private bool _restoring;
         private bool _isGrounded;
@@ -47,6 +49,8 @@ namespace TimeGuardian.player
         private readonly short[] _jumpFrames = {9, 9, 10, 11, 12};
         private readonly short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6};
 
+        private HitBox _bodyHitBox;
+        private HitBox _feetHitBox;
         private HUD _hud;
 		private bool _arcadeMachineControls;
 
@@ -59,13 +63,23 @@ namespace TimeGuardian.player
             _level = level;
             _timestopTimer = MaxTimeStopTimer;
             DeadSpriteCreator();
+            HitBoxCreator();
             _hud = new HUD(_lives, _level, this);
-
             _jumpSound = new Sound(UtilStrings.SoundsPlayer + "sound_jump.wav");
             _hurtSound = new Sound(UtilStrings.SoundsPlayer + "sound_hurt.wav");
             _getLifeSound = new Sound(UtilStrings.SoundsPlayer + "sound_getLife.wav");
             _abilityLoadedSound = new Sound(UtilStrings.SoundsPlayer + "sound_abilityActive.wav");
             _abilityDepletedSound = new Sound(UtilStrings.SoundsPlayer + "sound_abilityDepleted.wav");
+        }
+
+        private void HitBoxCreator()
+        {
+            _bodyHitBox = new HitBox(UtilStrings.SpritesPlayer + "hitbox_hero_body.png");
+            _bodyHitBox.SetOrigin(_bodyHitBox.width/2, 0);
+            AddChild(_bodyHitBox);
+            Console.WriteLine(_bodyHitBox.x + " " + _bodyHitBox.y);
+            _feetHitBox = new HitBox(UtilStrings.SpritesPlayer + "hitbox_hero_feet.png");
+
         }
 
         private void DeadSpriteCreator()
@@ -185,12 +199,14 @@ namespace TimeGuardian.player
                 }
                 if (_xSpeed != 0.0f && !Input.GetKey(ArcadeButtons.PLAYER1_RIGHT) && !Input.GetKey(ArcadeButtons.PLAYER1_LEFT)) _xSpeed *= 0.3f;
 
+                
                 if (Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON1) && _jumpCounter < 2)
                 {
                     _jumpSound.Play();
                     _jumpCounter++;
                     _ySpeed = 15.0f;
                 }
+                
             }
             //EdgeBumper();
             move(_xSpeed, 0);
@@ -202,6 +218,7 @@ namespace TimeGuardian.player
         {
             x = x + moveX;
             y = y + moveY;
+            BossBase boss;
 
             foreach (Sprite other in GetCollisions())
             {
@@ -236,12 +253,34 @@ namespace TimeGuardian.player
 
                 if (other is BossBase)
                 {
+                    boss = (BossBase)other;
                     if (!_dead && !IsInvincible())
                     {
-                        LoseLife();
-                        Bounce();
+                        if (boss.IsVurnerable() && _level.GetTimeStopped())
+                        {
+                            if (moveY > 0)
+                            {
+                                y = Mathf.Min(other.y - height, y); //at top of block
+                                Bounce();
+                                boss.DoDamage(1);
+                            }
+                        }
+                        else
+                        {
+                            LoseLife();
+                            Bounce();
+                        }
                     }
                 }
+
+            }
+        }
+
+        private void HitBoxDetection()
+        {
+            foreach (Sprite collision in _feetHitBox.GetCollisions())
+            {
+                
             }
         }
 

@@ -11,16 +11,14 @@ namespace TimeGuardian.Entity.Enemy
     class EnemyOwl : BossBase
     {
         private int _state;
-        private int _glideDirection;
         private LevelBase _level;
 
         private int _staticCounter;
 
         private int[] _flyFrames = {1, 2, 3, 4, 5};
-        private int[] _createFrames = {7, 8, 9, 10, 11, 12, 13};
-        private int[] _defaultFrames = {0, 1, 2, 3, 4, 5};
+        private int[] _deathFrames = {1, 2, 3, 4, 5};
 
-        private int _currentDefaultFrame, _currentFlyFrame;
+        private int _currentFlyFrame;
 
         public EnemyOwl(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_2/spritesheet_boss_owl.png", 3, 4, 5, level)
         {
@@ -66,6 +64,9 @@ namespace TimeGuardian.Entity.Enemy
             if (x < 0 - width || x > game.width + width || y > game.height + height)
             {
                 rotation = Utils.Random(-10, 10);
+                color = 0xFFAAAA;
+                alpha = 0.7f;
+                Vurnerable = true;
                 _state = 1;
             }
         }
@@ -74,12 +75,12 @@ namespace TimeGuardian.Entity.Enemy
         private void MoveUp(int speed)
         {
             Mirror(false, false);
+            
             FlyFrames();
             if (y > 0 - height) Move(0, -speed);
             else
             {
-                _glideDirection = Utils.Random(0, 2);
-                if (_glideDirection == 1)
+                if (Utils.Random(0, 2) == 1)
                 {
                     Mirror(false, true);
                     SetXY(0, -height);
@@ -89,6 +90,9 @@ namespace TimeGuardian.Entity.Enemy
                     SetXY(game.width, -this.height);
                 }
                 AimAtPlayer();
+                Vurnerable = false;
+                color = 0xFFFFFF;
+                alpha = 1;
                 _state = 2;
             }
 
@@ -113,18 +117,11 @@ namespace TimeGuardian.Entity.Enemy
             Move(-20, 0);
         }
 
-        private void DefaultFrames()
-        {
-            if (_currentDefaultFrame < _defaultFrames.Length * 10 - 1) _currentDefaultFrame++;
-            else _currentDefaultFrame = 0;
-            currentFrame = _defaultFrames[_currentDefaultFrame / 10];
-        }
-
         private void FlyFrames()
         {
             if (_currentFlyFrame < _flyFrames.Length * 5 - 1) _currentFlyFrame++;
             else _currentFlyFrame = 0;
-            currentFrame = _defaultFrames[_currentFlyFrame / 5];
+            currentFrame = _flyFrames[_currentFlyFrame / 5];
         }
     }
 }
