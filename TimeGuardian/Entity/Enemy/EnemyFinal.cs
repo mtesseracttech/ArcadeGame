@@ -1,38 +1,43 @@
-﻿using TimeGuardian.Level;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using TimeGuardian.Level;
 
 namespace TimeGuardian.Entity.Enemy
 {
-    class EnemyOwl : EnemyBase
+    class EnemyFinal : EnemyBase
     {
         private int _state;
 
         private int _staticCounter;
 
-        private int[] _flyFrames = {1, 2, 3, 4, 5};
+        private int[] _flyFrames = {1, 2, 3, 4, 5, 6};
         private int[] _surrenderFrames = {8, 9};
 
         private int _currentFlyFrame, _currentSurrenderFrame;
 
-        public EnemyOwl(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_2/spritesheet_boss_owl.png", 3, 4, 1, level)
+        public EnemyFinal(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_3/spritesheet_boss_eagle.png", 3, 4, 1, level)
         {
-            SetOrigin(width/2, height/2);
-            SetXY(game.width/2 +100, game.height/2 -70);
+            SetOrigin(width / 2, height / 2);
+            SetXY(game.width / 2 + 100, game.height / 2 - 70);
             CreateHitBoxes();
             Level = level;
-            hitSound = new Sound(UtilStrings.SoundsEnemy+ "boss_2/sound_enemy_hit.wav");
+            hitSound = new Sound(UtilStrings.SoundsEnemy + "boss_3/sound_enemy_hit.wav");
             _state = 0;
         }
 
+
         private void CreateHitBoxes()
         {
-            WeakSpotHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_2/hitbox_owl_head.png", true, this);
-            WeakSpotHitBox.SetOrigin(WeakSpotHitBox.width/2, 0);
+            WeakSpotHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_3/hitbox_eagle_head.png", true, this);
+            WeakSpotHitBox.SetOrigin(WeakSpotHitBox.width / 2, 0);
             WeakSpotHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height / 2);
             WeakSpotHitBox.alpha = 0f;
             AddChild(WeakSpotHitBox);
-            BodyHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_2/hitbox_owl_body.png", false, this);
-            BodyHitBox.SetOrigin(BodyHitBox.width/2, 0);
-            BodyHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height*1.5f);
+            BodyHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_3/hitbox_eagle_body.png", false, this);
+            BodyHitBox.SetOrigin(BodyHitBox.width / 2, 0);
+            BodyHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height * 1.5f);
             BodyHitBox.alpha = 0f;
             AddChild(BodyHitBox);
         }
@@ -60,9 +65,9 @@ namespace TimeGuardian.Entity.Enemy
                     Glide();
                     break;
                 case 3: //Flies up quickly for new attack
-                    MoveUp(12);
+                    MoveUp(20);
                     break;
-                case 4: //Falls Down after battle
+                case 4: //Falls Down After Battle
                     FallDown();
                     break;
                 case 5:
@@ -73,7 +78,7 @@ namespace TimeGuardian.Entity.Enemy
             SideReturn();
         }
 
-        
+
 
         private void SideReturn()
         {
@@ -91,7 +96,7 @@ namespace TimeGuardian.Entity.Enemy
         private void MoveUp(int speed)
         {
             Mirror(false, false);
-            
+
             FlyFrames();
             if (y > 0 - height) Move(0, -speed);
             else
@@ -129,11 +134,11 @@ namespace TimeGuardian.Entity.Enemy
 
         private void Glide()
         {
-            currentFrame = 6;
-            Move(-20, 0);
+            currentFrame = 7;
+            Move(-30, 0);
         }
 
-        
+
 
         private void FlyFrames()
         {
@@ -146,8 +151,8 @@ namespace TimeGuardian.Entity.Enemy
         private void FallDown()
         {
             currentFrame = 7;
-            if (y < game.height - UtilStrings.TileSize - height/2 - 5) y += 5;
-            else if (y > game.height - UtilStrings.TileSize - height/2 + 5) y -= 5;
+            if (y < game.height - UtilStrings.TileSize - height / 2 - 5) y += 5;
+            else if (y > game.height - UtilStrings.TileSize - height / 2 + 5) y -= 5;
             else _state = 5;
         }
 
@@ -163,7 +168,7 @@ namespace TimeGuardian.Entity.Enemy
             if (Level.GetPlayer().x > x) Mirror(true, false);
             else Mirror(false, false);
 
-            if (_currentSurrenderFrame < _surrenderFrames.Length*50 - 1) _currentSurrenderFrame++;
+            if (_currentSurrenderFrame < _surrenderFrames.Length * 50 - 1) _currentSurrenderFrame++;
             currentFrame = _surrenderFrames[_currentSurrenderFrame / 50];
         }
     }

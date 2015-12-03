@@ -1,5 +1,4 @@
-﻿using TimeGuardian.Core;
-using TimeGuardian.Entity.Enemy;
+﻿using TimeGuardian.Entity.Enemy;
 using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.Entity.Player;
 using TimeGuardian.Utility;

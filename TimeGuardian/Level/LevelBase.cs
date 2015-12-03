@@ -56,7 +56,7 @@ namespace TimeGuardian.Level
 
         protected virtual void Update()
         {
-            if (Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON5)) PauseToggle();
+            if (Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON3)) PauseToggle();
             if (!Paused) UpdateUnpaused();
         }
 

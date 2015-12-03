@@ -129,7 +129,7 @@ namespace TimeGuardian.Entity.Player
                 _timestopTimer--;
                 _restoring = false;
             }
-            if (!_level.GetTimeStopped() && _timestopTimer == MaxTimeStopTimer && Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON4))
+            if (!_level.GetTimeStopped() && _timestopTimer == MaxTimeStopTimer && Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON2))
             {
                 _abilityLoadedSound.Play();
                 _level.SetTimeStop(true);

@@ -1,4 +1,5 @@
-﻿using TimeGuardian.Entity.LevelEntities;
+﻿using TimeGuardian.Entity.Enemy;
+using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.Entity.Player;
 using TimeGuardian.Utility;
 
@@ -7,6 +8,7 @@ namespace TimeGuardian.Level
     class Level3 : LevelBase
     {
         private int _levelNr = 3;
+        private EnemyFinal _enemy;
  
         private int[,] _tileMap;
 
@@ -16,8 +18,10 @@ namespace TimeGuardian.Level
             BackgroundCreator();
             _tileMap = FileReader.levelMaker(_levelNr, UtilStrings.TilesX, UtilStrings.TilesY);
             Player = new Player(lives, this, Game);
+            _enemy = new EnemyFinal(this);
             CreateLevel();
             AddChild(Player);
+            AddChild(_enemy);
             Music = new Sound(UtilStrings.SoundsBackground + "music_level_3.mp3", true, true);
             MusicChannel = Music.Play();
             AddChild(Pause);

@@ -23,6 +23,12 @@ namespace TimeGuardian.Entity.Enemy
             Vurnerable = false;
         }
 
+        protected void SetFilter()
+        {
+            if (Level.GetTimeStopped()) color = 0x005555;
+            else color = 0xFFFFFF;
+        }
+
         protected virtual void Update()
         {
             if (!Level.GetPaused()) UpdateUnpaused();
@@ -36,6 +42,7 @@ namespace TimeGuardian.Entity.Enemy
         protected virtual void UpdateNoTimeStop()
         {
             if (InvincibilityTimer > 0) InvincibilityTimer--;
+            SetFilter();
         }
 
         public EnemyHitBox GetWeakSpot()
