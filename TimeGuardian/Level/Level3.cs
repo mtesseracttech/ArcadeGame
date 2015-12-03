@@ -1,5 +1,5 @@
 ﻿using TimeGuardian.Entity.LevelEntities;
-using TimeGuardian.player;
+using TimeGuardian.Entity.Player;
 using TimeGuardian.Utility;
 
 namespace TimeGuardian.Level

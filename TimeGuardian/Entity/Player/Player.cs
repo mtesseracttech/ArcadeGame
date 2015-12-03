@@ -1,8 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Design;
-using System.Drawing.Text;
-using System.Runtime.Remoting.Messaging;
-using TimeGuardian.Entity;
 using TimeGuardian.Level;
 using TimeGuardian.UI;
 using TimeGuardian.UI.HUD;
@@ -10,7 +6,7 @@ using TimeGuardian.Entity.Enemy;
 using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.Utility;
 
-namespace TimeGuardian.player
+namespace TimeGuardian.Entity.Player
 {
     class Player : AnimationSprite
     {
@@ -49,8 +45,8 @@ namespace TimeGuardian.player
         private readonly short[] _jumpFrames = {9, 9, 10, 11, 12};
         private readonly short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6};
 
-        private HitBox _bodyHitBox;
-        private HitBox _feetHitBox;
+        private PlayerHitBox _bodyHitBox;
+        private PlayerHitBox _feetHitBox;
         private HUD _hud;
 		private bool _arcadeMachineControls;
 
@@ -74,11 +70,14 @@ namespace TimeGuardian.player
 
         private void HitBoxCreator()
         {
-            _bodyHitBox = new HitBox(UtilStrings.SpritesPlayer + "hitbox_hero_body.png");
+            _bodyHitBox = new PlayerHitBox(UtilStrings.SpritesPlayer + "hitbox_hero_body.png", this);
             _bodyHitBox.SetOrigin(_bodyHitBox.width/2, 0);
             AddChild(_bodyHitBox);
             Console.WriteLine(_bodyHitBox.x + " " + _bodyHitBox.y);
-            _feetHitBox = new HitBox(UtilStrings.SpritesPlayer + "hitbox_hero_feet.png");
+            _feetHitBox = new PlayerHitBox(UtilStrings.SpritesPlayer + "hitbox_hero_feet.png", this);
+            _feetHitBox.SetOrigin(_feetHitBox.width/2, 0);
+            _feetHitBox.SetXY(0, height-_feetHitBox.height);
+            AddChild(_feetHitBox);
 
         }
 

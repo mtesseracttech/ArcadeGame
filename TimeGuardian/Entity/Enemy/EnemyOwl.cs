@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TimeGuardian.Core;
-using TimeGuardian.Level;
-using TimeGuardian.player;
+﻿using TimeGuardian.Level;
 
 namespace TimeGuardian.Entity.Enemy
 {
@@ -105,7 +99,7 @@ namespace TimeGuardian.Entity.Enemy
 
         private void AimAtPlayer()
         {
-            Player player = _level.GetPlayer();
+            Player.Player player = _level.GetPlayer();
             float deltaX = this.x - player.x;
             float deltaY = this.y - player.y;
             rotation = (Mathf.Atan2(deltaY, deltaX) * 180) / Mathf.PI;

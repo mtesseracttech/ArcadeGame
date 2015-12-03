@@ -9,7 +9,7 @@ namespace TimeGuardian.Entity.Enemy
 		int firstFrame = 0, lastFrame = 5;
 		float frame = 0.0f;
 	    private LevelBase _level;
-		private HitBox _hitBox;
+		private EnemyHitBox _hitBox;
 
 		public EnemyEagle(int cols, int rows, int healthPoints, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols,rows,healthPoints,level)
 		{
@@ -19,13 +19,13 @@ namespace TimeGuardian.Entity.Enemy
 			HealthPoints = healthPoints;
 		    _moveX = -2;
 			_moveY = 1;
-			_hitBox = new HitBox (UtilStrings.SpritesEnemy + "hitbox_enemy_2.png");
+			_hitBox = new EnemyHitBox (UtilStrings.SpritesEnemy + "hitbox_enemy_2.png", true, this);
 			_hitBox.alpha = 1; // make hitbox invisible(0) (1 is visible)
 			AddChild (_hitBox);
 
 		}
 
-		public HitBox GetHitBox()
+		public EnemyHitBox GetHitBox()
 		{
 			return _hitBox;
 		}

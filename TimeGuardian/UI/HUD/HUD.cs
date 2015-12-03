@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using TimeGuardian.Entity.Player;
 using TimeGuardian.Level;
-using TimeGuardian.player;
 
 namespace TimeGuardian.UI.HUD
 {

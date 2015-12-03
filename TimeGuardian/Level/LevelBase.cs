@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TimeGuardian.Entity.LevelEntities;
-using TimeGuardian.player;
+using TimeGuardian.Entity.Player;
 using TimeGuardian.UI.Menu;
 using TimeGuardian.Utility;
 

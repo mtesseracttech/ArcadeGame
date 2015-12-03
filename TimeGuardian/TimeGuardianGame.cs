@@ -1,7 +1,7 @@
 using System;
 using TimeGuardian;
+using TimeGuardian.Entity.Player;
 using TimeGuardian.Level;
-using TimeGuardian.player;
 using TimeGuardian.UI.Menu;
 
 public class TimeGuardianGame : Game

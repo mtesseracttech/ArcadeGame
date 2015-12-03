@@ -8,6 +8,7 @@ namespace TimeGuardian.Entity.Enemy
         protected int Damage;
         protected bool Vurnerable; //Value is used to temporarily make the boss vurnerable to player attacks, boss is invincible otherwise.
         protected LevelBase Level;
+        protected EnemyHitBox WeakSpot;
 
         public BossBase(string filename, int cols, int rows, int healthPoints, LevelBase level) : base(filename, cols, rows)
         {
@@ -31,6 +32,10 @@ namespace TimeGuardian.Entity.Enemy
 
         }
 
+        public virtual EnemyHitBox GetWeakSpot()
+        {
+            return WeakSpot;
+        }
 
         /// <summary>
         /// When called, returns whether the boss is vurnerable or not at a given point.
@@ -53,7 +58,6 @@ namespace TimeGuardian.Entity.Enemy
         private void DeathCycle()
         {
             throw new System.NotImplementedException();
-			//this.Destroy ();
         }
 
 		public void GetHit()
@@ -65,7 +69,6 @@ namespace TimeGuardian.Entity.Enemy
 			if(!Vurnerable){
 				System.Console.WriteLine ("YOU CAN NEVER HIT ME");
 			}
-
-		}
+        }
     }
 }
