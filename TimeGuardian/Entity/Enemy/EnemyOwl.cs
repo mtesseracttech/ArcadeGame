@@ -2,7 +2,7 @@
 
 namespace TimeGuardian.Entity.Enemy
 {
-    class EnemyOwl : BossBase
+    class EnemyOwl : EnemyBase
     {
         private int _state;
         //private LevelBase _level;

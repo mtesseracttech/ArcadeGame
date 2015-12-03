@@ -23,7 +23,6 @@ namespace TimeGuardian.Entity.Player
         private const int MaxInvTimer = 100;
         private bool _dead = false;
 
-        private float _prevX, _prexY;
         private float _xSpeed;
         private float _ySpeed;
         private bool _xFlip;

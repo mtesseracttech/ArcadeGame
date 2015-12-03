@@ -3,13 +3,13 @@
     class EnemyHitBox : Sprite
     {
         private bool _weakSpot;
-        private BossBase _boss;
+        private EnemyBase _enemy;
 
 
-        public EnemyHitBox(string filename, bool weakSpot, BossBase boss) : base(filename)
+        public EnemyHitBox(string filename, bool weakSpot, EnemyBase enemy) : base(filename)
         {
             _weakSpot = weakSpot;
-            _boss = boss;
+            _enemy = enemy;
         }
 
         public bool IsWeakSpot()
@@ -17,16 +17,16 @@
             return _weakSpot;
         }
 
-        public BossBase GetOwner()
+        public EnemyBase GetOwner()
         {
-            return _boss;
+            return _enemy;
         }
 
         public void DamageOwner()
         {
-            if (_boss.IsVurnerable() && !_boss.IsInvincible() && !_boss.IsDead() && _boss.IsFrozen())
+            if (_enemy.IsVurnerable() && !_enemy.IsInvincible() && !_enemy.IsDead() && _enemy.IsFrozen())
             {
-                _boss.LoseLife(1);
+                _enemy.LoseLife(1);
             }
         }
     }

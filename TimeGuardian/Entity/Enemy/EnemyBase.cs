@@ -4,7 +4,7 @@ using TimeGuardian.UI;
 
 namespace TimeGuardian.Entity.Enemy
 {
-    class BossBase : AnimationSprite
+    class EnemyBase : AnimationSprite
     {
         protected int Lives;
         protected bool Vurnerable; //Value is used to temporarily make the boss vurnerable to player attacks, boss is invincible otherwise.
@@ -16,7 +16,7 @@ namespace TimeGuardian.Entity.Enemy
         protected EnemyHitBox BodyHitBox;
         protected Sound hitSound;
 
-        public BossBase(string filename, int cols, int rows, int lives, LevelBase level) : base(filename, cols, rows)
+        public EnemyBase(string filename, int cols, int rows, int lives, LevelBase level) : base(filename, cols, rows)
         {
             Level = level;
             Lives = lives;

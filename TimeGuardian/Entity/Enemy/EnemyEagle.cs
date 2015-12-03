@@ -3,7 +3,7 @@ using TimeGuardian.Level;
 
 namespace TimeGuardian.Entity.Enemy
 {
-	 class EnemyEagle : BossBase
+	 class EnemyEagle : EnemyBase
 	{
 
 		private float _moveX, _moveY;
