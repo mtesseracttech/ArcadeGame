@@ -39,6 +39,8 @@
     <Compile Include="Entity\Enemy\EnemyFinal.cs" />
     <Compile Include="Entity\Enemy\EnemyHitBox.cs" />
     <Compile Include="Entity\Enemy\EnemyOwl.cs" />
+    <Compile Include="Entity\Enemy\Summons\EnemyCrow.cs" />
+    <Compile Include="Entity\Enemy\Summons\EnemyGoo.cs" />
     <Compile Include="Entity\LevelEntities\Wall.cs" />
     <Compile Include="Entity\Player\Player.cs" />
     <Compile Include="Entity\Player\PlayerHitBox.cs" />

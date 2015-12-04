@@ -17,7 +17,7 @@ namespace TimeGuardian.Entity.Enemy
 
         private int _currentFlyFrame, _currentSurrenderFrame;
 
-        public EnemyFinal(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_3/spritesheet_boss_eagle.png", 3, 4, 1, level)
+        public EnemyFinal(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_3/spritesheet_boss_eagle.png", 3, 4, 5, level)
         {
             SetOrigin(width / 2, height / 2);
             SetXY(game.width / 2 + 100, game.height / 2 - 70);

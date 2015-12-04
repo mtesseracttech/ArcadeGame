@@ -1,11 +1,13 @@
 ﻿using System;
+using TimeGuardian.Entity.Enemy.Summons;
 using TimeGuardian.Level;
+using TimeGuardian.Utility;
 
 namespace TimeGuardian.Entity.Enemy
 {
     class EnemyEagle : EnemyBase
     {
-        private int _state;
+        private int _mainState, _subState;
 
         private int _staticCounter;
 
@@ -14,14 +16,14 @@ namespace TimeGuardian.Entity.Enemy
 
         private int _currentFlyFrame, _currentSurrenderFrame;
 
-        public EnemyEagle(LevelBase level) : base(UtilStrings.SpritesEnemy + "boss_1/spritesheet_boss_eagle.png", 3, 4, 1, level)
+        public EnemyEagle(LevelBase level) : base(UtilStrings.SpritesEnemy + "boss_1/spritesheet_boss_eagle.png", 3, 4, 2, level)
         {
             SetOrigin(width / 2, height / 2);
             SetXY(game.width / 2 + 100, game.height / 2 - 70);
             CreateHitBoxes();
             Level = level;
             hitSound = new Sound(UtilStrings.SoundsEnemy + "boss_1/sound_enemy_hit.wav");
-            _state = 0;
+            _subState = 0;
         }
 
 
@@ -30,35 +32,46 @@ namespace TimeGuardian.Entity.Enemy
             WeakSpotHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_1/hitbox_eagle_head.png", true, this);
             WeakSpotHitBox.SetOrigin(WeakSpotHitBox.width / 2, 0);
             WeakSpotHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height / 2);
-            WeakSpotHitBox.alpha = 0f;
+            WeakSpotHitBox.alpha = 1f;
             AddChild(WeakSpotHitBox);
             BodyHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_1/hitbox_eagle_body.png", false, this);
             BodyHitBox.SetOrigin(BodyHitBox.width / 2, 0);
             BodyHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height * 1.5f);
-            BodyHitBox.alpha = 0f;
+            BodyHitBox.alpha = 1f;
             AddChild(BodyHitBox);
+        }
+
+        private void SpawnGoo()
+        {
+            EnemyGoo goo = new EnemyGoo(Level);
+            SetXY(game.width/2, game.height/2);
+            Level.AddChild(goo);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON4)) SpawnGoo();
         }
 
 
         protected override void UpdateNoTimeStop()
         {
             base.UpdateNoTimeStop();
-            if (Input.GetKeyDown(Key.Z)) { _state = 1; }
+            if (Input.GetKeyDown(Key.Z)) { _subState = 1; }
 
-            switch (_state)
+            switch (_subState)
             {
                 case 0: //Neutral state at beginning of meeting
                     _staticCounter++;
                     if (_staticCounter > 50)
                     {
                         _staticCounter = 0;
-                        _state = 1;
+                        _subState = 1;
                     }
                     break;
-                case 1: //Flies Up to top of screen after meeting
-                    MoveUp(5);
+                case 1: //Moves to Center of Screen
                     break;
-                case 2: //Glides down to player
+                case 2: //Spawns Enemies
                     Glide();
                     break;
                 case 3: //Flies up quickly for new attack
@@ -85,7 +98,7 @@ namespace TimeGuardian.Entity.Enemy
                 color = 0xFFAAAA;
                 alpha = 0.7f;
                 Vurnerable = true;
-                _state = 1;
+                _subState = 1;
             }
         }
 
@@ -111,12 +124,12 @@ namespace TimeGuardian.Entity.Enemy
                 Vurnerable = false;
                 color = 0xFFFFFF;
                 alpha = 1;
-                _state = 2;
+                _subState = 2;
             }
 
             if (HitTest(Level.GetPlayer()))
             {
-                _state = 1;
+                _subState = 1;
             }
 
         }
@@ -150,14 +163,14 @@ namespace TimeGuardian.Entity.Enemy
             currentFrame = 7;
             if (y < game.height - UtilStrings.TileSize - height / 2 - 5) y += 5;
             else if (y > game.height - UtilStrings.TileSize - height / 2 + 5) y -= 5;
-            else _state = 5;
+            else _subState = 5;
         }
 
         protected override void DeathCycle()
         {
             base.DeathCycle();
             rotation = 0;
-            _state = 4;
+            _subState = 4;
         }
 
         private void SurrenderSprites()

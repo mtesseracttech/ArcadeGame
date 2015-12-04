@@ -13,7 +13,7 @@ namespace TimeGuardian.Entity.Enemy
 
         private int _currentFlyFrame, _currentSurrenderFrame;
 
-        public EnemyOwl(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_2/spritesheet_boss_owl.png", 3, 4, 1, level)
+        public EnemyOwl(LevelBase level) : base(UtilStrings.SpritesEnemy + "/boss_2/spritesheet_boss_owl.png", 3, 4, 4, level)
         {
             SetOrigin(width/2, height/2);
             SetXY(game.width/2 +100, game.height/2 -70);
@@ -28,12 +28,12 @@ namespace TimeGuardian.Entity.Enemy
             WeakSpotHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_2/hitbox_owl_head.png", true, this);
             WeakSpotHitBox.SetOrigin(WeakSpotHitBox.width/2, 0);
             WeakSpotHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height / 2);
-            WeakSpotHitBox.alpha = 0f;
+            WeakSpotHitBox.alpha = 1f;
             AddChild(WeakSpotHitBox);
             BodyHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_2/hitbox_owl_body.png", false, this);
             BodyHitBox.SetOrigin(BodyHitBox.width/2, 0);
             BodyHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height*1.5f);
-            BodyHitBox.alpha = 0f;
+            BodyHitBox.alpha = 1f;
             AddChild(BodyHitBox);
         }
 
