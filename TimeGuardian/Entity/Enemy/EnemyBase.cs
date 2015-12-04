@@ -64,7 +64,6 @@ namespace TimeGuardian.Entity.Enemy
         public virtual void LoseLife(int damage)
         {
             hitSound.Play();
-            System.Console.WriteLine("YOU HIT THE BOSS");
             if (Lives <= 1)
             {
                 DeathCycle();

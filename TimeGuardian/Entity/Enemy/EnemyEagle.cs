@@ -3,76 +3,171 @@ using TimeGuardian.Level;
 
 namespace TimeGuardian.Entity.Enemy
 {
-	 class EnemyEagle : EnemyBase
-	{
+    class EnemyEagle : EnemyBase
+    {
+        private int _state;
 
-		private float _moveX, _moveY;
-		int firstFrame = 0, lastFrame = 5;
-		float frame = 0.0f;
+        private int _staticCounter;
 
-		public EnemyEagle(int cols, int rows, LevelBase level) : base(UtilStrings.SpritesEnemy + "spritesheet_enemy_2.png", cols, rows, 2, level)
-		{
-		    Level = level;
-            SetOrigin(height/2, width/2);
-		    SetXY(500, 450);
-		    _moveX = -2;
-			_moveY = 1;
-			WeakSpotHitBox = new EnemyHitBox (UtilStrings.SpritesEnemy + "hitbox_enemy_2.png", true, this);
-            WeakSpotHitBox.alpha = 1; // make hitbox invisible(0) (1 is visible)
-			AddChild (WeakSpotHitBox);
-            Console.WriteLine(Lives);
-		}
+        private int[] _flyFrames = { 1, 2, 3, 4, 5, 6 };
+        private int[] _surrenderFrames = { 8, 9 };
 
+        private int _currentFlyFrame, _currentSurrenderFrame;
 
-	     public EnemyHitBox GetHitBox()
-		{
-			return WeakSpotHitBox;
-		}
-
-	    protected override void Update()
-	    {
-	        base.Update();
-	    }
-
-	    protected override void UpdateNoTimeStop()
-	    {
-            Movement();
-            SpriteHandler();
+        public EnemyEagle(LevelBase level) : base(UtilStrings.SpritesEnemy + "boss_1/spritesheet_boss_eagle.png", 3, 4, 1, level)
+        {
+            SetOrigin(width / 2, height / 2);
+            SetXY(game.width / 2 + 100, game.height / 2 - 70);
+            CreateHitBoxes();
+            Level = level;
+            hitSound = new Sound(UtilStrings.SoundsEnemy + "boss_1/sound_enemy_hit.wav");
+            _state = 0;
         }
 
-        private void Movement()
+
+        private void CreateHitBoxes()
         {
-		    //scripted movement for boss
-		    Move (_moveX, _moveY);
+            WeakSpotHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_1/hitbox_eagle_head.png", true, this);
+            WeakSpotHitBox.SetOrigin(WeakSpotHitBox.width / 2, 0);
+            WeakSpotHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height / 2);
+            WeakSpotHitBox.alpha = 0f;
+            AddChild(WeakSpotHitBox);
+            BodyHitBox = new EnemyHitBox(UtilStrings.SpritesEnemy + "boss_1/hitbox_eagle_body.png", false, this);
+            BodyHitBox.SetOrigin(BodyHitBox.width / 2, 0);
+            BodyHitBox.SetXY(0, -height / 2 + WeakSpotHitBox.height * 1.5f);
+            BodyHitBox.alpha = 0f;
+            AddChild(BodyHitBox);
+        }
 
-            if (x > game.width - 200)
+
+        protected override void UpdateNoTimeStop()
+        {
+            base.UpdateNoTimeStop();
+            if (Input.GetKeyDown(Key.Z)) { _state = 1; }
+
+            switch (_state)
             {
-                _moveX = Utils.Random(-10, -1);
-                Mirror(false, false);
+                case 0: //Neutral state at beginning of meeting
+                    _staticCounter++;
+                    if (_staticCounter > 50)
+                    {
+                        _staticCounter = 0;
+                        _state = 1;
+                    }
+                    break;
+                case 1: //Flies Up to top of screen after meeting
+                    MoveUp(5);
+                    break;
+                case 2: //Glides down to player
+                    Glide();
+                    break;
+                case 3: //Flies up quickly for new attack
+                    MoveUp(20);
+                    break;
+                case 4: //Falls Down After Battle
+                    FallDown();
+                    break;
+                case 5:
+                    SurrenderSprites();
+                    break;
             }
-            if (x < 200)
+
+            SideReturn();
+        }
+
+
+
+        private void SideReturn()
+        {
+            if (x < 0 - width || x > game.width + width || y > game.height + height)
             {
-                _moveX = Utils.Random(2,11);
-                Mirror(true, false);
+                rotation = Utils.Random(-10, 10);
+                color = 0xFFAAAA;
+                alpha = 0.7f;
+                Vurnerable = true;
+                _state = 1;
             }
-		    if (y > game.height - 350)  _moveY = Utils.Random(-5, -1);
-		    if (y < 200) _moveY = Utils.Random(2, 6);
-		}
+        }
 
-		private void SpriteHandler(){
-			IsVurnerable ();
-			MovingSprite ();
-		}
 
-		private void MovingSprite(){
-			frame += 0.1f;
-			if (frame > lastFrame + 1)
-				frame = firstFrame;
-			if (frame < firstFrame)
-				frame = lastFrame;
-			SetFrame ((int)frame);
-		}
-			
-	}
+        private void MoveUp(int speed)
+        {
+            Mirror(false, false);
+
+            FlyFrames();
+            if (y > 0 - height) Move(0, -speed);
+            else
+            {
+                if (Utils.Random(0, 2) == 1)
+                {
+                    Mirror(false, true);
+                    SetXY(0, -height);
+                }
+                else
+                {
+                    SetXY(game.width, -this.height);
+                }
+                AimAtPlayer();
+                Vurnerable = false;
+                color = 0xFFFFFF;
+                alpha = 1;
+                _state = 2;
+            }
+
+            if (HitTest(Level.GetPlayer()))
+            {
+                _state = 1;
+            }
+
+        }
+
+        private void AimAtPlayer()
+        {
+            Player.Player player = Level.GetPlayer();
+            float deltaX = this.x - player.x;
+            float deltaY = this.y - player.y;
+            rotation = (Mathf.Atan2(deltaY, deltaX) * 180) / Mathf.PI;
+        }
+
+        private void Glide()
+        {
+            currentFrame = 7;
+            Move(-30, 0);
+        }
+
+
+
+        private void FlyFrames()
+        {
+            if (_currentFlyFrame < _flyFrames.Length * 5 - 1) _currentFlyFrame++;
+            else _currentFlyFrame = 0;
+            currentFrame = _flyFrames[_currentFlyFrame / 5];
+        }
+
+
+        private void FallDown()
+        {
+            currentFrame = 7;
+            if (y < game.height - UtilStrings.TileSize - height / 2 - 5) y += 5;
+            else if (y > game.height - UtilStrings.TileSize - height / 2 + 5) y -= 5;
+            else _state = 5;
+        }
+
+        protected override void DeathCycle()
+        {
+            base.DeathCycle();
+            rotation = 0;
+            _state = 4;
+        }
+
+        private void SurrenderSprites()
+        {
+            if (Level.GetPlayer().x > x) Mirror(true, false);
+            else Mirror(false, false);
+
+            if (_currentSurrenderFrame < _surrenderFrames.Length * 50 - 1) _currentSurrenderFrame++;
+            currentFrame = _surrenderFrames[_currentSurrenderFrame / 50];
+        }
+    }
 }
 

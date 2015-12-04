@@ -9,7 +9,7 @@ namespace TimeGuardian.UI.HUD
     {
         private int _maxTime;
 
-        private int[] _timerFrames = { 0,1,2,3,4,5,6 };
+        private int[] _timerFrames = { 0,1,2,3,4,5,6,19,18,12,11,10};
         private int[] _alarmFrames = { 13, 20};
 
         private const int MaxDiv = 50;
@@ -29,7 +29,12 @@ namespace TimeGuardian.UI.HUD
             else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-4)) currentFrame = _timerFrames[3];
             else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-5)) currentFrame = _timerFrames[4];
             else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-6)) currentFrame = _timerFrames[5];
-            else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-7)) currentFrame = _timerFrames[6];
+            else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-20)) currentFrame = _timerFrames[6];
+            else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-25)) currentFrame = _timerFrames[7];
+            else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-30)) currentFrame = _timerFrames[8];
+            else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-35)) currentFrame = _timerFrames[9];
+            else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-40)) currentFrame = _timerFrames[10];
+            else if (!restoring && time > (_maxTime / MaxDiv) * (MaxDiv-45)) currentFrame = _timerFrames[11];
             else if (restoring && time > 0) AlarmFrames();
         }
 

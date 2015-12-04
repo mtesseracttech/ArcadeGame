@@ -19,7 +19,7 @@ public class TimeGuardianGame : Game
 	public TimeGuardianGame () : base(1024, 768, false, false)
 
 	{
-	    SetState("Level1");
+	    SetState("MainMenu");
 	}
 
     //List of States:
@@ -103,9 +103,10 @@ public class TimeGuardianGame : Game
                 _level3 = new Level3(this, 5); //Idem ditto
                 AddChild(_level3);
                 break;
-            //case "WonGame":
-                //AddChild(_wonGame);
-                //break;
+            case "WonGame":
+                _wonGame = new WonGame(this);
+                AddChild(_wonGame);
+                break;
             case "Exit":
                 Environment.Exit(0);
                 break;

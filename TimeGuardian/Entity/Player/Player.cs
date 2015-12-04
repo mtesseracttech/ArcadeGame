@@ -68,7 +68,6 @@ namespace TimeGuardian.Entity.Player
             _bodyHitBox.SetOrigin(_bodyHitBox.width/2, 0);
             _bodyHitBox.alpha = 0f;
             AddChild(_bodyHitBox);
-            Console.WriteLine(_bodyHitBox.x + " " + _bodyHitBox.y);
             _feetHitBox = new PlayerHitBox(UtilStrings.SpritesPlayer + "hitbox_hero_feet.png", this);
             _feetHitBox.SetOrigin(_feetHitBox.width/2, 0);
             _feetHitBox.SetXY(0, height - _feetHitBox.height);

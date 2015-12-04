@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Glide;
+using TimeGuardian.Utility;
 
 namespace TimeGuardian.UI.Menu
 {
@@ -57,9 +58,9 @@ namespace TimeGuardian.UI.Menu
         {
             //_tweener.Update(_updateTime);
             //_buttons[_selection].Selected();
-            if (Input.GetKeyDown(Key.UP) || Input.GetKeyDown(Key.W)) SelectionUp();
-            if (Input.GetKeyDown(Key.DOWN) || Input.GetKeyDown(Key.S)) SelectionDown();
-            if (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE)) Select();
+            if (Input.GetKeyDown(Key.UP) || Input.GetKeyDown(Key.W) || Input.GetKeyDown(ArcadeButtons.PLAYER1_UP)) SelectionUp();
+            if (Input.GetKeyDown(Key.DOWN) || Input.GetKeyDown(Key.S) || Input.GetKeyDown(ArcadeButtons.PLAYER1_DOWN)) SelectionDown();
+            if (Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.SPACE) || Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON1)) Select();
         }
 
         void SelectionDown()
