@@ -1,50 +1,50 @@
 ﻿using System;
+using TimeGuardian.Entity.Enemy;
+using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.Level;
 using TimeGuardian.UI;
 using TimeGuardian.UI.HUD;
-using TimeGuardian.Entity.Enemy;
-using TimeGuardian.Entity.LevelEntities;
 using TimeGuardian.Utility;
 
 namespace TimeGuardian.Entity.Player
 {
-    class Player : AnimationSprite
+    internal class Player : AnimationSprite
     {
-        private LevelBase _level;
-        private TimeGuardianGame _game;
-        private AnimationSprite _deadSprite;
-
-        private Sound _jumpSound, _hurtSound, _getLifeSound, _abilityLoadedSound, _abilityDepletedSound;
-
         private const float MaxXSpeed = 6.0f;
         private const float MaxYSpeed = 15.0f;
         private const int MaxTimeStopTimer = 200;
         private const int MaxLifes = 5;
         private const int MaxInvTimer = 100;
-        private bool _dead = false;
+
+        private readonly short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6};
+        private readonly short[] _jumpFrames = {9, 9, 10, 11, 12};
+        private readonly short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};
+        private readonly short[] _staticFrames = {13, 14, 15};
+
+        private PlayerHitBox _bodyHitBox;
+        private int _bottomPlayer;
+        private int _currentStaticFrame, _currentMovingFrame, _currentDeathFrame;
+        private bool _dead;
+        private AnimationSprite _deadSprite;
+        private PlayerHitBox _feetHitBox;
+        private readonly TimeGuardianGame _game;
+        private readonly HUD _hud;
+        private bool _isGrounded;
+        private int _jumpCounter;
+
+        private readonly Sound _jumpSound, _hurtSound, _getLifeSound, _abilityLoadedSound, _abilityDepletedSound;
+        private LevelBase _level;
+
+        private int _lives;
+        private bool _restoring;
+        private int _timestopTimer, _invincibilityTimer;
+        private bool _xFlip;
 
         private float _xSpeed;
         private float _ySpeed;
-        private bool _xFlip;
-        private bool _restoring;
-        private bool _isGrounded;
 
-        private int _lives;
-        private int _bottomPlayer;
-        private int _jumpCounter;
-        private int _currentStaticFrame, _currentMovingFrame, _currentDeathFrame;
-        private int _timestopTimer, _invincibilityTimer;
-
-        private readonly short[] _staticFrames = {13, 14, 15};
-        private readonly short[] _movingFrames = {0, 1, 2, 3, 4, 5, 6, 7};
-        private readonly short[] _jumpFrames = {9, 9, 10, 11, 12};
-        private readonly short[] _deathFrames = {0, 1, 2, 3, 4, 5, 6};
-
-        private PlayerHitBox _bodyHitBox;
-        private PlayerHitBox _feetHitBox;
-        private HUD _hud;
-
-        public Player(int lives, LevelBase level, TimeGuardianGame game) : base(UtilStrings.SpritesPlayer + "spritesheet_hero.png", 8, 2)
+        public Player(int lives, LevelBase level, TimeGuardianGame game)
+            : base(UtilStrings.SpritesPlayer + "spritesheet_hero.png", 8, 2)
         {
             SetOrigin(width/2, 0);
             SetXY(100, 500);
@@ -71,10 +71,9 @@ namespace TimeGuardian.Entity.Player
             Console.WriteLine(_bodyHitBox.x + " " + _bodyHitBox.y);
             _feetHitBox = new PlayerHitBox(UtilStrings.SpritesPlayer + "hitbox_hero_feet.png", this);
             _feetHitBox.SetOrigin(_feetHitBox.width/2, 0);
-            _feetHitBox.SetXY(0, height-_feetHitBox.height);
+            _feetHitBox.SetXY(0, height - _feetHitBox.height);
             _feetHitBox.alpha = 0f;
             AddChild(_feetHitBox);
-
         }
 
         private void DeadSpriteCreator()
@@ -84,26 +83,25 @@ namespace TimeGuardian.Entity.Player
             _deadSprite.visible = false;
         }
 
-		public int DefineFeet()
-		{
-			_bottomPlayer = (int)y + height;
-			return _bottomPlayer;
-		}
-
-        void Update()
+        public int DefineFeet()
         {
-            
+            _bottomPlayer = (int) y + height;
+            return _bottomPlayer;
+        }
+
+        private void Update()
+        {
             if (Input.GetKeyDown(Key.R)) LoseLife();
             if (Input.GetKeyDown(Key.T)) GetLife();
             if (Input.GetKeyDown(Key.Y)) _game.SetState("Level1");
             if (Input.GetKeyDown(Key.U)) _game.SetState("Level2");
             if (Input.GetKeyDown(Key.I)) _game.SetState("Level3");
-            
 
-            if(!_level.GetPaused()) UpdateUnpaused();
+
+            if (!_level.GetPaused()) UpdateUnpaused();
         }
 
-        void UpdateUnpaused()
+        private void UpdateUnpaused()
         {
             if (!_dead) Ability();
             Movement();
@@ -129,7 +127,8 @@ namespace TimeGuardian.Entity.Player
                 _timestopTimer--;
                 _restoring = false;
             }
-            if (!_level.GetTimeStopped() && _timestopTimer == MaxTimeStopTimer && Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON2))
+            if (!_level.GetTimeStopped() && _timestopTimer == MaxTimeStopTimer &&
+                Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON2))
             {
                 _abilityLoadedSound.Play();
                 _level.SetTimeStop(true);
@@ -148,7 +147,7 @@ namespace TimeGuardian.Entity.Player
                 _xSpeed = 0;
                 alpha = 0.0f;
                 AddChild(_deadSprite);
-                GameOver gameOver = new GameOver(_game, _level);
+                var gameOver = new GameOver(_game, _level);
                 _level.AddChild(gameOver);
             }
             else
@@ -192,16 +191,16 @@ namespace TimeGuardian.Entity.Player
                     _xFlip = true;
                     Mirror(_xFlip, false);
                 }
-                if (_xSpeed != 0.0f && !Input.GetKey(ArcadeButtons.PLAYER1_RIGHT) && !Input.GetKey(ArcadeButtons.PLAYER1_LEFT)) _xSpeed *= 0.3f;
+                if (_xSpeed != 0.0f && !Input.GetKey(ArcadeButtons.PLAYER1_RIGHT) &&
+                    !Input.GetKey(ArcadeButtons.PLAYER1_LEFT)) _xSpeed *= 0.3f;
 
-                
+
                 if (Input.GetKeyDown(ArcadeButtons.PLAYER1_BUTTON1) && _jumpCounter < 2)
                 {
                     _jumpSound.Play();
                     _jumpCounter++;
                     _ySpeed = 15.0f;
                 }
-                
             }
             //EdgeBumper();
             move(_xSpeed, 0);
@@ -211,34 +210,33 @@ namespace TimeGuardian.Entity.Player
             //Move(_xSpeed, -_ySpeed);
         }
 
-        void move(float moveX, float moveY)
+        private void move(float moveX, float moveY)
         {
             x = x + moveX;
             y = y + moveY;
 
-            foreach (Sprite other in GetCollisions())
+            foreach (Sprite wall in _bodyHitBox.GetCollisions())
             {
-                if (other is Wall)
+                if (wall is Wall)
                 {
-                    
                     if (moveX > 0)
                     {
-                        x = Mathf.Min(other.x - width, x); //at left side of block
+                        x = Mathf.Min(wall.x - _bodyHitBox.width / 2, x); //at left side of block
                     }
                     if (moveX < 0)
                     {
-                        x = Mathf.Max(other.x + other.width, x); //at right side of block
+                        x = Mathf.Max(wall.x + wall.width + _bodyHitBox.width / 2, x); //at right side of block
                     }
-                    
+
                     if (moveY > 0)
                     {
-                        y = Mathf.Min(other.y - height, y); //at top of block
+                        y = Mathf.Min(wall.y - height, y); //at top of block
                         _ySpeed = 0f;
                         _jumpCounter = 0;
                     }
                     if (moveY < 0)
                     {
-                        y = Mathf.Max(other.y + other.height, y); //at bottom of block
+                        y = Mathf.Max(wall.y + wall.height, y); //at bottom of block
                         _ySpeed = 0f;
                     }
                 }
@@ -248,6 +246,7 @@ namespace TimeGuardian.Entity.Player
                 }
             }
         }
+
 
         private void FeetDetection()
         {
@@ -299,35 +298,34 @@ namespace TimeGuardian.Entity.Player
                 else StaticSprite();
             }
             else DeathSprite();
-
         }
 
         private void DeathSprite()
         {
             if (_currentDeathFrame < _deathFrames.Length*10 - 1) _currentDeathFrame++;
-            _deadSprite.currentFrame = _deathFrames[_currentDeathFrame / 10];
+            _deadSprite.currentFrame = _deathFrames[_currentDeathFrame/10];
         }
 
         private void MovingSprite()
         {
-            if (_currentMovingFrame < _movingFrames.Length * 5 - 1) _currentMovingFrame++;
+            if (_currentMovingFrame < _movingFrames.Length*5 - 1) _currentMovingFrame++;
             else _currentMovingFrame = 0;
-            currentFrame = _movingFrames[_currentMovingFrame / 5];
+            currentFrame = _movingFrames[_currentMovingFrame/5];
         }
 
         private void StaticSprite()
         {
-            if (_currentStaticFrame < _staticFrames.Length * 10 - 1) _currentStaticFrame++;
+            if (_currentStaticFrame < _staticFrames.Length*10 - 1) _currentStaticFrame++;
             else _currentStaticFrame = 0;
-            currentFrame = _staticFrames[_currentStaticFrame / 10];
+            currentFrame = _staticFrames[_currentStaticFrame/10];
         }
 
         private void JumpingSprite()
         {
             //TODO: GETTING IT TO WORK PROPERLY, WITHOUT THE WEIRD "INBETWEEN" SPRITE
             if (_ySpeed > 10.0f) currentFrame = _jumpFrames[0];
-            else if(_ySpeed > 0.0f) currentFrame = _jumpFrames[1];
-            else if(_ySpeed > -20.0f) currentFrame = _jumpFrames[2];
+            else if (_ySpeed > 0.0f) currentFrame = _jumpFrames[1];
+            else if (_ySpeed > -20.0f) currentFrame = _jumpFrames[2];
             else currentFrame = _jumpFrames[3];
         }
 
